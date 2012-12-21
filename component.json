@@ -28,7 +28,6 @@
 	],
 
 	"styles": [
-		"vendor/normalize.css",
 		"vendor/jquery.splitter.css",
 		"lib/App.css"
 	]
