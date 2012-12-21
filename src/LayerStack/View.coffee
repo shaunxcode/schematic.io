@@ -16,5 +16,6 @@ class View extends Backbone.View
         child = new SliceView model: layer, settings: @settings
         @children.push child
         @$el.append child.render().$el
-
+        child.makeActive()
+        
 module.exports = View

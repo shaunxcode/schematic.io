@@ -6106,7 +6106,7 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 50px;
   *zoom: 1;
   z-index: 99999;
   background: #252b30;
@@ -6122,11 +6122,17 @@ body {
   margin: 2px;
   padding: 1px;
   overflow: hidden;
-  cursor: pointer
+  cursor: pointer;
+  height: 32px;
+  overflow: hidden
 }
 
-.palette .tools div.active {
-  border: 2px solid #FA9A50
+.palette .tools div img {
+  margin-top: -32px
+}
+
+.palette .tools div.active img {
+  margin-top: 0px
 }
 
 .palette:before,
@@ -6172,7 +6178,7 @@ body {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 100px;
+  left: 50px;
   right: 211px;
   height: 100%
 }
@@ -6202,8 +6208,9 @@ body {
 }
 
 .layers ul {
+  margin: 0;
   margin-top: 0px;
-  margin-bottom: 5px
+  border-top: 1px solid #d8d8d8
 }
 
 .layers li.active {
@@ -6218,16 +6225,26 @@ body {
   overflow: hidden
 }
 
-.layers li button.show {
-  float: left
+.layers li .expansionToggle {
+  margin-right: 5px;
+  font-size: 90%;
+  width: 13px;
+  display: inline-block
 }
 
-.layers li button.remove {
+.layers li .buttons {
   float: right;
   margin-right: 15px
 }
 
+.layers li .buttons button {
+  margin-right: 5px;
+  float: left
+}
+
 .layers button.newLayer {
+  margin-top: 5px;
+  margin-bottom: 5px;
   display: block;
   margin-left: auto;
   margin-right: auto
