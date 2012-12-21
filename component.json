@@ -1,0 +1,35 @@
+{
+	"name": "schematic.io",
+	"dependencies": {
+		"component/jquery": "*",
+		"component/underscore": "*"
+	},
+
+	"scripts": [
+		"index.js",
+		"vendor/backbone.js",
+		"vendor/jquery.splitter.js",
+		"vendor/Three.js",
+		"vendor/OrbitControls.js",
+		"lib/App.js",
+		"lib/Console/View.js",
+		"lib/data/Layers/Collection.js",
+		"lib/data/Layers/Model.js",
+		"lib/data/Material/Collection.js",
+		"lib/data/Material/Model.js",
+		"lib/data/Settings/Model.js",
+		"lib/Layers/LayerItem.js",
+		"lib/Layers/View.js",
+		"lib/LayerStack/View.js",
+		"lib/LayerStack/SliceView.js",
+		"lib/Palette/Material.js",
+		"lib/Palette/View.js",
+		"lib/Preview/View.js"
+	],
+
+	"styles": [
+		"vendor/normalize.css",
+		"vendor/jquery.splitter.css",
+		"lib/App.css"
+	]
+}

@@ -1,0 +1,285 @@
+
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+fieldset,
+img {
+  border: 0
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: normal
+}
+
+ol,
+ul {
+  list-style: none
+}
+
+caption,
+th {
+  text-align: left
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal
+}
+
+q:before,
+q:after {
+  content: ''
+}
+
+abbr,
+acronym {
+  border: 0
+}
+.spliter_panel {
+  position: relative
+}
+
+.spliter_panel .vspliter {
+  background-color: grey;
+  cursor: col-resize;
+  z-index: 900;
+  width: 4px
+}
+
+.spliter_panel .hspliter {
+  background-color: #5F5F5F;
+  cursor: row-resize;
+  z-index: 800;
+  height: 4px
+}
+
+.spliter_panel .vspliter,
+.spliter_panel .left_panel,
+.spliter_panel .right_panel,
+.spliter_panel .hspliter,
+.spliter_panel .top_panel,
+.spliter_panel .bottom_panel {
+  position: absolute;
+  overflow: auto
+}
+
+.spliter_panel .vspliter,
+.spliter_panel .left_panel,
+.spliter_panel .right_panel {
+  height: 100%
+}
+
+.spliter_panel .hspliter,
+.spliter_panel .top_panel,
+.spliter_panel .bottom_panel {
+  width: 100%
+}
+
+.spliter_panel .top_panel,
+.spliter_panel .left_panel,
+.spliter_panel .vspliter {
+  top: 0
+}
+
+.spliter_panel .top_panel,
+.spliter_panel .bottom_panel,
+.spliter_panel .left_panel,
+.spliter_panel .hspliter {
+  left: 0
+}
+
+.spliter_panel .bottom_panel {
+  bottom: 0
+}
+
+.spliter_panel .right_panel {
+  right: 0
+}
+body {
+  margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #f6f6f6
+}
+
+.palette {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 99999;
+  background: #252b30;
+  color: #fff
+}
+
+.palette .tools {
+  clear: both
+}
+
+.palette .tools div {
+  border: 2px solid transparent;
+  margin: 2px;
+  padding: 1px;
+  overflow: hidden;
+  cursor: pointer
+}
+
+.palette .tools div.active {
+  border: 2px solid #FA9A50
+}
+
+.palette .clear {
+  clear: both
+}
+
+.palette .materials {
+  clear: both
+}
+
+.palette .materials div {
+  border: 2px solid transparent;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  float: left;
+  margin: 5px
+}
+
+.palette .materials div.active {
+  border: 2px solid #FA9A50
+}
+
+#center {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 100px;
+  right: 211px;
+  height: 100%
+}
+
+.layers {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 210px;
+  z-index: 9999;
+  background: #fff;
+  border-left: 1px solid #d8d8d8
+}
+
+.layers .settings {
+  display: none
+}
+
+.layers input.width,
+.layers input.height,
+.layers input.size {
+  border: 1px solid #333;
+  padding: 2px;
+  width: 30px
+}
+
+.layers ul {
+  margin-top: 0px;
+  margin-bottom: 5px
+}
+
+.layers li.active {
+  background: #efefef
+}
+
+.layers li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #d8d8d8;
+  width: 100%;
+  overflow: hidden
+}
+
+.layers li button.show {
+  float: left
+}
+
+.layers li button.remove {
+  float: right;
+  margin-right: 15px
+}
+
+.layers button.newLayer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.layerStack {
+  position: relative
+}
+
+.layerStack table {
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0
+}
+
+.layerStack table td {
+  border: 1px solid #cdcdcd;
+  cursor: crosshair
+}
+
+canvas {
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333
+}

@@ -1,0 +1,129 @@
+body { 
+    margin: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #f6f6f6;
+    
+}
+
+.palette {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    .tools {
+        clear: both;
+        div {
+            border: 2px solid transparent; 
+            margin: 2px;
+            padding: 1px;
+
+            overflow: hidden;
+            cursor: pointer;
+        }
+        div.active { 
+            border: 2px solid #FA9A50;
+        }
+
+
+    }
+    .clear { clear: both; }
+    z-index: 99999;
+    background: #252b30;
+    color: #fff;
+
+    .materials {
+        clear: both;
+        div {
+            border: 2px solid transparent;
+            width: 20px; 
+            height: 20px; 
+            cursor: pointer; 
+            float: left; 
+            margin: 5px;
+        }
+        div.active { 
+            border: 2px solid #FA9A50;
+        }
+
+    }
+}
+
+#center { 
+    position: fixed; 
+    top: 0; 
+    bottom: 0; 
+    left: 100px; 
+    right: 211px; 
+    height: 100%;
+}
+
+
+.layers {
+    .settings { display: none; }
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 210px;
+    z-index: 9999;
+    background: #fff;
+    border-left: 1px solid #d8d8d8;
+    input.width, input.height, input.size {
+        border: 1px solid #333; 
+        padding: 2px;
+        width: 30px;
+    }
+
+    ul { 
+        margin-top: 0px; 
+        margin-bottom: 5px;
+    }
+    li.active {
+        background: #efefef;
+    }
+    li { 
+        padding: 10px;
+
+        cursor: pointer;
+        border-bottom: 1px solid #d8d8d8;
+        width: 100%;
+        button.show {
+            float: left;
+        }
+        button.remove { 
+            float: right;
+            margin-right: 15px;
+        }
+        overflow: hidden;
+    }
+    button.newLayer { display: block; margin-left: auto; margin-right: auto;}
+}
+
+.layerStack {
+    position: relative;
+
+    table {
+        background: rgba(255, 255, 255, 0.5);
+        position: absolute; 
+        left: 0;
+        top: 0;
+        td {
+            border: 1px solid #cdcdcd;
+            cursor: crosshair;
+
+        }
+    }
+}
+
+canvas {
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+​

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>schematic.io</title>
+    <link rel="stylesheet" type="text/css" href="/css/schematic.io.css">
+    <script type="text/javascript" src="/js/schematic.io.js"></script>
+    <script type="text/javascript">require("schematic.io").init()</script>
+</head>
+<body>
+    <div class="palette">
+        <div class="tools">
+            <div data-tool="pencil">pencil</div>
+            <div data-tool="line">line</div>
+            <div data-tool="circle">arc</div>
+            <div data-tool="square">square</div>
+            <div data-tool="circle">circle</div>
+            <div data-tool="circle">polygon</div>
+            <div data-tool="circle">select</div>
+            <div data-tool="circle">eraser</div>
+            <div data-tool="circle">fill</div>        
+        </div>
+        <div style="clear"></div>
+        <div class="materials"></div>
+    </div>
+
+    <div id="center">
+        <div id="panels">
+            <div class="layerStack"></div>
+            <div class="canvasHolder"></div>
+        </div>
+        <div id="console">console</div>
+    </div>
+
+    <div class="layers">
+        <div class="settings">
+        w: <input type="text" class="width"> 
+        h: <input tyep="text" class="height"> 
+        s: <input type="text" class="size"> 
+        </div>
+        <ul></ul>
+        <button class="newLayer">+</button>
+    </div>
+
+</body>​
+</html>
