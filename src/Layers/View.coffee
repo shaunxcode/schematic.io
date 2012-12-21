@@ -21,7 +21,7 @@ class View extends Backbone.View
     addLayer: (layer) ->
         child = new LayerItem model: layer
         @children.push child
-        @$ul.append child.render().$el
+        @$ul.prepend child.render().$el
         child.makeActive()
         
     updateWidth: ->

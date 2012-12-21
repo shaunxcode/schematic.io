@@ -189,7 +189,7 @@
                         if (x > current_spliter.limit &&
                             x < current_spliter.width()-limit) {
                             current_spliter.position(x);
-                            current_spliter.find('.spliter_panel').trigger('spliter.resize');
+                            current_spliter.trigger('spliter.resize');
                             return false;
                         }
                     } else if (current_spliter.orientation == 'horizontal') {

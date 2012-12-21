@@ -52,7 +52,7 @@ class View extends Backbone.View
     drawGrid: ->
         @$el.html ""
         tbody = $("<tbody />")
-        size = @settings.get "size"
+        cellSize = @settings.get "cellSize"
         z = @model.get "z"
         height = @settings.get "height"
         width = @settings.get "width"
@@ -60,7 +60,7 @@ class View extends Backbone.View
             row = $("<tr />")
             for x in [-width..width-1]
                 row.append td = $("<td />")
-                    .html($("<div />").css width: size, height: size)
+                    .html($("<div />").css width: cellSize, height: cellSize)
                     .data({x, y, z})
                     
                 if color = @model.get "#{x}x#{y}"

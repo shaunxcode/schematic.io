@@ -10,7 +10,7 @@ class View extends Backbone.View
         size = @settings.get "size"
 
         scene = new THREE.Scene
-        camera = new THREE.PerspectiveCamera 60, 500 / 500 , 1, 1000 
+        camera = new THREE.PerspectiveCamera 60, 500 / 500 , 1, 1000
         geometry = new THREE.Geometry
 
         for i in [-size..size] by 1
@@ -59,5 +59,17 @@ class View extends Backbone.View
             controls.update()
                
         render()
+
+        @camera = camera
+        @renderer = renderer
+        @listenTo Backbone, "AppResized", @resizeCanvas
+        @resizeCanvas()
+
+    resizeCanvas: ->
+        width = @$el.width()
+        height = @$el.height()
+        @camera.aspect = width / height
+        @camera.updateProjectionMatrix()
+        @renderer.setSize width, height
 
 module.exports = View

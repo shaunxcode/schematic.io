@@ -10939,7 +10939,7 @@ require.register("schematic.io/vendor/jquery.splitter.js", function(module, expo
                         if (x > current_spliter.limit &&
                             x < current_spliter.width()-limit) {
                             current_spliter.position(x);
-                            current_spliter.find('.spliter_panel').trigger('spliter.resize');
+                            current_spliter.trigger('spliter.resize');
                             return false;
                         }
                     } else if (current_spliter.orientation == 'horizontal') {
@@ -46572,11 +46572,17 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
     init: function() {
       return $(function() {
         var layerStack, layers, layersCollection, materials, palette, preview, settings, size;
+        $(window).on("resize", function() {
+          return Backbone.trigger("AppResized");
+        });
+        $(window).on("spliter.resize", function() {
+          return Backbone.trigger("AppResized");
+        });
         $("#center").split({
           orientation: "horizontal",
           position: "77%"
         });
-        $('#panels').split({
+        $("#panels").split({
           orientation: "vertical",
           position: "50%"
         });
@@ -46591,11 +46597,11 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
           new MaterialModel({
             name: "grass",
             color: "green",
-            hex: 0x00ff00
+            hex: 0x008800
           }), new MaterialModel({
             name: "cobble",
             color: "grey",
-            hex: 0xcccccc
+            hex: 0x808080
           }), new MaterialModel({
             name: "lapis",
             color: "blue",
@@ -46895,7 +46901,7 @@ require.register("schematic.io/lib/Layers/View.js", function(module, exports, re
         model: layer
       });
       this.children.push(child);
-      this.$ul.append(child.render().$el);
+      this.$ul.prepend(child.render().$el);
       return child.makeActive();
     };
 
@@ -47078,10 +47084,10 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.drawGrid = function() {
-      var color, height, row, size, tbody, td, width, x, y, z, _i, _j, _ref, _ref1;
+      var cellSize, color, height, row, tbody, td, width, x, y, z, _i, _j, _ref, _ref1;
       this.$el.html("");
       tbody = $("<tbody />");
-      size = this.settings.get("size");
+      cellSize = this.settings.get("cellSize");
       z = this.model.get("z");
       height = this.settings.get("height");
       width = this.settings.get("width");
@@ -47089,8 +47095,8 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
         row = $("<tr />");
         for (x = _j = -width, _ref1 = width - 1; -width <= _ref1 ? _j <= _ref1 : _j >= _ref1; x = -width <= _ref1 ? ++_j : --_j) {
           row.append(td = $("<td />").html($("<div />").css({
-            width: size,
-            height: size
+            width: cellSize,
+            height: cellSize
           })).data({
             x: x,
             y: y,
@@ -47300,7 +47306,20 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
         renderer.render(scene, camera);
         return controls.update();
       };
-      return render();
+      render();
+      this.camera = camera;
+      this.renderer = renderer;
+      this.listenTo(Backbone, "AppResized", this.resizeCanvas);
+      return this.resizeCanvas();
+    };
+
+    View.prototype.resizeCanvas = function() {
+      var height, width;
+      width = this.$el.width();
+      height = this.$el.height();
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      return this.renderer.setSize(width, height);
     };
 
     return View;
