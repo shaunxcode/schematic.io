@@ -2,6 +2,16 @@ THREE = vendorRequire "Three"
 vendorRequire "OrbitControls"
 
 class View extends Backbone.View
+    events: 
+        "mouseenter": "enableControls"
+        "mouseleave": "disableControls"
+
+    enableControls: ->
+        @controls.enable()
+
+    disableControls: ->
+        @controls.disable()
+
     initialize: ->
         @settings = @options.settings
         @materials = @options.materials
@@ -11,15 +21,10 @@ class View extends Backbone.View
     addBlock: (block) ->
         
         material = new THREE.MeshLambertMaterial
-            color: block.color
+            color: parseInt "0x#{block.color}"
             ambient: 0x00ff80
             shading: THREE.FlatShading
             map: THREE.ImageUtils.loadTexture "/img/textures/cube.png"
-        
-        #material.color.setHSV 0.1, 0.7, 1.0 
-        #material.ambient = material.color
-
-        #material = new THREE.MeshLambertMaterial color: block.color, shading: THREE.FlatShading, overdraw: true
 
         c = new THREE.Mesh @geometry, material
         c.position.x = block.pos.x + 0.5
@@ -63,12 +68,11 @@ class View extends Backbone.View
                     
                     
         controls = new THREE.OrbitControls camera 
-                            
+        controls.disable()
+
         renderer = new THREE.WebGLRenderer
         renderer.setSize 500, 500
         @$el.html renderer.domElement
-        
-        
         
         camera.position.x = 0.4699905475499408        
         camera.position.y = 24.234059847603994
@@ -82,7 +86,7 @@ class View extends Backbone.View
         scene.add directionalLight 
 
 
-        render = ->
+        render = =>
             requestAnimationFrame render
             renderer.render scene, camera
             controls.update()

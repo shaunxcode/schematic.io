@@ -1,7 +1,7 @@
 window.vendorRequire = (f) -> require "../vendor/#{f}.js"
 window.dataRequire = (f) -> require "./data/#{f}.js"
 window.appRequire = (f) -> require "./#{f}.js"
-window.$ = require "jquery"
+window.$ = window.jQuery = require "jquery"
 window._ = require "underscore"
 window.Backbone = vendorRequire "backbone"
 window.Backbone.$ = $
@@ -32,25 +32,19 @@ App =
 			$vspliter = $("#center").split orientation:"horizontal", position: "77%"
 			$hspliter = $("#panels").split orientation:"vertical", position: "50%"
 
-			size = 30
+			size = 16
 
 			settings = new SettingsModel
 				width: size
 				height: size
 				size: size
 				cellSize: 15
+				color: {hex: "00ff00"}
 
-			materials = new MaterialsCollection [
-				new MaterialModel name: "grass", color: "green", hex: 0x008800
-				new MaterialModel name: "cobble", color: "grey", hex: 0x808080
-				new MaterialModel name: "lapis", color: "blue", hex: 0x0000ff
-			]
-			    
 			layersCollection = new LayersCollection
 
 			@palette = new PaletteView
 				el: $(".palette")
-				collection: materials
 				settings: settings
 
 			@palette.render()
@@ -70,7 +64,6 @@ App =
 				el: $(".canvasHolder")
 				settings: settings
 				collection: layersCollection
-				materials: materials
 			@preview.render()
 
 			layersCollection.add show: true, name: "layer 1", y: 0

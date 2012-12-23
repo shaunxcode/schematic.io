@@ -1,4 +1,6 @@
-MaterialView = require "./Material"
+vendorRequire "colorpicker/colorpicker"
+vendorRequire "colorpicker/eye"
+vendorRequire "colorpicker/utils"
 
 class View extends Backbone.View
     events:
@@ -15,15 +17,17 @@ class View extends Backbone.View
 
         
     render: ->
-        @$materials = $ ".materials"
-        @collection.each (material) =>
-            materialView = new MaterialView
-                settings: @settings
-                model: material
+        color = @settings.get("color").hex
+
+        selectedColor = @$(".selectedColor").css(background: "##{color}")
+        
+        @$color = @$(".color").ColorPicker 
+            color: color
+            onChange: (hsb, hex, rgb) =>
+                selectedColor.css background: "##{hex}" 
+                @settings.set color: {hsb, hex, rgb}
                 
-            @$materials.append materialView.render().$el
-            
-        @$(".materials div").first().click()
+
         @$(".tools div").first().click()
 
 module.exports = View

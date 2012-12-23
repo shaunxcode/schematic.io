@@ -13,6 +13,26 @@ body {
 }
 
 .palette {
+    .color {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        .selectedColor {
+            position: absolute; 
+            left: 4px;
+            top: 4px;
+            width: 28px;
+            height: 28px;
+        }
+        .inputMask {
+            background: url(../img/colorpicker/select.png);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 36px;
+            height: 36px;
+        }
+    }
     position: fixed;
     left: 0;
     top: 0;
@@ -40,7 +60,7 @@ body {
 
     }
     .clearfix;
-    z-index: 99999;
+    z-index: 200;
     background: #252b30;
     color: #fff;
 

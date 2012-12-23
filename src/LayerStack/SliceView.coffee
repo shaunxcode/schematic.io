@@ -22,13 +22,12 @@ class View extends Backbone.View
     
     scale: (event) ->
         event.stopPropagation()
-        
+
     eventPos: (event) ->    
         x: (Math.floor event.offsetX / @cellSize) - @width
         z: (Math.floor event.offsetY / @cellSize) - @height
 
     startDraw: (event) ->
-        event.stopPropagation()
 
         tool = @settings.get "tool"
 
@@ -37,10 +36,8 @@ class View extends Backbone.View
 
         if tools[tool]
             @tool = new tools[tool] 
-                model: @model.artifacts.create {tool, color: @settings.get("color").get("color")} 
+                model: @model.artifacts.create {tool, color: @settings.get "color"} 
                 layer: @
-                color: @settings.get "color"
-
             
             @listenTo @tool, "done", =>
                 @tool.remove()
@@ -108,9 +105,9 @@ class View extends Backbone.View
 
     drawCell: (pos) ->
         color = @settings.get "color"
-        @_drawPos pos, color.get "color"
+        @_drawPos pos, "##{color.hex}"
         pos.y = @model.get "y"
-        Backbone.trigger "preview:addBlock", {pos, color: color.get "hex"}
+        Backbone.trigger "preview:addBlock", {pos, color: color.hex}
 
     clearCell: (pos) ->
         color = @model.get key pos
@@ -119,8 +116,8 @@ class View extends Backbone.View
         if not color
             @_drawPos pos, "inherit"
         else
-            @_drawPos pos, color.get "color"
-            Backbone.trigger "preview.addBlock", {pos, color: color.get "hex"}
+            @_drawPos pos, "##{color.hex}"
+            Backbone.trigger "preview.addBlock", {pos, color: color.hex}
 
     drawCells: (cells) ->
         @drawCell cell for cell in cells

@@ -36,6 +36,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// internals
 
 	var scope = this;
+	
+	var enabled = true
 
 	var EPS = 0.000001;
 	var PIXELS_PER_ROUND = 1800;
@@ -61,6 +63,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	var changeEvent = { type: 'change' };
 
+
+	this.enable = function() {enabled = true};
+	this.disable = function() {enabled = false};
 
 	this.rotateLeft = function ( angle ) {
 
@@ -203,6 +208,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseDown( event ) {
+		if ( !enabled) return;
 
 		if ( !scope.userRotate ) return;
 
@@ -228,6 +234,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseMove( event ) {
+		if ( !enabled) return;
 
 		event.preventDefault();
 
@@ -263,6 +270,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseUp( event ) {
+		if ( !enabled) return;
 
 		if ( ! scope.userRotate ) return;
 
@@ -274,7 +282,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseWheel( event ) {
-
+		if ( !enabled) return;
+		
 		if ( ! scope.userZoom ) return;
 
 		if ( event.wheelDelta > 0 ) {

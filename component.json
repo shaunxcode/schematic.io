@@ -12,6 +12,9 @@
 		"vendor/jquery.splitter.js",
 		"vendor/Three.js",
 		"vendor/OrbitControls.js",
+		"vendor/colorpicker/colorpicker.js",
+		"vendor/colorpicker/eye.js",
+		"vendor/colorpicker/utils.js",
 		"lib/App.js",
 		"lib/Geometry.js",
 		"lib/Console/View.js",
@@ -28,7 +31,6 @@
 		"lib/Layers/Artifacts/View.js",
 		"lib/LayerStack/View.js",
 		"lib/LayerStack/SliceView.js",
-		"lib/Palette/Material.js",
 		"lib/Palette/View.js",
 		"lib/Preview/View.js",
 		"lib/Tool/Tool.js",
@@ -37,7 +39,9 @@
 	],
 
 	"styles": [
+		"vendor/colorpicker/colorpicker.css",
 		"vendor/jquery.splitter.css",
 		"lib/App.css"
+
 	]
 }
