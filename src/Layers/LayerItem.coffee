@@ -1,6 +1,8 @@
 downArrow = "&#x25BC;"
 rightArrow = "&#x25B6;"
 
+ArtifactsView = require "./Artifacts/View"
+
 class LayerItem extends Backbone.View
     tagName: "li"
     events:
@@ -15,14 +17,19 @@ class LayerItem extends Backbone.View
         "click .expansionToggle": "toggleExpansion"
         
     render: ->
+        @artifacts = new ArtifactsView collection: @model.artifacts 
         @$el.text @model.get "name"
         @$el.prepend @$expansionToggle = $("<span />").addClass("expansionToggle").html rightArrow
-        @$el.append $("<div />").addClass("buttons").append(
-            @$show = $("<button />").text("h").addClass "show"
-            @$duplicate = $("<button />").text("d").addClass "duplicate"
-            @$remove = $("<button />").text("x").addClass "remove")
+        @$el.append(
+            $("<div />").addClass("buttons").append(
+                @$show = $("<button />").text("h").addClass "show"
+                @$duplicate = $("<button />").text("d").addClass "duplicate"
+                @$remove = $("<button />").text("x").addClass "remove")
+            @artifacts.render().$el)
+
         @hideButtons()
         @isExpanded = false
+        @artifacts.collapse()
         this
     
     hideButtons: ->
@@ -36,9 +43,11 @@ class LayerItem extends Backbone.View
         if @isExpanded
             @$expansionToggle.html rightArrow
             @isExpanded = false
+            @artifacts.collapse()
         else
             @$expansionToggle.html downArrow
             @isExpanded = true
+            @artifacts.expand()
 
     showButtons: ->
         @$("button").css visibility: "visible"
@@ -61,6 +70,8 @@ class LayerItem extends Backbone.View
             
     remove: ->
         super()
+        Backbone.trigger "preview:removeLayer", @model.get "y"
         @model.trigger "remove"
+
         
 module.exports = LayerItem

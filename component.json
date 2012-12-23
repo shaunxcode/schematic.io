@@ -24,6 +24,8 @@
 		"lib/data/Settings/Model.js",
 		"lib/Layers/LayerItem.js",
 		"lib/Layers/View.js",
+		"lib/Layers/Artifacts/ArtifactItem.js",
+		"lib/Layers/Artifacts/View.js",
 		"lib/LayerStack/View.js",
 		"lib/LayerStack/SliceView.js",
 		"lib/Palette/Material.js",

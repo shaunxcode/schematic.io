@@ -12,6 +12,7 @@ special =
 class View extends Backbone.View
     tagName: "div"
     events:
+        "mousewheel": "scale"
         "drag": "noop"
         "mousedown": "startDraw"
         "mousemove": "draw"
@@ -19,9 +20,12 @@ class View extends Backbone.View
     
     noop: -> false
     
+    scale: (event) ->
+        event.stopPropagation()
+        
     eventPos: (event) ->    
         x: (Math.floor event.offsetX / @cellSize) - @width
-        z: (Math.floor event.offsetY / @cellSize) - @width
+        z: (Math.floor event.offsetY / @cellSize) - @height
 
     startDraw: (event) ->
         event.stopPropagation()
@@ -33,7 +37,7 @@ class View extends Backbone.View
 
         if tools[tool]
             @tool = new tools[tool] 
-                model: @model.artifacts.create {tool} 
+                model: @model.artifacts.create {tool, color: @settings.get("color").get("color")} 
                 layer: @
                 color: @settings.get "color"
 
@@ -99,7 +103,7 @@ class View extends Backbone.View
             method = "fillRect"
             @cellCtx.fillStyle = color
 
-        @cellCtx[method] (pos.x + @width) * @cellSize, (pos.z + @height) * @cellSize, @cellSize, @cellSize
+        @cellCtx[method] (pos.x + @width) * @cellSize, (pos.z + @height) * @cellSize, @cellSize - 0.5, @cellSize - 0.5
         this
 
     drawCell: (pos) ->

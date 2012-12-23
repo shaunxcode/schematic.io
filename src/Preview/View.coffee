@@ -6,9 +6,7 @@ class View extends Backbone.View
         @settings = @options.settings
         @materials = @options.materials
         @geometry = new THREE.CubeGeometry 1,1,1
-        @objects = []
         @blocks = {}
-        @blocksByLayer = {}
 
     addBlock: (block) ->
         material = new THREE.MeshLambertMaterial color: block.color, shading: THREE.FlatShading, overdraw: true
@@ -17,19 +15,23 @@ class View extends Backbone.View
         c.position.x = block.pos.x + 0.5
         c.position.y = block.pos.y + 0.5
         c.position.z = block.pos.z + 0.5
-        
-        @objects.push c
+        c.blockPos = block.pos
+
         @scene.add c
-        @blocksByLayer[block.pos.y] or= {}
         @blocks["#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"] = c
-        @blocksByLayer[block.pos.y] = c
         c
 
     clearBlock: (block) ->
         if b = @blocks["#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"]
             @scene.remove b
             delete @blocks["#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"]
-            delete @blocksByLayer[block.pos.y]["#{block.pos.x}x#{block.pos.z}"]
+
+    clearLayer: (layer) ->
+        for i in [@scene.__objects.length - 1..0] by -1
+            obj = @scene.__objects[i]
+            if obj?.blockPos?.y is layer
+                @scene.remove obj
+
 
     render: ->
         size = @settings.get "size"
@@ -66,19 +68,16 @@ class View extends Backbone.View
         scene.add ambientLight 
 
         directionalLight = new THREE.DirectionalLight 0xffffff 
-        directionalLight.position.x = 0.4699905475499408  
-        directionalLight.position.y = 24.234059847603994
-        directionalLight.position.z = 45.13855837516265
         directionalLight.position.normalize()
         scene.add directionalLight 
-
 
 
         render = ->
             requestAnimationFrame render
             renderer.render scene, camera
             controls.update()
-               
+            directionalLight.position = controls.object.position
+
         render()
 
         @scene = scene
@@ -90,6 +89,7 @@ class View extends Backbone.View
 
         @listenTo Backbone, "preview:addBlock", @addBlock
         @listenTo Backbone, "preview:clearBlock", @clearBlock
+        @listenTo Backbone, "preview:removeLayer", @clearLayer
 
     resizeCanvas: ->
         width = @$el.width()

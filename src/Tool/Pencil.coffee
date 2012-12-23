@@ -12,6 +12,7 @@ class Pencil extends require("./Tool")
 
 	done: ->
 		@layer.setCells @_marks
+		@model.set points: @_marks
 		@trigger "done"
 
 	abort: ->

@@ -6208,6 +6208,10 @@ body {
 }
 
 .layers ul {
+  list-style-type: none
+}
+
+.layers > ul {
   margin: 0;
   margin-top: 0px;
   border-top: 1px solid #d8d8d8
@@ -6217,7 +6221,23 @@ body {
   background: #efefef
 }
 
-.layers li {
+.layers .Artifacts {
+  font-size: 90%;
+  overflow: hidden
+}
+
+.layers .Artifacts .arrow {
+  margin-right: 5px;
+  font-size: 90%;
+  width: 13px;
+  cursor: pointer
+}
+
+.layers .Artifacts li {
+  overflow: hidden
+}
+
+.layers > ul > li {
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #d8d8d8;
@@ -6225,19 +6245,19 @@ body {
   overflow: hidden
 }
 
-.layers li .expansionToggle {
+.layers > ul > li .expansionToggle {
   margin-right: 5px;
   font-size: 90%;
   width: 13px;
   display: inline-block
 }
 
-.layers li .buttons {
+.layers > ul > li .buttons {
   float: right;
   margin-right: 15px
 }
 
-.layers li .buttons button {
+.layers > ul > li .buttons button {
   margin-right: 5px;
   float: left
 }

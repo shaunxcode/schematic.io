@@ -28,13 +28,13 @@ App =
 			$("#center").split orientation:"horizontal", position: "77%"
 			$("#panels").split orientation:"vertical", position: "50%"
 
-			size = 50
+			size = 30
 
 			settings = new SettingsModel
 				width: size
 				height: size
 				size: size
-				cellSize: 10
+				cellSize: 15
 
 			materials = new MaterialsCollection [
 				new MaterialModel name: "grass", color: "green", hex: 0x008800
