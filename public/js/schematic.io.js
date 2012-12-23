@@ -47859,8 +47859,9 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
       var c, material;
       material = new THREE.MeshLambertMaterial({
         color: block.color,
+        ambient: 0x00ff80,
         shading: THREE.FlatShading,
-        overdraw: true
+        map: THREE.ImageUtils.loadTexture("/img/textures/cube.png")
       });
       c = new THREE.Mesh(this.geometry, material);
       c.position.x = block.pos.x + 0.5;

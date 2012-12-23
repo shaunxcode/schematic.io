@@ -9,7 +9,17 @@ class View extends Backbone.View
         @blocks = {}
 
     addBlock: (block) ->
-        material = new THREE.MeshLambertMaterial color: block.color, shading: THREE.FlatShading, overdraw: true
+        
+        material = new THREE.MeshLambertMaterial
+            color: block.color
+            ambient: 0x00ff80
+            shading: THREE.FlatShading
+            map: THREE.ImageUtils.loadTexture "/img/textures/cube.png"
+        
+        #material.color.setHSV 0.1, 0.7, 1.0 
+        #material.ambient = material.color
+
+        #material = new THREE.MeshLambertMaterial color: block.color, shading: THREE.FlatShading, overdraw: true
 
         c = new THREE.Mesh @geometry, material
         c.position.x = block.pos.x + 0.5
