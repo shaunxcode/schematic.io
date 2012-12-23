@@ -6254,14 +6254,17 @@ body {
   position: relative
 }
 
-.layerStack table {
-  background: rgba(255, 255, 255, 0.5);
-  position: absolute;
-  left: 0;
-  top: 0
+.layerStack .grid {
+  background: rgba(255, 255, 255, 0.5)
 }
 
-.layerStack table td {
-  border: 1px solid #cdcdcd;
+.layerStack .cells {
+  background: rgba(255, 255, 255, 0)
+}
+
+.layerStack canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
   cursor: crosshair
 }

@@ -28,7 +28,7 @@ App =
 			$("#center").split orientation:"horizontal", position: "77%"
 			$("#panels").split orientation:"vertical", position: "50%"
 
-			size = 20
+			size = 50
 
 			settings = new SettingsModel
 				width: size

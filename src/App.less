@@ -131,16 +131,20 @@ body {
 .layerStack {
     position: relative;
 
-    table {
+    .grid {
         background: rgba(255, 255, 255, 0.5);
+    }
+
+    .cells {
+        background: rgba(255, 255, 255, 0);
+    }
+    
+    canvas {
+        
         position: absolute; 
         left: 0;
         top: 0;
-        td {
-            border: 1px solid #cdcdcd;
-            cursor: crosshair;
-
-        }
+        cursor: crosshair;
     }
 }
 ​

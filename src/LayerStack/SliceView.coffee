@@ -10,15 +10,19 @@ special =
     bucket: ->
 
 class View extends Backbone.View
-    tagName: "table"
+    tagName: "div"
     events:
         "drag": "noop"
-        "mousedown td": "startDraw"
-        "mouseover td": "draw"
-        "mouseup td": "stopDraw"
+        "mousedown": "startDraw"
+        "mousemove": "draw"
+        "mouseup": "stopDraw"
     
     noop: -> false
     
+    eventPos: (event) ->    
+        x: (Math.floor event.offsetX / @cellSize) - @width
+        z: (Math.floor event.offsetY / @cellSize) - @width
+
     startDraw: (event) ->
         event.stopPropagation()
 
@@ -38,30 +42,43 @@ class View extends Backbone.View
                 @tool.remove()
                 delete @tool
 
-            @tool.first $(event.currentTarget).data()
+            @tool.first @eventPos event 
             @draw event
     
     draw: (event) ->
         return if not @tool
-        @tool.next $(event.currentTarget).data()
+        @tool.next @eventPos event
         
     stopDraw: (event) ->
         if @tool
             if event
-                @tool.last $(event.currentTarget).data()
+                @tool.last @eventPos event
             else
                 @tool.abort()
 
     initialize: ->
         @settings = @options.settings
+        @width = @settings.get "width"
+        @height = @settings.get "height"
+        @cellSize = @settings.get "cellSize"
         @listenTo @model, "remove", @remove
         @listenTo @model, "change:show", @toggleShow
         @listenTo @model, "makeActive", @makeActive
         @listenTo @settings, "change:width", @drawGrid
         @listenTo @settings, "change:height", @drawGrid
         @listenTo @settings, "change:size", @drawGrid
-                        
+        
     render: ->
+        _props =
+            width: @width * @cellSize * 2
+            height: @height * @cellSize * 2
+
+        @$el.append(
+            @$gridCanvas = $("<canvas />").addClass("grid").prop _props
+            @$cellCanvas = $("<canvas />").addClass("cells").prop _props)
+
+        @gridCtx = @$gridCanvas[0].getContext "2d"
+        @cellCtx = @$cellCanvas[0].getContext "2d"
         @drawGrid()
         this
         
@@ -74,10 +91,20 @@ class View extends Backbone.View
     makeActive: ->
         @$el.siblings().css zIndex: 1
         @$el.css zIndex: 999
-        
+
+    _drawPos: (pos, color) ->
+        if color is "inherit"
+            method = "clearRect"
+        else 
+            method = "fillRect"
+            @cellCtx.fillStyle = color
+
+        @cellCtx[method] (pos.x + @width) * @cellSize, (pos.z + @height) * @cellSize, @cellSize, @cellSize
+        this
+
     drawCell: (pos) ->
         color = @settings.get "color"
-        @cells[key pos].css background: color.get "color"
+        @_drawPos pos, color.get "color"
         pos.y = @model.get "y"
         Backbone.trigger "preview:addBlock", {pos, color: color.get "hex"}
 
@@ -86,9 +113,9 @@ class View extends Backbone.View
         
         Backbone.trigger "preview:clearBlock", {pos}
         if not color
-            @cells[key pos].css background: "inherit"
+            @_drawPos pos, "inherit"
         else
-            @cells[key pos].css background: color.get "color"
+            @_drawPos pos, color.get "color"
             Backbone.trigger "preview.addBlock", {pos, color: color.get "hex"}
 
     drawCells: (cells) ->
@@ -102,21 +129,22 @@ class View extends Backbone.View
             @model.set key(cell), @settings.get("color")
 
     drawGrid: ->
-        @cells = {}
-        @$el.html tbody = $("<tbody />")
+        @gridCtx.strokeStyle = "black"
+        @gridCtx.lineWidth = 1
         cellSize = @settings.get "cellSize"
-        y = @model.get "y"
-        height = @settings.get "height"
-        width = @settings.get "width"
-        for z in [-height..height-1]
-            tbody.append row = $("<tr />")
-            for x in [-width..width-1]
-                row.append @cells["#{x}x#{z}"] = td = $("<td />")
-                    .addClass("#{x}x#{z}")
-                    .html($("<div />").css width: cellSize, height: cellSize)
-                    .data({x, z, y})
+        width = @settings.get("width") * cellSize * 2
+        height = @settings.get("height") * cellSize * 2
+        @gridCtx.clearRect 0, 0, width, height   
 
-                if color = @model.get "#{x}x#{z}"
-                    td.css backgroundColor: color.get("color")
+        for x in [0..width] by cellSize
+            @gridCtx.beginPath()
+            @gridCtx.moveTo x - 0.5, 0
+            @gridCtx.lineTo x - 0.5, width
+            @gridCtx.stroke()
+            for z in [0..height] by cellSize
+                @gridCtx.beginPath()
+                @gridCtx.moveTo 0, z - 0.5
+                @gridCtx.lineTo height, z - 0.5 
+                @gridCtx.stroke()
         
 module.exports = View

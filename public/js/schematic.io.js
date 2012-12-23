@@ -46721,7 +46721,7 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
           orientation: "vertical",
           position: "50%"
         });
-        size = 20;
+        size = 50;
         settings = new SettingsModel({
           width: size,
           height: size,
@@ -47382,17 +47382,24 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
       return View.__super__.constructor.apply(this, arguments);
     }
 
-    View.prototype.tagName = "table";
+    View.prototype.tagName = "div";
 
     View.prototype.events = {
       "drag": "noop",
-      "mousedown td": "startDraw",
-      "mouseover td": "draw",
-      "mouseup td": "stopDraw"
+      "mousedown": "startDraw",
+      "mousemove": "draw",
+      "mouseup": "stopDraw"
     };
 
     View.prototype.noop = function() {
       return false;
+    };
+
+    View.prototype.eventPos = function(event) {
+      return {
+        x: (Math.floor(event.offsetX / this.cellSize)) - this.width,
+        z: (Math.floor(event.offsetY / this.cellSize)) - this.width
+      };
     };
 
     View.prototype.startDraw = function(event) {
@@ -47415,7 +47422,7 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
           _this.tool.remove();
           return delete _this.tool;
         });
-        this.tool.first($(event.currentTarget).data());
+        this.tool.first(this.eventPos(event));
         return this.draw(event);
       }
     };
@@ -47424,13 +47431,13 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
       if (!this.tool) {
         return;
       }
-      return this.tool.next($(event.currentTarget).data());
+      return this.tool.next(this.eventPos(event));
     };
 
     View.prototype.stopDraw = function(event) {
       if (this.tool) {
         if (event) {
-          return this.tool.last($(event.currentTarget).data());
+          return this.tool.last(this.eventPos(event));
         } else {
           return this.tool.abort();
         }
@@ -47439,6 +47446,9 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
 
     View.prototype.initialize = function() {
       this.settings = this.options.settings;
+      this.width = this.settings.get("width");
+      this.height = this.settings.get("height");
+      this.cellSize = this.settings.get("cellSize");
       this.listenTo(this.model, "remove", this.remove);
       this.listenTo(this.model, "change:show", this.toggleShow);
       this.listenTo(this.model, "makeActive", this.makeActive);
@@ -47448,6 +47458,14 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.render = function() {
+      var _props;
+      _props = {
+        width: this.width * this.cellSize * 2,
+        height: this.height * this.cellSize * 2
+      };
+      this.$el.append(this.$gridCanvas = $("<canvas />").addClass("grid").prop(_props), this.$cellCanvas = $("<canvas />").addClass("cells").prop(_props));
+      this.gridCtx = this.$gridCanvas[0].getContext("2d");
+      this.cellCtx = this.$cellCanvas[0].getContext("2d");
       this.drawGrid();
       return this;
     };
@@ -47469,12 +47487,22 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
       });
     };
 
+    View.prototype._drawPos = function(pos, color) {
+      var method;
+      if (color === "inherit") {
+        method = "clearRect";
+      } else {
+        method = "fillRect";
+        this.cellCtx.fillStyle = color;
+      }
+      this.cellCtx[method]((pos.x + this.width) * this.cellSize, (pos.z + this.height) * this.cellSize, this.cellSize, this.cellSize);
+      return this;
+    };
+
     View.prototype.drawCell = function(pos) {
       var color;
       color = this.settings.get("color");
-      this.cells[key(pos)].css({
-        background: color.get("color")
-      });
+      this._drawPos(pos, color.get("color"));
       pos.y = this.model.get("y");
       return Backbone.trigger("preview:addBlock", {
         pos: pos,
@@ -47489,13 +47517,9 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
         pos: pos
       });
       if (!color) {
-        return this.cells[key(pos)].css({
-          background: "inherit"
-        });
+        return this._drawPos(pos, "inherit");
       } else {
-        this.cells[key(pos)].css({
-          background: color.get("color")
-        });
+        this._drawPos(pos, color.get("color"));
         return Backbone.trigger("preview.addBlock", {
           pos: pos,
           color: color.get("hex")
@@ -47534,35 +47558,27 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.drawGrid = function() {
-      var cellSize, color, height, row, tbody, td, width, x, y, z, _i, _ref, _results;
-      this.cells = {};
-      this.$el.html(tbody = $("<tbody />"));
+      var cellSize, height, width, x, z, _i, _results;
+      this.gridCtx.strokeStyle = "black";
+      this.gridCtx.lineWidth = 1;
       cellSize = this.settings.get("cellSize");
-      y = this.model.get("y");
-      height = this.settings.get("height");
-      width = this.settings.get("width");
+      width = this.settings.get("width") * cellSize * 2;
+      height = this.settings.get("height") * cellSize * 2;
+      this.gridCtx.clearRect(0, 0, width, height);
       _results = [];
-      for (z = _i = -height, _ref = height - 1; -height <= _ref ? _i <= _ref : _i >= _ref; z = -height <= _ref ? ++_i : --_i) {
-        tbody.append(row = $("<tr />"));
+      for (x = _i = 0; 0 <= width ? _i <= width : _i >= width; x = _i += cellSize) {
+        this.gridCtx.beginPath();
+        this.gridCtx.moveTo(x - 0.5, 0);
+        this.gridCtx.lineTo(x - 0.5, width);
+        this.gridCtx.stroke();
         _results.push((function() {
-          var _j, _ref1, _results1;
+          var _j, _results1;
           _results1 = [];
-          for (x = _j = -width, _ref1 = width - 1; -width <= _ref1 ? _j <= _ref1 : _j >= _ref1; x = -width <= _ref1 ? ++_j : --_j) {
-            row.append(this.cells["" + x + "x" + z] = td = $("<td />").addClass("" + x + "x" + z).html($("<div />").css({
-              width: cellSize,
-              height: cellSize
-            })).data({
-              x: x,
-              z: z,
-              y: y
-            }));
-            if (color = this.model.get("" + x + "x" + z)) {
-              _results1.push(td.css({
-                backgroundColor: color.get("color")
-              }));
-            } else {
-              _results1.push(void 0);
-            }
+          for (z = _j = 0; 0 <= height ? _j <= height : _j >= height; z = _j += cellSize) {
+            this.gridCtx.beginPath();
+            this.gridCtx.moveTo(0, z - 0.5);
+            this.gridCtx.lineTo(height, z - 0.5);
+            _results1.push(this.gridCtx.stroke());
           }
           return _results1;
         }).call(this));
