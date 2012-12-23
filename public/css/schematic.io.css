@@ -6271,6 +6271,8 @@ body {
 }
 
 .layerStack {
+  z-index: 90;
+  background: #f6f6f6;
   position: relative
 }
 
@@ -6287,4 +6289,8 @@ body {
   left: 0;
   top: 0;
   cursor: crosshair
+}
+
+.canvasHolder {
+  z-index: 80
 }

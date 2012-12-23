@@ -46706,18 +46706,19 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
     init: function() {
       var _this = this;
       return $(function() {
-        var layersCollection, materials, settings, size;
+        var $hspliter, $vspliter, layersCollection, materials, settings, size;
         $(window).on("resize", function() {
-          return Backbone.trigger("AppResized");
+          $vspliter.trigger("spliter.resize");
+          return $hspliter.trigger("spliter.resize");
         });
         $(window).on("spliter.resize", function() {
           return Backbone.trigger("AppResized");
         });
-        $("#center").split({
+        $vspliter = $("#center").split({
           orientation: "horizontal",
           position: "77%"
         });
-        $("#panels").split({
+        $hspliter = $("#panels").split({
           orientation: "vertical",
           position: "50%"
         });
@@ -47133,6 +47134,7 @@ require.register("schematic.io/lib/Layers/LayerItem.js", function(module, export
     LayerItem.prototype.events = {
       "mouseout": "hideButtons",
       "mouseenter": "showButtons",
+      "mouseenter span": "cancelHideButtons",
       "mouseenter .buttons": "cancelHideButtons",
       "mouseout .buttons": "cancelHideButtons",
       "click .remove": "remove",
@@ -47161,7 +47163,7 @@ require.register("schematic.io/lib/Layers/LayerItem.js", function(module, export
         return _this.$("button").css({
           visibility: "hidden"
         });
-      }), 50);
+      }), 10);
     };
 
     LayerItem.prototype.cancelHideButtons = function(e) {

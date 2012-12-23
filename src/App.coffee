@@ -23,10 +23,14 @@ PreviewView = appRequire "Preview/View"
 App =
 	init: ->
 		$ => 
-			$(window).on "resize", -> Backbone.trigger "AppResized"
+			$(window).on "resize", ->
+				$vspliter.trigger "spliter.resize"
+				$hspliter.trigger "spliter.resize"
+
 			$(window).on "spliter.resize", -> Backbone.trigger "AppResized"
-			$("#center").split orientation:"horizontal", position: "77%"
-			$("#panels").split orientation:"vertical", position: "50%"
+
+			$vspliter = $("#center").split orientation:"horizontal", position: "77%"
+			$hspliter = $("#panels").split orientation:"vertical", position: "50%"
 
 			size = 30
 

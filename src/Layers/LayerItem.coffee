@@ -8,6 +8,7 @@ class LayerItem extends Backbone.View
     events:
         "mouseout": "hideButtons"
         "mouseenter": "showButtons"
+        "mouseenter span": "cancelHideButtons"
         "mouseenter .buttons": "cancelHideButtons"
         "mouseout .buttons": "cancelHideButtons"
         "click .remove": "remove"
@@ -33,7 +34,7 @@ class LayerItem extends Backbone.View
         this
     
     hideButtons: ->
-        @hideTimeout = setTimeout (=> @$("button").css visibility: "hidden"), 50
+        @hideTimeout = setTimeout (=> @$("button").css visibility: "hidden"), 10
 
     cancelHideButtons: (e) ->
         e.stopPropagation()
