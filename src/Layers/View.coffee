@@ -16,7 +16,7 @@ class View extends Backbone.View
         @collection.add
             show: true
             name: "layer #{@children.length + 1}"
-            z: @children.length
+            y: @children.length
 
     addLayer: (layer) ->
         child = new LayerItem model: layer

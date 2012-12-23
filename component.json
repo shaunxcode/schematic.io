@@ -8,11 +8,15 @@
 	"scripts": [
 		"index.js",
 		"vendor/backbone.js",
+		"vendor/backbone.localStorage.js",
 		"vendor/jquery.splitter.js",
 		"vendor/Three.js",
 		"vendor/OrbitControls.js",
 		"lib/App.js",
+		"lib/Geometry.js",
 		"lib/Console/View.js",
+		"lib/data/Artifact/Collection.js",
+		"lib/data/Artifact/Model.js",
 		"lib/data/Layers/Collection.js",
 		"lib/data/Layers/Model.js",
 		"lib/data/Material/Collection.js",
@@ -24,7 +28,10 @@
 		"lib/LayerStack/SliceView.js",
 		"lib/Palette/Material.js",
 		"lib/Palette/View.js",
-		"lib/Preview/View.js"
+		"lib/Preview/View.js",
+		"lib/Tool/Tool.js",
+		"lib/Tool/Line.js",
+		"lib/Tool/Pencil.js"
 	],
 
 	"styles": [

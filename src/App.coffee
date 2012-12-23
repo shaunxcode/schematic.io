@@ -6,6 +6,7 @@ window._ = require "underscore"
 window.Backbone = vendorRequire "backbone"
 window.Backbone.$ = $
 
+vendorRequire "backbone.localStorage"
 vendorRequire "jquery.splitter"
 
 MaterialsCollection = dataRequire "Material/Collection"
@@ -21,7 +22,7 @@ PreviewView = appRequire "Preview/View"
 
 App =
 	init: ->
-		$ -> 
+		$ => 
 			$(window).on "resize", -> Backbone.trigger "AppResized"
 			$(window).on "spliter.resize", -> Backbone.trigger "AppResized"
 			$("#center").split orientation:"horizontal", position: "77%"
@@ -33,7 +34,7 @@ App =
 				width: size
 				height: size
 				size: size
-				cellSize: 15
+				cellSize: 10
 
 			materials = new MaterialsCollection [
 				new MaterialModel name: "grass", color: "green", hex: 0x008800
@@ -43,31 +44,32 @@ App =
 			    
 			layersCollection = new LayersCollection
 
-			palette = new PaletteView
+			@palette = new PaletteView
 				el: $(".palette")
 				collection: materials
 				settings: settings
 
-			palette.render()
+			@palette.render()
 
-			layers = new LayersView
+			@layers = new LayersView
 				el: $(".layers")
 				settings: settings
 				collection: layersCollection
-			layers.render()     
+			@layers.render()     
 
-			layerStack = new LayerStackView
+			@layerStack = new LayerStackView
 				el: $(".layerStack")
 				collection: layersCollection
 				settings: settings
 
-			preview = new PreviewView
+			@preview = new PreviewView
 				el: $(".canvasHolder")
 				settings: settings
 				collection: layersCollection
 				materials: materials
-			preview.render()
+			@preview.render()
 
-			layersCollection.add show: true, name: "layer 1", z: 0
+			layersCollection.add show: true, name: "layer 1", y: 0
 
+window.App = App
 module.exports = App

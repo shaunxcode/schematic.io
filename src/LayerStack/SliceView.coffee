@@ -1,3 +1,14 @@
+tools = 
+    pencil: appRequire "Tool/Pencil"
+    line: appRequire "Tool/Line"
+
+key = (pos) -> "#{pos.x}x#{pos.z}"
+
+special = 
+    marquee: ->
+    eraser: ->
+    bucket: ->
+
 class View extends Backbone.View
     tagName: "table"
     events:
@@ -10,22 +21,37 @@ class View extends Backbone.View
     
     startDraw: (event) ->
         event.stopPropagation()
-        @drawing = true
-        @draw event
+
+        tool = @settings.get "tool"
+
+        if special[tool] 
+            return
+
+        if tools[tool]
+            @tool = new tools[tool] 
+                model: @model.artifacts.create {tool} 
+                layer: @
+                color: @settings.get "color"
+
+            
+            @listenTo @tool, "done", =>
+                @tool.remove()
+                delete @tool
+
+            @tool.first $(event.currentTarget).data()
+            @draw event
     
     draw: (event) ->
-        return if not @drawing
+        return if not @tool
+        @tool.next $(event.currentTarget).data()
         
-        cell = $(event.currentTarget)
-        pos = cell.data()
-        color = @settings.get("color").get "color"
-        @model.set "#{pos.x}x#{pos.y}", color
-        Backbone.trigger "addBlock", pos: {x: pos.x, z: pos.y, y: pos.z}, color: @settings.get("color").get "hex"
-        cell.css backgroundColor: color
-        
-    stopDraw: ->
-        @drawing = false
-    
+    stopDraw: (event) ->
+        if @tool
+            if event
+                @tool.last $(event.currentTarget).data()
+            else
+                @tool.abort()
+
     initialize: ->
         @settings = @options.settings
         @listenTo @model, "remove", @remove
@@ -49,24 +75,48 @@ class View extends Backbone.View
         @$el.siblings().css zIndex: 1
         @$el.css zIndex: 999
         
+    drawCell: (pos) ->
+        color = @settings.get "color"
+        @cells[key pos].css background: color.get "color"
+        pos.y = @model.get "y"
+        Backbone.trigger "preview:addBlock", {pos, color: color.get "hex"}
+
+    clearCell: (pos) ->
+        color = @model.get key pos
+        
+        Backbone.trigger "preview:clearBlock", {pos}
+        if not color
+            @cells[key pos].css background: "inherit"
+        else
+            @cells[key pos].css background: color.get "color"
+            Backbone.trigger "preview.addBlock", {pos, color: color.get "hex"}
+
+    drawCells: (cells) ->
+        @drawCell cell for cell in cells
+
+    clearCells: (cells) ->
+        @clearCell cell for cell in cells
+
+    setCells: (cells) ->
+        for cell in cells 
+            @model.set key(cell), @settings.get("color")
+
     drawGrid: ->
-        @$el.html ""
-        tbody = $("<tbody />")
+        @cells = {}
+        @$el.html tbody = $("<tbody />")
         cellSize = @settings.get "cellSize"
-        z = @model.get "z"
+        y = @model.get "y"
         height = @settings.get "height"
         width = @settings.get "width"
-        for y in [-height..height-1]
-            row = $("<tr />")
+        for z in [-height..height-1]
+            tbody.append row = $("<tr />")
             for x in [-width..width-1]
-                row.append td = $("<td />")
+                row.append @cells["#{x}x#{z}"] = td = $("<td />")
+                    .addClass("#{x}x#{z}")
                     .html($("<div />").css width: cellSize, height: cellSize)
-                    .data({x, y, z})
-                    
-                if color = @model.get "#{x}x#{y}"
-                    td.css backgroundColor: color
-                    
-            tbody.append row
-        @$el.append tbody
+                    .data({x, z, y})
+
+                if color = @model.get "#{x}x#{z}"
+                    td.css backgroundColor: color.get("color")
         
 module.exports = View

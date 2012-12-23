@@ -10747,6 +10747,138 @@ c.success=function(a,d,e){j&&j(a,d,e);b.trigger("sync",b,a,c)};var i=c.error;c.e
 a);d.__super__=c.prototype;return d};var u=function(){throw Error('A "url" property or function must be specified');}}).call(this);
 
 });
+require.register("schematic.io/vendor/backbone.localStorage.js", function(module, exports, require){
+/**
+ * Backbone localStorage Adapter
+ * https://github.com/jeromegn/Backbone.localStorage
+ */
+
+(function(_, Backbone) {
+// A simple module to replace `Backbone.sync` with *localStorage*-based
+// persistence. Models are given GUIDS, and saved into a JSON object. Simple
+// as that.
+
+// Hold reference to Underscore.js and Backbone.js in the closure in order
+// to make things work even if they are removed from the global namespace
+
+// Generate four random hex digits.
+function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+};
+
+// Generate a pseudo-GUID by concatenating random hexadecimal.
+function guid() {
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+};
+
+// Our Store is represented by a single JS object in *localStorage*. Create it
+// with a meaningful name, like the name you'd give a table.
+// window.Store is deprectated, use Backbone.LocalStorage instead
+Backbone.LocalStorage = window.Store = function(name) {
+  this.name = name;
+  var store = this.localStorage().getItem(this.name);
+  this.records = (store && store.split(",")) || [];
+};
+
+_.extend(Backbone.LocalStorage.prototype, {
+
+  // Save the current state of the **Store** to *localStorage*.
+  save: function() {
+    this.localStorage().setItem(this.name, this.records.join(","));
+  },
+
+  // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
+  // have an id of it's own.
+  create: function(model) {
+    if (!model.id) {
+        model.id = guid();
+        model.set(model.idAttribute, model.id);
+    }
+    this.localStorage().setItem(this.name+"-"+model.id, JSON.stringify(model));
+    this.records.push(model.id.toString());
+    this.save();
+    return model.toJSON();
+  },
+
+  // Update a model by replacing its copy in `this.data`.
+  update: function(model) {
+    this.localStorage().setItem(this.name+"-"+model.id, JSON.stringify(model));
+    if (!_.include(this.records, model.id.toString())) this.records.push(model.id.toString()); this.save();
+    return model.toJSON();
+  },
+
+  // Retrieve a model from `this.data` by id.
+  find: function(model) {
+    return JSON.parse(this.localStorage().getItem(this.name+"-"+model.id));
+  },
+
+  // Return the array of all models currently in storage.
+  findAll: function() {
+    return _(this.records).chain()
+        .map(function(id){return JSON.parse(this.localStorage().getItem(this.name+"-"+id));}, this)
+        .compact()
+        .value();
+  },
+
+  // Delete a model from `this.data`, returning it.
+  destroy: function(model) {
+    this.localStorage().removeItem(this.name+"-"+model.id);
+    this.records = _.reject(this.records, function(record_id){return record_id == model.id.toString();});
+    this.save();
+    return model;
+  },
+
+  localStorage: function() {
+      return localStorage;
+  }
+
+});
+
+// localSync delegate to the model or collection's
+// *localStorage* property, which should be an instance of `Store`.
+// window.Store.sync and Backbone.localSync is deprectated, use Backbone.LocalStorage.sync instead
+Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options) {
+  var store = model.localStorage || model.collection.localStorage;
+
+  var resp, syncDfd = $.Deferred && $.Deferred(); //If $ is having Deferred - use it. 
+
+  switch (method) {
+    case "read":    resp = model.id != undefined ? store.find(model) : store.findAll(); break;
+    case "create":  resp = store.create(model);                            break;
+    case "update":  resp = store.update(model);                            break;
+    case "delete":  resp = store.destroy(model);                           break;
+  }
+
+  if (resp) {
+    if (options && options.success) options.success(resp);
+    if (syncDfd) syncDfd.resolve();
+  } else {
+    if (options && options.error) options.error("Record not found");
+    if (syncDfd) syncDfd.reject();
+  }
+
+  return syncDfd && syncDfd.promise();
+};
+
+Backbone.ajaxSync = Backbone.sync;
+
+Backbone.getSyncMethod = function(model) {
+  if(model.localStorage || (model.collection && model.collection.localStorage))
+  {
+    return Backbone.localSync;
+  }
+
+  return Backbone.ajaxSync;
+};
+
+// Override 'Backbone.sync' to default to localSync,
+// the original 'Backbone.sync' is still available in 'Backbone.ajaxSync'
+Backbone.sync = function(method, model, options) {
+  return Backbone.getSyncMethod(model).apply(this, [method, model, options]);
+};
+
+})(_, Backbone);
+});
 require.register("schematic.io/vendor/jquery.splitter.js", function(module, exports, require){
 /*!
  * JQuery Spliter Plugin
@@ -46548,6 +46680,8 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
 
   window.Backbone.$ = $;
 
+  vendorRequire("backbone.localStorage");
+
   vendorRequire("jquery.splitter");
 
   MaterialsCollection = dataRequire("Material/Collection");
@@ -46570,8 +46704,9 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
 
   App = {
     init: function() {
+      var _this = this;
       return $(function() {
-        var layerStack, layers, layersCollection, materials, palette, preview, settings, size;
+        var layersCollection, materials, settings, size;
         $(window).on("resize", function() {
           return Backbone.trigger("AppResized");
         });
@@ -46591,7 +46726,7 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
           width: size,
           height: size,
           size: size,
-          cellSize: 15
+          cellSize: 10
         });
         materials = new MaterialsCollection([
           new MaterialModel({
@@ -46609,40 +46744,153 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
           })
         ]);
         layersCollection = new LayersCollection;
-        palette = new PaletteView({
+        _this.palette = new PaletteView({
           el: $(".palette"),
           collection: materials,
           settings: settings
         });
-        palette.render();
-        layers = new LayersView({
+        _this.palette.render();
+        _this.layers = new LayersView({
           el: $(".layers"),
           settings: settings,
           collection: layersCollection
         });
-        layers.render();
-        layerStack = new LayerStackView({
+        _this.layers.render();
+        _this.layerStack = new LayerStackView({
           el: $(".layerStack"),
           collection: layersCollection,
           settings: settings
         });
-        preview = new PreviewView({
+        _this.preview = new PreviewView({
           el: $(".canvasHolder"),
           settings: settings,
           collection: layersCollection,
           materials: materials
         });
-        preview.render();
+        _this.preview.render();
         return layersCollection.add({
           show: true,
           name: "layer 1",
-          z: 0
+          y: 0
         });
       });
     }
   };
 
+  window.App = App;
+
   module.exports = App;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/Geometry.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var circle, curve, line, plot4points, plot8points, point, rect;
+
+  point = function(x, z) {
+    return {
+      x: x,
+      z: z
+    };
+  };
+
+  line = function(p1, p2) {
+    var dx, dz, e2, err, points, sx, sz, x0, x1, z0, z1;
+    points = [];
+    x0 = p1.x, z0 = p1.z;
+    x1 = p2.x, z1 = p2.z;
+    dx = Math.abs(x1 - x0);
+    dz = Math.abs(z1 - z0);
+    if (x0 < x1) {
+      sx = 1;
+    } else {
+      sx = -1;
+    }
+    if (z0 < z1) {
+      sz = 1;
+    } else {
+      sz = -1;
+    }
+    err = dx - dz;
+    while (true) {
+      points.push(point(x0, z0));
+      if (x0 === x1 && z0 === z1) {
+        break;
+      }
+      e2 = 2 * err;
+      if (e2 > -dz) {
+        err = err - dz;
+        x0 = x0 + sx;
+      }
+      if (e2 < dx) {
+        err = err + dx;
+        z0 = z0 + sz;
+      }
+    }
+    return points;
+  };
+
+  rect = function(p1, p2) {
+    var points;
+    return points = [];
+  };
+
+  plot4points = function(cx, cz, x, z) {
+    var points;
+    points = [[cx + x, cz + z]];
+    if (x !== 0) {
+      points.push([cx - x, cz + z]);
+    }
+    if (z !== 0) {
+      points.push([cx + x, cz - z]);
+    }
+    if (x !== 0 && z !== 0) {
+      points.push([cx - x, cz - z]);
+    }
+    return points;
+  };
+
+  plot8points = function(cx, cz, x, z) {
+    var points;
+    points = plot4points(cx, cz, x, z);
+    if (x !== z) {
+      points = points.concat(plot4points(cx, cz, z, x));
+    }
+    return points;
+  };
+
+  circle = function(cp, radius) {
+    var error, points, x, z;
+    x = cp.x, z = cp.z;
+    error = -radius;
+    x = radius;
+    z = 0;
+    points = [];
+    while (x >= z) {
+      points = points.concat(plot8points(cx, cz, x, z));
+      error += z;
+      ++z;
+      error += z;
+      if (error >= 0) {
+        error -= x;
+        --x;
+        error -= x;
+      }
+    }
+    return points;
+  };
+
+  curve = function(p1, p2, p3) {};
+
+  module.exports = {
+    point: point,
+    line: line,
+    rect: rect,
+    circle: circle,
+    curve: curve
+  };
 
 }).call(this);
 
@@ -46667,6 +46915,66 @@ require.register("schematic.io/lib/Console/View.js", function(module, exports, r
   })(Backbone.View);
 
   module.exports = View;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/data/Artifact/Collection.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var Collection,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Collection = (function(_super) {
+
+    __extends(Collection, _super);
+
+    function Collection() {
+      return Collection.__super__.constructor.apply(this, arguments);
+    }
+
+    Collection.prototype.model = require("./Model");
+
+    Collection.prototype.localStorage = new Backbone.LocalStorage("ArtifactCollectionn");
+
+    return Collection;
+
+  })(Backbone.Collection);
+
+  module.exports = Collection;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/data/Artifact/Model.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var Model,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Model = (function(_super) {
+
+    __extends(Model, _super);
+
+    function Model() {
+      return Model.__super__.constructor.apply(this, arguments);
+    }
+
+    Model.prototype.initialize = function() {
+      return this._cancelled = true;
+    };
+
+    Model.prototype.isCancelled = function() {
+      return this._cancelled;
+    };
+
+    return Model;
+
+  })(Backbone.Model);
+
+  module.exports = Model;
 
 }).call(this);
 
@@ -46700,9 +47008,11 @@ require.register("schematic.io/lib/data/Layers/Collection.js", function(module, 
 require.register("schematic.io/lib/data/Layers/Model.js", function(module, exports, require){
 // Generated by CoffeeScript 1.3.3
 (function() {
-  var Model,
+  var ArtifactsCollection, Model,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  ArtifactsCollection = dataRequire("Artifact/Collection");
 
   Model = (function(_super) {
 
@@ -46711,6 +47021,10 @@ require.register("schematic.io/lib/data/Layers/Model.js", function(module, expor
     function Model() {
       return Model.__super__.constructor.apply(this, arguments);
     }
+
+    Model.prototype.initialize = function() {
+      return this.artifacts = new ArtifactsCollection;
+    };
 
     return Model;
 
@@ -46937,7 +47251,7 @@ require.register("schematic.io/lib/Layers/View.js", function(module, exports, re
       return this.collection.add({
         show: true,
         name: "layer " + (this.children.length + 1),
-        z: this.children.length
+        y: this.children.length
       });
     };
 
@@ -47041,9 +47355,24 @@ require.register("schematic.io/lib/LayerStack/View.js", function(module, exports
 require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, exports, require){
 // Generated by CoffeeScript 1.3.3
 (function() {
-  var View,
+  var View, key, special, tools,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  tools = {
+    pencil: appRequire("Tool/Pencil"),
+    line: appRequire("Tool/Line")
+  };
+
+  key = function(pos) {
+    return "" + pos.x + "x" + pos.z;
+  };
+
+  special = {
+    marquee: function() {},
+    eraser: function() {},
+    bucket: function() {}
+  };
 
   View = (function(_super) {
 
@@ -47067,35 +47396,45 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.startDraw = function(event) {
+      var tool,
+        _this = this;
       event.stopPropagation();
-      this.drawing = true;
-      return this.draw(event);
+      tool = this.settings.get("tool");
+      if (special[tool]) {
+        return;
+      }
+      if (tools[tool]) {
+        this.tool = new tools[tool]({
+          model: this.model.artifacts.create({
+            tool: tool
+          }),
+          layer: this,
+          color: this.settings.get("color")
+        });
+        this.listenTo(this.tool, "done", function() {
+          _this.tool.remove();
+          return delete _this.tool;
+        });
+        this.tool.first($(event.currentTarget).data());
+        return this.draw(event);
+      }
     };
 
     View.prototype.draw = function(event) {
-      var cell, color, pos;
-      if (!this.drawing) {
+      if (!this.tool) {
         return;
       }
-      cell = $(event.currentTarget);
-      pos = cell.data();
-      color = this.settings.get("color").get("color");
-      this.model.set("" + pos.x + "x" + pos.y, color);
-      Backbone.trigger("addBlock", {
-        pos: {
-          x: pos.x,
-          z: pos.y,
-          y: pos.z
-        },
-        color: this.settings.get("color").get("hex")
-      });
-      return cell.css({
-        backgroundColor: color
-      });
+      return this.tool.next($(event.currentTarget).data());
     };
 
-    View.prototype.stopDraw = function() {
-      return this.drawing = false;
+    View.prototype.stopDraw = function(event) {
+      if (this.tool) {
+        if (event) {
+          return this.tool.last($(event.currentTarget).data());
+        } else {
+          return this.tool.abort();
+        }
+      }
     };
 
     View.prototype.initialize = function() {
@@ -47130,34 +47469,105 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
       });
     };
 
+    View.prototype.drawCell = function(pos) {
+      var color;
+      color = this.settings.get("color");
+      this.cells[key(pos)].css({
+        background: color.get("color")
+      });
+      pos.y = this.model.get("y");
+      return Backbone.trigger("preview:addBlock", {
+        pos: pos,
+        color: color.get("hex")
+      });
+    };
+
+    View.prototype.clearCell = function(pos) {
+      var color;
+      color = this.model.get(key(pos));
+      Backbone.trigger("preview:clearBlock", {
+        pos: pos
+      });
+      if (!color) {
+        return this.cells[key(pos)].css({
+          background: "inherit"
+        });
+      } else {
+        this.cells[key(pos)].css({
+          background: color.get("color")
+        });
+        return Backbone.trigger("preview.addBlock", {
+          pos: pos,
+          color: color.get("hex")
+        });
+      }
+    };
+
+    View.prototype.drawCells = function(cells) {
+      var cell, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = cells.length; _i < _len; _i++) {
+        cell = cells[_i];
+        _results.push(this.drawCell(cell));
+      }
+      return _results;
+    };
+
+    View.prototype.clearCells = function(cells) {
+      var cell, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = cells.length; _i < _len; _i++) {
+        cell = cells[_i];
+        _results.push(this.clearCell(cell));
+      }
+      return _results;
+    };
+
+    View.prototype.setCells = function(cells) {
+      var cell, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = cells.length; _i < _len; _i++) {
+        cell = cells[_i];
+        _results.push(this.model.set(key(cell), this.settings.get("color")));
+      }
+      return _results;
+    };
+
     View.prototype.drawGrid = function() {
-      var cellSize, color, height, row, tbody, td, width, x, y, z, _i, _j, _ref, _ref1;
-      this.$el.html("");
-      tbody = $("<tbody />");
+      var cellSize, color, height, row, tbody, td, width, x, y, z, _i, _ref, _results;
+      this.cells = {};
+      this.$el.html(tbody = $("<tbody />"));
       cellSize = this.settings.get("cellSize");
-      z = this.model.get("z");
+      y = this.model.get("y");
       height = this.settings.get("height");
       width = this.settings.get("width");
-      for (y = _i = -height, _ref = height - 1; -height <= _ref ? _i <= _ref : _i >= _ref; y = -height <= _ref ? ++_i : --_i) {
-        row = $("<tr />");
-        for (x = _j = -width, _ref1 = width - 1; -width <= _ref1 ? _j <= _ref1 : _j >= _ref1; x = -width <= _ref1 ? ++_j : --_j) {
-          row.append(td = $("<td />").html($("<div />").css({
-            width: cellSize,
-            height: cellSize
-          })).data({
-            x: x,
-            y: y,
-            z: z
-          }));
-          if (color = this.model.get("" + x + "x" + y)) {
-            td.css({
-              backgroundColor: color
-            });
+      _results = [];
+      for (z = _i = -height, _ref = height - 1; -height <= _ref ? _i <= _ref : _i >= _ref; z = -height <= _ref ? ++_i : --_i) {
+        tbody.append(row = $("<tr />"));
+        _results.push((function() {
+          var _j, _ref1, _results1;
+          _results1 = [];
+          for (x = _j = -width, _ref1 = width - 1; -width <= _ref1 ? _j <= _ref1 : _j >= _ref1; x = -width <= _ref1 ? ++_j : --_j) {
+            row.append(this.cells["" + x + "x" + z] = td = $("<td />").addClass("" + x + "x" + z).html($("<div />").css({
+              width: cellSize,
+              height: cellSize
+            })).data({
+              x: x,
+              z: z,
+              y: y
+            }));
+            if (color = this.model.get("" + x + "x" + z)) {
+              _results1.push(td.css({
+                backgroundColor: color.get("color")
+              }));
+            } else {
+              _results1.push(void 0);
+            }
           }
-        }
-        tbody.append(row);
+          return _results1;
+        }).call(this));
       }
-      return this.$el.append(tbody);
+      return _results;
     };
 
     return View;
@@ -47296,11 +47706,43 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
 
     View.prototype.initialize = function() {
       this.settings = this.options.settings;
-      return this.materials = this.options.materials;
+      this.materials = this.options.materials;
+      this.geometry = new THREE.CubeGeometry(1, 1, 1);
+      this.objects = [];
+      this.blocks = {};
+      return this.blocksByLayer = {};
+    };
+
+    View.prototype.addBlock = function(block) {
+      var c, material, _base, _name;
+      material = new THREE.MeshLambertMaterial({
+        color: block.color,
+        shading: THREE.FlatShading,
+        overdraw: true
+      });
+      c = new THREE.Mesh(this.geometry, material);
+      c.position.x = block.pos.x + 0.5;
+      c.position.y = block.pos.y + 0.5;
+      c.position.z = block.pos.z + 0.5;
+      this.objects.push(c);
+      this.scene.add(c);
+      (_base = this.blocksByLayer)[_name = block.pos.y] || (_base[_name] = {});
+      this.blocks["" + block.pos.x + "x" + block.pos.z + "x" + block.pos.y] = c;
+      this.blocksByLayer[block.pos.y] = c;
+      return c;
+    };
+
+    View.prototype.clearBlock = function(block) {
+      var b;
+      if (b = this.blocks["" + block.pos.x + "x" + block.pos.z + "x" + block.pos.y]) {
+        this.scene.remove(b);
+        delete this.blocks["" + block.pos.x + "x" + block.pos.z + "x" + block.pos.y];
+        return delete this.blocksByLayer[block.pos.y]["" + block.pos.x + "x" + block.pos.z];
+      }
     };
 
     View.prototype.render = function() {
-      var addCube, blocks, camera, controls, geometry, i, line, material, objects, render, renderer, scene, size, _i;
+      var ambientLight, camera, controls, directionalLight, geometry, i, line, material, render, renderer, scene, size, _i;
       size = this.settings.get("size");
       scene = new THREE.Scene;
       camera = new THREE.PerspectiveCamera(60, 500 / 500, 1, 1000);
@@ -47322,42 +47764,31 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
       renderer = new THREE.WebGLRenderer;
       renderer.setSize(500, 500);
       this.$el.html(renderer.domElement);
-      geometry = new THREE.CubeGeometry(1, 1, 1);
-      objects = [];
-      addCube = function(cube) {
-        var c;
-        c = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
-          color: cube.color
-        }));
-        c.position.x = cube.pos.x + 0.5;
-        c.position.y = cube.pos.y + 0.5;
-        c.position.z = cube.pos.z + 0.5;
-        objects.push(c);
-        scene.add(c);
-        return c;
-      };
-      blocks = {};
-      Backbone.on("addBlock", function(block) {
-        var cube;
-        cube = addCube({
-          pos: block.pos,
-          color: block.color
-        });
-        return blocks["" + block.pos.x + "-" + block.pos.x + "-" + block.pos.y] = cube;
-      });
       camera.position.x = 0.4699905475499408;
       camera.position.y = 24.234059847603994;
       camera.position.z = 45.13855837516265;
+      ambientLight = new THREE.AmbientLight(Math.random() * 0x10);
+      scene.add(ambientLight);
+      directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.x = 0.4699905475499408;
+      directionalLight.position.y = 24.234059847603994;
+      directionalLight.position.z = 45.13855837516265;
+      directionalLight.position.normalize();
+      scene.add(directionalLight);
       render = function() {
         requestAnimationFrame(render);
         renderer.render(scene, camera);
         return controls.update();
       };
       render();
+      this.scene = scene;
+      this.controls = controls;
       this.camera = camera;
       this.renderer = renderer;
       this.listenTo(Backbone, "AppResized", this.resizeCanvas);
-      return this.resizeCanvas();
+      this.resizeCanvas();
+      this.listenTo(Backbone, "preview:addBlock", this.addBlock);
+      return this.listenTo(Backbone, "preview:clearBlock", this.clearBlock);
     };
 
     View.prototype.resizeCanvas = function() {
@@ -47374,6 +47805,133 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
   })(Backbone.View);
 
   module.exports = View;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/Tool/Tool.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var Tool,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Tool = (function(_super) {
+
+    __extends(Tool, _super);
+
+    function Tool() {
+      return Tool.__super__.constructor.apply(this, arguments);
+    }
+
+    Tool.prototype.initialize = function() {
+      this.layer = this.options.layer;
+      return this.color = this.options.color;
+    };
+
+    Tool.prototype.key = function(pos) {
+      return "" + pos.x + "x" + pos.z;
+    };
+
+    return Tool;
+
+  })(Backbone.View);
+
+  module.exports = Tool;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/Tool/Line.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var Line, line, point, _ref,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  _ref = appRequire("Geometry"), point = _ref.point, line = _ref.line;
+
+  Line = (function(_super) {
+
+    __extends(Line, _super);
+
+    function Line() {
+      return Line.__super__.constructor.apply(this, arguments);
+    }
+
+    Line.prototype.first = function(pos) {
+      this.p1 = pos;
+      return this._marks = [];
+    };
+
+    Line.prototype.next = function(pos) {
+      this.p2 = pos;
+      this.layer.clearCells(this._marks);
+      this._marks = line(this.p1, this.p2);
+      return this.layer.drawCells(this._marks);
+    };
+
+    Line.prototype.last = function() {
+      this.layer.setCells(this._marks);
+      return this.trigger("done");
+    };
+
+    Line.prototype.abort = function() {
+      return this.last();
+    };
+
+    return Line;
+
+  })(require("./Tool"));
+
+  module.exports = Line;
+
+}).call(this);
+
+});
+require.register("schematic.io/lib/Tool/Pencil.js", function(module, exports, require){
+// Generated by CoffeeScript 1.3.3
+(function() {
+  var Pencil,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Pencil = (function(_super) {
+
+    __extends(Pencil, _super);
+
+    function Pencil() {
+      return Pencil.__super__.constructor.apply(this, arguments);
+    }
+
+    Pencil.prototype.first = function(pos) {
+      return this._marks = [];
+    };
+
+    Pencil.prototype.next = function(pos) {
+      this._marks.push(pos);
+      return this.layer.drawCell(pos);
+    };
+
+    Pencil.prototype.last = function(pos) {
+      this._marks.push(pos);
+      return this.done();
+    };
+
+    Pencil.prototype.done = function() {
+      this.layer.setCells(this._marks);
+      return this.trigger("done");
+    };
+
+    Pencil.prototype.abort = function() {
+      return this.done();
+    };
+
+    return Pencil;
+
+  })(require("./Tool"));
+
+  module.exports = Pencil;
 
 }).call(this);
 
