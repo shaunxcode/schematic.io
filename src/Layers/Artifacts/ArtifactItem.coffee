@@ -10,9 +10,11 @@ class ArtifactItem extends Backbone.View
 		this
 	
 	edit: ->
+		Backbone.trigger "artifact:#{@model.get "layer"}:edit", @model
+
 		$(".artifact").removeClass "active"
 		@$el.addClass "active"
 
-		Backbone.trigger "artifact:edit", @model
+
 
 module.exports = ArtifactItem

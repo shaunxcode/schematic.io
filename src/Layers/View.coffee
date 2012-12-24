@@ -11,7 +11,9 @@ class View extends Backbone.View
         @settings = @options.settings
         @children = []
         @listenTo @collection, "add", @addLayer
-        
+        @listenTo Backbone, "artifact:doneEditing", => 
+            @$(".artifact").removeClass("active")
+
     newLayer: ->
         @collection.add
             show: true

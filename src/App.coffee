@@ -30,7 +30,7 @@ App =
 
 			$(window).on "spliter.resize", -> Backbone.trigger "AppResized"
 
-			$vspliter = $("#center").split orientation:"horizontal", position: "77%"
+			$vspliter = $("#center").split orientation:"horizontal", position: "90%", limit: 0
 			$hspliter = $("#panels").split orientation:"vertical", position: "50%"
 
 			size = 16
@@ -79,6 +79,6 @@ App =
 				@layerStack.$el.css height: $layerStackHolder.height() - @HUD.$el.height()
 
 			Backbone.trigger "AppResized"
-			
+
 window.App = App
 module.exports = App

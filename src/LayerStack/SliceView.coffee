@@ -28,17 +28,24 @@ class View extends Backbone.View
         z: (Math.floor event.offsetY / @cellSize) - @height
 
     editArtifact: (artifact) -> 
-        tool = artifact.get "tool"
         if @editTool then @editTool.abort()
         
+        tool = artifact.get "tool"
+
         if toolView = tools[tool]
             @editTool = new toolView
                 model: artifact
                 layer: @
 
+            if not @editTool.edit?
+                @editTool.remove()
+                delete @editTool
+                return
+
             @editTool.edit()
             @listenTo @editTool, "done", => 
                 @editTool.remove()
+                Backbone.trigger "artifact:doneEditing"
                 delete @editTool
 
     startDraw: (event) ->
@@ -52,7 +59,7 @@ class View extends Backbone.View
 
         if tools[tool]
             @tool = new tools[tool] 
-                model: @model.artifacts.create {tool, color: @settings.get "color"} 
+                model: @model.artifacts.create {tool, color: @settings.get("color"), layer: @model.get("y")} 
                 layer: @
             
             @listenTo @tool, "done", =>
@@ -85,7 +92,7 @@ class View extends Backbone.View
         @listenTo @settings, "change:height", @drawGrid
         @listenTo @settings, "change:size", @drawGrid
         
-        @listenTo Backbone, "artifact:edit", @editArtifact
+        @listenTo Backbone, "artifact:#{@model.get "y"}:edit", @editArtifact
 
     render: ->
         @_props =
@@ -109,8 +116,9 @@ class View extends Backbone.View
             @$el.hide()
         
     makeActive: ->
-        @$el.siblings().css zIndex: 1
-        @$el.css zIndex: 999
+        @$el.siblings().hide()
+        @$el.show()
+        
 
     _drawPos: (pos, color) ->
         if color is "inherit"
