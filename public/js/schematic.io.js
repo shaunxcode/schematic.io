@@ -47537,7 +47537,8 @@ require.register("schematic.io/lib/App.js", function(module, exports, require){
         });
         $vspliter = $("#center").split({
           orientation: "horizontal",
-          position: "77%"
+          position: "90%",
+          limit: 0
         });
         $hspliter = $("#panels").split({
           orientation: "vertical",
@@ -48118,9 +48119,13 @@ require.register("schematic.io/lib/Layers/View.js", function(module, exports, re
     };
 
     View.prototype.initialize = function() {
+      var _this = this;
       this.settings = this.options.settings;
       this.children = [];
-      return this.listenTo(this.collection, "add", this.addLayer);
+      this.listenTo(this.collection, "add", this.addLayer);
+      return this.listenTo(Backbone, "artifact:doneEditing", function() {
+        return _this.$(".artifact").removeClass("active");
+      });
     };
 
     View.prototype.newLayer = function() {
@@ -48199,9 +48204,9 @@ require.register("schematic.io/lib/Layers/Artifacts/ArtifactItem.js", function(m
     };
 
     ArtifactItem.prototype.edit = function() {
+      Backbone.trigger("artifact:" + (this.model.get("layer")) + ":edit", this.model);
       $(".artifact").removeClass("active");
-      this.$el.addClass("active");
-      return Backbone.trigger("artifact:edit", this.model);
+      return this.$el.addClass("active");
     };
 
     return ArtifactItem;
@@ -48409,18 +48414,24 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     View.prototype.editArtifact = function(artifact) {
       var tool, toolView,
         _this = this;
-      tool = artifact.get("tool");
       if (this.editTool) {
         this.editTool.abort();
       }
+      tool = artifact.get("tool");
       if (toolView = tools[tool]) {
         this.editTool = new toolView({
           model: artifact,
           layer: this
         });
+        if (!(this.editTool.edit != null)) {
+          this.editTool.remove();
+          delete this.editTool;
+          return;
+        }
         this.editTool.edit();
         return this.listenTo(this.editTool, "done", function() {
           _this.editTool.remove();
+          Backbone.trigger("artifact:doneEditing");
           return delete _this.editTool;
         });
       }
@@ -48440,7 +48451,8 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
         this.tool = new tools[tool]({
           model: this.model.artifacts.create({
             tool: tool,
-            color: this.settings.get("color")
+            color: this.settings.get("color"),
+            layer: this.model.get("y")
           }),
           layer: this
         });
@@ -48481,7 +48493,7 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
       this.listenTo(this.settings, "change:width", this.drawGrid);
       this.listenTo(this.settings, "change:height", this.drawGrid);
       this.listenTo(this.settings, "change:size", this.drawGrid);
-      return this.listenTo(Backbone, "artifact:edit", this.editArtifact);
+      return this.listenTo(Backbone, "artifact:" + (this.model.get("y")) + ":edit", this.editArtifact);
     };
 
     View.prototype.render = function() {
@@ -48505,12 +48517,8 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.makeActive = function() {
-      this.$el.siblings().css({
-        zIndex: 1
-      });
-      return this.$el.css({
-        zIndex: 999
-      });
+      this.$el.siblings().hide();
+      return this.$el.show();
     };
 
     View.prototype._drawPos = function(pos, color) {
@@ -48944,7 +48952,6 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
         _this = this;
       this._ogp1 = this.model.get("p1");
       this._ogp2 = this.model.get("p2");
-      console.log(JSON.stringify(this._ogp1));
       this.p1 = this.model.get("p1");
       this.p2 = this.model.get("p2");
       this._marks = line(this.p1, this.p2);
@@ -48960,7 +48967,6 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
         }
       }).button({
         Cancel: function() {
-          console.log(JSON.stringify(_this._ogp1));
           _this.p1 = _this._ogp1;
           _this.p2 = _this._ogp2;
           _this.drawLine();
