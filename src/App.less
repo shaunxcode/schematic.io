@@ -1,4 +1,5 @@
 @import "../vendor/bootstrap/bootstrap.less";
+@darkcolor: #252b30;
 
 body { 
     margin: 0;
@@ -61,7 +62,7 @@ body {
     }
     .clearfix;
     z-index: 200;
-    background: #252b30;
+    background: @darkcolor;
     color: #fff;
 
     .materials {
@@ -134,6 +135,10 @@ body {
         li {
             overflow: hidden;
         }
+
+        .artifact.active {
+            background: #ccc;
+        }
     }
 
     > ul > li { 
@@ -168,21 +173,40 @@ body {
     }
 }
 
+.layerStackHolder {
+    overflow: hidden;
+    .HUD {
+        border-top: 1px solid @darkcolor;
+        bottom: 0px;
+        background: rgba(0,0,0,0.2);
+        height: 3em;
+
+        button {
+            margin: 5px; 
+            float: right;
+        }
+    }
+}
 .layerStack {
     z-index: 90;
     background: #f6f6f6;
     position: relative;
-
+    overflow: auto;
+    height: 95%;
     .grid {
-        background: rgba(255, 255, 255, 0.5);
-    }
-
-    .cells {
         background: rgba(255, 255, 255, 0);
     }
 
+    .cells {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .tool {
+        background: rgba(255, 255, 255, 0.5);   
+    }
+    
+
     canvas {
-        
         position: absolute; 
         left: 0;
         top: 0;

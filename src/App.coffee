@@ -19,6 +19,7 @@ PaletteView = appRequire "Palette/View"
 LayerStackView = appRequire "LayerStack/View"
 ConsoleView = appRequire "Console/View"
 PreviewView = appRequire "Preview/View"
+HUDView = appRequire "HUD/View"
 
 App =
 	init: ->
@@ -68,5 +69,16 @@ App =
 
 			layersCollection.add show: true, name: "layer 1", y: 0
 
+			@HUD = new HUDView
+				el: $(".HUD")
+				settings: settings
+			@HUD.render()
+
+			$layerStackHolder = $(".layerStackHolder")
+			Backbone.on AppResized: =>
+				@layerStack.$el.css height: $layerStackHolder.height() - @HUD.$el.height()
+
+			Backbone.trigger "AppResized"
+			
 window.App = App
 module.exports = App

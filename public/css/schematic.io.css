@@ -6449,6 +6449,10 @@ body {
   overflow: hidden
 }
 
+.layers .Artifacts .artifact.active {
+  background: #ccc
+}
+
 .layers > ul > li {
   padding: 10px;
   cursor: pointer;
@@ -6482,18 +6486,40 @@ body {
   margin-right: auto
 }
 
+.layerStackHolder {
+  overflow: hidden
+}
+
+.layerStackHolder .HUD {
+  border-top: 1px solid #252b30;
+  bottom: 0px;
+  background: rgba(0, 0, 0, 0.2);
+  height: 3em
+}
+
+.layerStackHolder .HUD button {
+  margin: 5px;
+  float: right
+}
+
 .layerStack {
   z-index: 90;
   background: #f6f6f6;
-  position: relative
+  position: relative;
+  overflow: auto;
+  height: 95%
 }
 
 .layerStack .grid {
-  background: rgba(255, 255, 255, 0.5)
+  background: rgba(255, 255, 255, 0)
 }
 
 .layerStack .cells {
-  background: rgba(255, 255, 255, 0)
+  background: rgba(255, 255, 255, 0.5)
+}
+
+.layerStack .tool {
+  background: rgba(255, 255, 255, 0.5)
 }
 
 .layerStack canvas {

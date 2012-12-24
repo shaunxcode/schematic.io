@@ -27,7 +27,23 @@ class View extends Backbone.View
         x: (Math.floor event.offsetX / @cellSize) - @width
         z: (Math.floor event.offsetY / @cellSize) - @height
 
+    editArtifact: (artifact) -> 
+        tool = artifact.get "tool"
+        if @editTool then @editTool.abort()
+        
+        if toolView = tools[tool]
+            @editTool = new toolView
+                model: artifact
+                layer: @
+
+            @editTool.edit()
+            @listenTo @editTool, "done", => 
+                @editTool.remove()
+                delete @editTool
+
     startDraw: (event) ->
+        if @editTool
+            return
 
         tool = @settings.get "tool"
 
@@ -69,14 +85,17 @@ class View extends Backbone.View
         @listenTo @settings, "change:height", @drawGrid
         @listenTo @settings, "change:size", @drawGrid
         
+        @listenTo Backbone, "artifact:edit", @editArtifact
+
     render: ->
-        _props =
+        @_props =
             width: @width * @cellSize * 2
             height: @height * @cellSize * 2
 
         @$el.append(
-            @$gridCanvas = $("<canvas />").addClass("grid").prop _props
-            @$cellCanvas = $("<canvas />").addClass("cells").prop _props)
+            @$cellCanvas = $("<canvas />").addClass("cells").prop @_props
+            @$gridCanvas = $("<canvas />").addClass("grid").prop @_props)
+            
 
         @gridCtx = @$gridCanvas[0].getContext "2d"
         @cellCtx = @$cellCanvas[0].getContext "2d"
@@ -128,6 +147,12 @@ class View extends Backbone.View
     setCells: (cells) ->
         for cell in cells 
             @model.set key(cell), @settings.get("color")
+
+    clearMarks: (cells) ->
+        for cell in cells 
+            @model.set key(cell), false
+            cell.y = @model.get "y"
+            @clearCell cell
 
     drawGrid: ->
         @gridCtx.strokeStyle = "black"
