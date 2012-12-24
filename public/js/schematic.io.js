@@ -48923,7 +48923,10 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
       });
       this.layer.setCells(this._marks);
       this.trigger("done");
-      return (_ref1 = this.editLayer) != null ? _ref1.remove() : void 0;
+      if ((_ref1 = this.editLayer) != null) {
+        _ref1.remove();
+      }
+      return App.HUD.clear();
     };
 
     Line.prototype.abort = function() {
@@ -48939,6 +48942,9 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
     Line.prototype.edit = function() {
       var dragPoint, dragging, gridToPx, layer, linePoints, p1handle, p2handle, pline, setupControls, size, sizeHalf, stage, width,
         _this = this;
+      this._ogp1 = this.model.get("p1");
+      this._ogp2 = this.model.get("p2");
+      console.log(JSON.stringify(this._ogp1));
       this.p1 = this.model.get("p1");
       this.p2 = this.model.get("p2");
       this._marks = line(this.p1, this.p2);
@@ -48954,7 +48960,11 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
         }
       }).button({
         Cancel: function() {
-          return console.log("cancel");
+          console.log(JSON.stringify(_this._ogp1));
+          _this.p1 = _this._ogp1;
+          _this.p2 = _this._ogp2;
+          _this.drawLine();
+          return _this.last();
         }
       });
       gridToPx = function(v) {

@@ -15,6 +15,7 @@ class Line extends require("./Tool")
 		@layer.setCells @_marks
 		@trigger "done"
 		@editLayer?.remove()
+		App.HUD.clear()
 
 	abort: ->
 		@last()
@@ -25,6 +26,9 @@ class Line extends require("./Tool")
 		@layer.drawCells @_marks
 
 	edit: ->
+		@_ogp1 = @model.get "p1"
+		@_ogp2 = @model.get "p2"
+
 		@p1 = @model.get "p1"
 		@p2 = @model.get "p2"
 		@_marks = line @p1, @p2
@@ -40,7 +44,11 @@ class Line extends require("./Tool")
 		App.HUD
 			.clear()
 			.button(OK: => @last())
-			.button(Cancel: -> console.log "cancel")
+			.button(Cancel: => 
+				@p1 = @_ogp1
+				@p2 = @_ogp2
+				@drawLine()
+				@last())
 
 		gridToPx = (v) ->
 			((v + width) * size) + sizeHalf
