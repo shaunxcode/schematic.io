@@ -48944,7 +48944,6 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
         _this = this;
       this._ogp1 = this.model.get("p1");
       this._ogp2 = this.model.get("p2");
-      console.log(JSON.stringify(this._ogp1));
       this.p1 = this.model.get("p1");
       this.p2 = this.model.get("p2");
       this._marks = line(this.p1, this.p2);
@@ -48960,7 +48959,6 @@ require.register("schematic.io/lib/Tool/Line.js", function(module, exports, requ
         }
       }).button({
         Cancel: function() {
-          console.log(JSON.stringify(_this._ogp1));
           _this.p1 = _this._ogp1;
           _this.p2 = _this._ogp2;
           _this.drawLine();

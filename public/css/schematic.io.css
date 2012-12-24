@@ -6360,7 +6360,13 @@ body {
 .spliter_panel .left_panel {
   -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25)
+  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
+  background-color: #fcfcfc;
+  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#ffffff), to(#fcfcfc));
+  background-image: -webkit-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-image: -moz-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-image: -o-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-repeat: no-repeat
 }
 .colorpicker {
   width: 356px;
