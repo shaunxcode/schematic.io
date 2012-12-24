@@ -149,7 +149,10 @@ class View extends Backbone.View
             Backbone.trigger "preview.addBlock", {pos, color: color.hex}
 
     drawCells: (cells) ->
-        @drawCell cell for cell in cells
+        drawn = {}
+        for cell in cells when not drawn[key cell]?
+            drawn[key cell] = true
+            @drawCell cell 
 
     clearCells: (cells) ->
         @clearCell cell for cell in cells

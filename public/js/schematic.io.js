@@ -48574,10 +48574,15 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.drawCells = function(cells) {
-      var cell, _i, _len, _results;
+      var cell, drawn, _i, _len, _results;
+      drawn = {};
       _results = [];
       for (_i = 0, _len = cells.length; _i < _len; _i++) {
         cell = cells[_i];
+        if (!(!(drawn[key(cell)] != null))) {
+          continue;
+        }
+        drawn[key(cell)] = true;
         _results.push(this.drawCell(cell));
       }
       return _results;
