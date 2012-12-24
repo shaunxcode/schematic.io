@@ -41,12 +41,20 @@ class View extends Backbone.View
             @scene.remove b
             delete @blocks["#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"]
 
-    clearLayer: (layer) ->
+    _byLayer: (layer, cb) ->
         for i in [@scene.__objects.length - 1..0] by -1
             obj = @scene.__objects[i]
             if obj?.blockPos?.y is layer
-                @scene.remove obj
+                cb obj
 
+    clearLayer: (layer) ->
+        @_byLayer layer, (obj) => @scene.remove obj
+
+    showLayer: (layer) ->
+        @_byLayer layer, (obj) -> obj.visible = true
+
+    hideLayer: (layer) ->
+        @_byLayer layer, (obj) -> obj.visible = false
 
     render: ->
         size = @settings.get "size"
@@ -104,6 +112,8 @@ class View extends Backbone.View
         @listenTo Backbone, "preview:addBlock", @addBlock
         @listenTo Backbone, "preview:clearBlock", @clearBlock
         @listenTo Backbone, "preview:removeLayer", @clearLayer
+        @listenTo Backbone, "preview:showLayer", @showLayer
+        @listenTo Backbone, "preview:hideLayer", @hideLayer
 
     resizeCanvas: ->
         width = @$el.width()

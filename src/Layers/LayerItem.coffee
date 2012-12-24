@@ -62,12 +62,15 @@ class LayerItem extends Backbone.View
         console.log "duplicate"
 
     showOrHide: (e) ->
+        e.stopPropagation()
         if @model.get "show"
             @model.set show: false
             @$show.text "show"
+            Backbone.trigger "preview:hideLayer", @model.get "y"
         else
             @model.set show: true
             @$show.text "hide"
+            Backbone.trigger "preview:showLayer", @model.get "y"
             
     remove: ->
         super()

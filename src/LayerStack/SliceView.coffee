@@ -112,14 +112,17 @@ class View extends Backbone.View
         
     toggleShow: ->
         if @model.get "show"
+            @$el.removeClass "notShown"
             @$el.show()
         else
+            @$el.addClass "notShown"
             @$el.hide()
         
     makeActive: ->
+        return if not @model.get "show"
         @$el.nextAll().hide()
         @$el.show()
-        @$el.prevAll().show()
+        @$el.prevAll().not(".notShown").show()
         
 
     _drawPos: (pos, color) ->

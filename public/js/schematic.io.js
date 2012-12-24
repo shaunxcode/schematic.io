@@ -48076,16 +48076,19 @@ require.register("schematic.io/lib/Layers/LayerItem.js", function(module, export
     };
 
     LayerItem.prototype.showOrHide = function(e) {
+      e.stopPropagation();
       if (this.model.get("show")) {
         this.model.set({
           show: false
         });
-        return this.$show.text("show");
+        this.$show.text("show");
+        return Backbone.trigger("preview:hideLayer", this.model.get("y"));
       } else {
         this.model.set({
           show: true
         });
-        return this.$show.text("hide");
+        this.$show.text("hide");
+        return Backbone.trigger("preview:showLayer", this.model.get("y"));
       }
     };
 
@@ -48520,17 +48523,24 @@ require.register("schematic.io/lib/LayerStack/SliceView.js", function(module, ex
     };
 
     View.prototype.toggleShow = function() {
+      console.log("TOGGLE");
       if (this.model.get("show")) {
+        this.$el.removeClass("notShown");
         return this.$el.show();
       } else {
+        this.$el.addClass("notShown");
+        console.log(this.$el);
         return this.$el.hide();
       }
     };
 
     View.prototype.makeActive = function() {
+      if (!this.model.get("show")) {
+        return;
+      }
       this.$el.nextAll().hide();
       this.$el.show();
-      return this.$el.prevAll().show();
+      return this.$el.prevAll().not(".notShown").show();
     };
 
     View.prototype._drawPos = function(pos, color) {
@@ -48796,18 +48806,37 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
       }
     };
 
-    View.prototype.clearLayer = function(layer) {
+    View.prototype._byLayer = function(layer, cb) {
       var i, obj, _i, _ref, _ref1, _results;
       _results = [];
       for (i = _i = _ref = this.scene.__objects.length - 1; _i >= 0; i = _i += -1) {
         obj = this.scene.__objects[i];
         if ((obj != null ? (_ref1 = obj.blockPos) != null ? _ref1.y : void 0 : void 0) === layer) {
-          _results.push(this.scene.remove(obj));
+          _results.push(cb(obj));
         } else {
           _results.push(void 0);
         }
       }
       return _results;
+    };
+
+    View.prototype.clearLayer = function(layer) {
+      var _this = this;
+      return this._byLayer(layer, function(obj) {
+        return _this.scene.remove(obj);
+      });
+    };
+
+    View.prototype.showLayer = function(layer) {
+      return this._byLayer(layer, function(obj) {
+        return obj.visible = true;
+      });
+    };
+
+    View.prototype.hideLayer = function(layer) {
+      return this._byLayer(layer, function(obj) {
+        return obj.visible = false;
+      });
     };
 
     View.prototype.render = function() {
@@ -48858,7 +48887,9 @@ require.register("schematic.io/lib/Preview/View.js", function(module, exports, r
       this.resizeCanvas();
       this.listenTo(Backbone, "preview:addBlock", this.addBlock);
       this.listenTo(Backbone, "preview:clearBlock", this.clearBlock);
-      return this.listenTo(Backbone, "preview:removeLayer", this.clearLayer);
+      this.listenTo(Backbone, "preview:removeLayer", this.clearLayer);
+      this.listenTo(Backbone, "preview:showLayer", this.showLayer);
+      return this.listenTo(Backbone, "preview:hideLayer", this.hideLayer);
     };
 
     View.prototype.resizeCanvas = function() {
