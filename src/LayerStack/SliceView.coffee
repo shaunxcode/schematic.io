@@ -1,6 +1,7 @@
 tools = 
     pencil: appRequire "Tool/Pencil"
     line: appRequire "Tool/Line"
+    square: appRequire "Tool/Square"
 
 key = (pos) -> "#{pos.x}x#{pos.z}"
 
@@ -116,8 +117,9 @@ class View extends Backbone.View
             @$el.hide()
         
     makeActive: ->
-        @$el.siblings().hide()
+        @$el.nextAll().hide()
         @$el.show()
+        @$el.prevAll().show()
         
 
     _drawPos: (pos, color) ->

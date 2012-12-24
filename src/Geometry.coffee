@@ -31,7 +31,16 @@ line = (p1, p2) ->
     points
 
 rect = (p1, p2) ->
-    points = []
+    a = p1
+    b = x: p2.x, z: p1.z
+    c = p2
+    d = x: p1.x, z: p2.z
+
+    line(a, b)
+        .concat(line b, c)
+        .concat(line c, d)
+        .concat(line d, a)
+
 
 #http://en.wikipedia.org/wiki/Midpoint_circle_algorithm
 plot4points = (cx, cz, x, z) ->
