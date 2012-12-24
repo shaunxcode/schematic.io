@@ -59,6 +59,7 @@ class LayerItem extends Backbone.View
         @$el.addClass "active"
         
     duplicate: (e) ->
+        console.log @model
         console.log "duplicate"
 
     showOrHide: (e) ->

@@ -2,7 +2,8 @@ tools =
     pencil: appRequire "Tool/Pencil"
     line: appRequire "Tool/Line"
     square: appRequire "Tool/Square"
-
+    circle: appRequire "Tool/Circle"
+    
 key = (pos) -> "#{pos.x}x#{pos.z}"
 
 special = 

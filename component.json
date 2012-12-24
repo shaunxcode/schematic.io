@@ -38,7 +38,8 @@
 		"lib/Tool/Tool.js",
 		"lib/Tool/Line.js",
 		"lib/Tool/Pencil.js",
-		"lib/Tool/Square.js"
+		"lib/Tool/Square.js",
+		"lib/Tool/Circle.js"
 	],
 
 	"styles": [
