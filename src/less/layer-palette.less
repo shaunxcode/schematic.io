@@ -25,13 +25,16 @@
         border-top: 1px solid #d8d8d8;
     }
     li.active {
-        background: #efefef;
+        background: @white;
         color: @blueText;
+        border-bottom: 2px solid @blueText;
+        padding-bottom: 4px;
     }
     
     .Artifacts {
         font-size: 90%;
         overflow: hidden;
+        color: @lightGray;
         .arrow {
             margin-right: 5px; 
             font-size: 90%; 
@@ -44,15 +47,20 @@
         }
 
         .artifact.active {
-            background: #ccc;
+            background: @yellowHighlight;
+            padding: 0px 6px;
+            border: 1px dashed @yellowHighlightBorder;
+            .border-radius(3px);
+            display: inline-block;
+            color: @blueText;
         }
     }
 
     > ul > li { 
-        padding: 10px;
-
+        color: @lightGray;
+        padding: 5px 0px 5px 5px;
         cursor: pointer;
-        border-bottom: 1px solid #d8d8d8;
+        border-bottom: 1px solid @lightGray;
         width: 100%;
         
         .expansionToggle {

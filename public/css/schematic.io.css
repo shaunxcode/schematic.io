@@ -6221,13 +6221,16 @@ a.badge:hover {
 }
 
 .layers li.active {
-  background: #efefef;
-  color: #0785ff
+  background: #ffffff;
+  color: #0785ff;
+  border-bottom: 2px solid #0785ff;
+  padding-bottom: 4px
 }
 
 .layers .Artifacts {
   font-size: 90%;
-  overflow: hidden
+  overflow: hidden;
+  color: #b2b2b2
 }
 
 .layers .Artifacts .arrow {
@@ -6242,13 +6245,21 @@ a.badge:hover {
 }
 
 .layers .Artifacts .artifact.active {
-  background: #ccc
+  background: #fffdba;
+  padding: 0px 6px;
+  border: 1px dashed #cccba9;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  display: inline-block;
+  color: #0785ff
 }
 
 .layers > ul > li {
-  padding: 10px;
+  color: #b2b2b2;
+  padding: 5px 0px 5px 5px;
   cursor: pointer;
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 1px solid #b2b2b2;
   width: 100%;
   overflow: hidden
 }
