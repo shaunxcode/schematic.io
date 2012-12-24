@@ -6090,17 +6090,6 @@ a.badge:hover {
   position: fixed
 }
 
-body {
-  margin: 0;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: #f6f6f6
-}
-
 .palette {
   position: fixed;
   left: 0;
@@ -6197,15 +6186,6 @@ body {
   border: 2px solid #FA9A50
 }
 
-#center {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 50px;
-  right: 211px;
-  height: 100%
-}
-
 .layers {
   position: fixed;
   right: 0;
@@ -6241,7 +6221,8 @@ body {
 }
 
 .layers li.active {
-  background: #efefef
+  background: #efefef;
+  color: #0785ff
 }
 
 .layers .Artifacts {
@@ -6295,6 +6276,47 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto
+}
+
+.spliter_panel .hspliter,
+.spliter_panel .vspliter {
+  background-color: #e6e6e6;
+  -webkit-box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1)
+}
+
+.spliter_panel .right_panel,
+.spliter_panel .left_panel {
+  -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
+  background-color: #fcfcfc;
+  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#ffffff), to(#fcfcfc));
+  background-image: -webkit-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-image: -moz-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-image: -o-radial-gradient(circle, #ffffff, #fcfcfc);
+  background-repeat: no-repeat
+}
+
+body {
+  margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #f6f6f6
+}
+
+#center {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50px;
+  right: 211px;
+  height: 100%
 }
 
 .layerStackHolder {
@@ -6351,27 +6373,6 @@ body {
 
 .colorpicker input {
   line-height: 10px
-}
-
-.spliter_panel .hspliter,
-.spliter_panel .vspliter {
-  background-color: #e6e6e6;
-  -webkit-box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1)
-}
-
-.spliter_panel .right_panel,
-.spliter_panel .left_panel {
-  -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  background-color: #fcfcfc;
-  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#ffffff), to(#fcfcfc));
-  background-image: -webkit-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-image: -moz-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-image: -o-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-repeat: no-repeat
 }
 .colorpicker {
   width: 356px;

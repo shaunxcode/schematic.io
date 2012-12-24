@@ -1,0 +1,68 @@
+.palette {
+    .color {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        .selectedColor {
+            position: absolute; 
+            left: 4px;
+            top: 4px;
+            width: 28px;
+            height: 28px;
+        }
+        .inputMask {
+            background: url(../img/colorpicker/select.png);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 36px;
+            height: 36px;
+        }
+    }
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    .tools {
+        clear: both;
+        div {
+            border: 2px solid transparent; 
+            margin: 2px;
+            padding: 1px;
+
+            overflow: hidden;
+            cursor: pointer;
+            height: 32px;
+            overflow: hidden;
+            img { 
+                margin-top: -32px;
+            }
+        }
+        div.active img {
+            margin-top: 0px; 
+        }
+
+
+    }
+    .clearfix;
+    z-index: 200;
+    background: @darkcolor;
+    color: #fff;
+
+    .materials {
+        .clearfix;
+        div {
+            border: 2px solid transparent;
+            width: 20px; 
+            height: 20px; 
+            cursor: pointer; 
+            float: left; 
+            margin: 5px;
+        }
+        div.active { 
+            border: 2px solid #FA9A50;
+        }
+
+    }
+}
