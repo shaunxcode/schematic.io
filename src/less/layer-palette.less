@@ -1,0 +1,82 @@
+//Layers
+
+.layers {
+    .settings { display: none; }
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 210px;
+    z-index: 9999;
+    background: #fff;
+    border-left: 1px solid #d8d8d8;
+    input.width, input.height, input.size {
+        border: 1px solid #333; 
+        padding: 2px;
+        width: 30px;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    > ul { 
+        margin: 0;
+        margin-top: 0px; 
+        border-top: 1px solid #d8d8d8;
+    }
+    li.active {
+        background: @white;
+        color: @blueText;
+    }
+    
+    .Artifacts {
+        font-size: 90%;
+        overflow: hidden;
+        .arrow {
+            margin-right: 5px; 
+            font-size: 90%; 
+            width: 13px; 
+            cursor: pointer;
+        }
+        
+        li {
+            overflow: hidden;
+        }
+
+        .artifact.active {
+            background: #ccc;
+        }
+    }
+
+    > ul > li { 
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #d8d8d8;
+        width: 100%;
+        
+        .expansionToggle {
+            margin-right: 5px;
+            font-size: 90%;
+            width: 13px;
+            display: inline-block;
+        }
+
+        .buttons { 
+            float: right;
+            margin-right: 15px;
+            button { 
+                margin-right: 5px; 
+                float: left; }
+        }
+        overflow: hidden;
+    }
+    button.newLayer { 
+        margin-top: 5px; 
+        margin-bottom: 5px; 
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+}
