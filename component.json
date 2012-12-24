@@ -39,9 +39,9 @@
 	],
 
 	"styles": [
-		"vendor/colorpicker/colorpicker.css",
 		"vendor/jquery.splitter.css",
-		"lib/App.css"
+		"lib/App.css",
+		"vendor/colorpicker/colorpicker.css"
 
 	]
 }
