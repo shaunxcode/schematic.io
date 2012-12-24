@@ -217,4 +217,20 @@ body {
 .canvasHolder { 
     z-index: 80;
 }
-​
+
+.colorpicker {
+  input {
+    line-height: 10px;
+  }
+}
+//splitters
+.spliter_panel {
+  .hspliter, .vspliter {
+    background-color: lighten(@black, 90%);
+    .box-shadow(inset 0px 0px 2px rgba(0,0,0, 0.1));
+  }
+  .right_panel, .left_panel {
+    .box-shadow(inset 0px 0px 100px rgba(0, 0, 0, 0.25));
+    //#gradient > .vertical(@blue, @white);
+  }
+}
