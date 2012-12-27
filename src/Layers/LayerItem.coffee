@@ -6,11 +6,8 @@ ArtifactsView = require "./Artifacts/View"
 class LayerItem extends Backbone.View
     tagName: "li"
     events:
-        "mouseout": "hideButtons"
         "mouseenter": "showButtons"
-        "mouseenter span": "cancelHideButtons"
-        "mouseenter .buttons": "cancelHideButtons"
-        "mouseout .buttons": "cancelHideButtons"
+        "mouseleave": "hideButtons"
         "click .remove": "remove"
         "click .show": "showOrHide"
         "click .duplicate": "duplicate"
@@ -21,24 +18,22 @@ class LayerItem extends Backbone.View
         @artifacts = new ArtifactsView collection: @model.artifacts 
         @$el.text @model.get "name"
         @$el.prepend @$expansionToggle = $("<span />").addClass("expansionToggle").html rightArrow
+        @$el.prepend @$show = $("<button />").addClass "show"
         @$el.append(
             $("<div />").addClass("buttons").append(
-                @$show = $("<button />").text("h").addClass "show"
                 @$duplicate = $("<button />").text("d").addClass "duplicate"
-                @$remove = $("<button />").text("x").addClass "remove")
+                @$remove = $("<button />").addClass "remove")
             @artifacts.render().$el)
 
+        @$el.on
         @hideButtons()
         @isExpanded = false
         @artifacts.collapse()
+
         this
     
     hideButtons: ->
-        @hideTimeout = setTimeout (=> @$("button").css visibility: "hidden"), 10
-
-    cancelHideButtons: (e) ->
-        e.stopPropagation()
-        clearTimeout @hideTimeout
+        @$("button").css visibility: "hidden"
 
     toggleExpansion: ->
         if @isExpanded
@@ -66,11 +61,11 @@ class LayerItem extends Backbone.View
         e.stopPropagation()
         if @model.get "show"
             @model.set show: false
-            @$show.text "show"
+            @$show.addClass "hidden"
             Backbone.trigger "preview:hideLayer", @model.get "y"
         else
             @model.set show: true
-            @$show.text "hide"
+            @$show.removeClass "hidden"
             Backbone.trigger "preview:showLayer", @model.get "y"
             
     remove: ->

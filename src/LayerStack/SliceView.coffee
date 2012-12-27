@@ -3,6 +3,7 @@ tools =
     line: appRequire "Tool/Line"
     square: appRequire "Tool/Square"
     circle: appRequire "Tool/Circle"
+    arc: appRequire "Tool/Arc"
     
 key = (pos) -> "#{pos.x}x#{pos.z}"
 

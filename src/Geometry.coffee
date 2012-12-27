@@ -1,22 +1,76 @@
+#2D drawing helpers
+#note the use of z to reduce impedence mismatch when using 3d coord system in which y is vertical 
+
+#ported from http://mysite.verizon.net/res148h4j/javascript/script_circle_solver.html
+solveCircle = (A, B, C) ->
+    P = [
+        [A.x, A.z]
+        [B.x, B.z]
+        [C.x, C.z]]
+    
+    a = [[0,0,0],[0,0,0],[0,0,0]]
+    
+    for i in [0..2]
+        a[i][0] = P[i][0]
+        a[i][1] = P[i][1]
+        a[i][2] = 1
+
+    m11 = determinant a, 3
+
+    for i in [0..2]
+        a[i][0] = P[i][0]*P[i][0] + P[i][1]*P[i][1]
+        a[i][1] = P[i][1]
+        a[i][2] = 1
+    
+    m12 = determinant a, 3
+
+    for i in [0..2]
+        a[i][0] = P[i][0]*P[i][0] + P[i][1]*P[i][1];
+        a[i][1] = P[i][0]
+        a[i][2] = 1;
+
+    m13 = determinant a, 3
+
+    for i in [0..2]
+        a[i][0] = P[i][0]*P[i][0] + P[i][1]*P[i][1];
+        a[i][1] = P[i][0];
+        a[i][2] = P[i][1];
+
+    m14 = determinant a, 3
+
+    if m11 is 0
+        r = 0
+        x = 0
+        y = 0
+    else
+        x =  0.5 * m12 / m11
+        y = -0.5 * m13 / m11
+        r  = Math.sqrt x * x + y * y + m14 / m11
+
+    {center: {x: Math.floor(x), z: Math.floor(y)}, radius: Math.floor(r)}
+
+
+determinant = (a, n) ->
+    d = 0
+    m = [[0,0,0],[0,0,0],[0,0,0]]
+
+    if n is 2
+        d = a[0][0] * a[1][1] - a[1][0] * a[0][1]
+    else 
+        d = 0
+        for j1 in [0..n-1]
+            for i in [1..n-1]
+                j2 = 0;
+                for j in [0..n-1]
+                    continue if j is j1
+                    m[i-1][j2] = a[i][j]
+                    j2++
+            
+            d = d + Math.pow(-1.0, j1) * a[0][j1] * determinant( m, n-1 )
+    d
+
 lineLength = (A, B) -> 
     Math.sqrt (A.x -= B.x) * A.x + (A.z -= B.z) * A.z
-
-circleCenter = (A, B, C) -> 
-    yDelta_a = B.z - A.z
-    xDelta_a = B.x - A.x
-    yDelta_b = C.z - B.z
-    xDelta_b = C.x - B.x
-    aSlope = yDelta_a / xDelta_a
-    bSlope = yDelta_b / xDelta_b  
-    
-    center = {}
-    center.x = aSlope * bSlope * (A.z - C.z) + bSlope * (A.x + B.x) - aSlope * (B.x + C.x) / (2 * (bSlope - aSlope))        
-    center.z = -1 * (center.x - (A.x + B.x) / 2) / aSlope + (A.z + B.z) / 2
-
-    center
-
-#2D drawing helpers
-#ote the use of z to reduce impedence mismatch when using 3d coord system in which y is vertical 
 
 point = (x, z) -> {x, z}
 
@@ -60,11 +114,20 @@ rect = (p1, p2) ->
 
 
 #http://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+addPoint = (points, x, z, startPoint, stopPoint) ->
+    if startPoint and stopPoint
+        if (z > startPoint.z and z > stopPoint.z) or (x > stopPoint.x)
+            return
+        
+
+    points.push point x, z
+
 plot4points = (cx, cz, x, z, startPoint, stopPoint) ->
-    points = [point cx + x, cz + z]
-    if x isnt 0 then points.push point cx - x, cz + z
-    if z isnt 0 then points.push point cx + x, cz - z
-    if x isnt 0 and z isnt 0 then points.push point cx - x, cz - z
+    points = []
+    addPoint points, cx + x, cz + z, startPoint, stopPoint
+    if x isnt 0 then addPoint points, cx - x, cz + z, startPoint, stopPoint
+    if z isnt 0 then addPoint points, cx + x, cz - z, startPoint, stopPoint
+    if x isnt 0 and z isnt 0 then addPoint points, cx - x, cz - z, startPoint, stopPoint
     points
     
 plot8points = (cx, cz, x, z, startPoint, stopPoint) ->
@@ -91,9 +154,9 @@ circle = (cp, radius, startPoint, stopPoint) ->
 
     points
 
-curve = (p1, p2, p3) ->
-    center = circleCenter p1, p2, p3
-    radius = lineLength p1, center
-    circle center, radius, p1, p3
+arc = (p1, p2, p3) ->
+    resolve = solveCircle p1, p2, p3
+    if resolve.radius 
+        circle resolve.center, resolve.radius, p1, p3
 
-module.exports = {point, line, rect, circle, curve}
+module.exports = {point, line, rect, circle, arc}

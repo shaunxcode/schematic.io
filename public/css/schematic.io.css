@@ -6271,6 +6271,37 @@ a.badge:hover {
   display: inline-block
 }
 
+.layers > ul > li button.show {
+  margin-top: 5px;
+  display: inline-block;
+  border: none;
+  float: left;
+  width: 14px;
+  height: 13px;
+  background-image: url("/img/shown-icon.png")
+}
+
+.layers > ul > li button.show.hidden {
+  background-image: url("/img/hidden-icon.png")
+}
+
+.layers > ul > li button.remove {
+  margin: top-5px;
+  display: inline-block;
+  border: none;
+  width: 12px;
+  height: 13px;
+  background-image: url("/img/trash-icon.png")
+}
+
+.layers > ul > li button.duplicate {
+  margin-top: 5px;
+  display: inline-block;
+  border: none;
+  width: 13px;
+  height: 13px
+}
+
 .layers > ul > li .buttons {
   float: right;
   margin-right: 15px
