@@ -56,6 +56,15 @@ class View extends Backbone.View
     hideLayer: (layer) ->
         @_byLayer layer, (obj) -> obj.visible = false
 
+    clearCells: (artifact) ->
+        points = {}
+        for point in artifact.getPoints()
+            points["#{point.x}x#{point.z}"] = true
+
+        @_byLayer artifact.get("layer"), (obj) =>
+            if obj?.blockPos? and points["#{obj.blockPos.x}x#{obj.blockPos.z}"]?
+                @clearBlock pos: obj.blockPos
+
     render: ->
         size = @settings.get "size"
 
@@ -114,6 +123,7 @@ class View extends Backbone.View
         @listenTo Backbone, "preview:removeLayer", @clearLayer
         @listenTo Backbone, "preview:showLayer", @showLayer
         @listenTo Backbone, "preview:hideLayer", @hideLayer
+        @listenTo Backbone, "preview:clearCells", @clearCells
 
     resizeCanvas: ->
         width = @$el.width()

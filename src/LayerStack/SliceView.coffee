@@ -101,7 +101,8 @@ class View extends Backbone.View
 
     hideArtifact: (artifact) ->
         @clearMarks artifact.getPoints()
-
+        Backbone.trigger "preview:clearCells", artifact 
+        
     showArtifact: (artifact) ->
         @drawCells artifact.getPoints()
 
