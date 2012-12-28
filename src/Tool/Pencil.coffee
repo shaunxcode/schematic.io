@@ -1,13 +1,19 @@
 class Pencil extends require("./Tool")
 	first: (pos) ->
 		@_marks = []
+		@_seen = {}
 
 	next: (pos) ->
+		return if @_seen[@key pos]
+
+		@_seen[@key pos] = true
 		@_marks.push pos
 		@layer.drawCell pos
 
 	last: (pos) ->
-		@_marks.push pos
+		if not @_seen[@key pos]
+			@_marks.push pos
+
 		@done()
 
 	done: ->

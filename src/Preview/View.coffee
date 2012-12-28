@@ -19,7 +19,8 @@ class View extends Backbone.View
         @blocks = {}
 
     addBlock: (block) ->
-        
+        bid = "#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"
+
         material = new THREE.MeshLambertMaterial
             color: parseInt "0x#{block.color}"
             ambient: 0x00ff80
@@ -33,7 +34,7 @@ class View extends Backbone.View
         c.blockPos = block.pos
 
         @scene.add c
-        @blocks["#{block.pos.x}x#{block.pos.z}x#{block.pos.y}"] = c
+        @blocks[bid] = c
         c
 
     clearBlock: (block) ->
@@ -61,6 +62,7 @@ class View extends Backbone.View
         for point in artifact.getPoints()
             points["#{point.x}x#{point.z}"] = true
 
+        console.log @scene.__objects.length
         @_byLayer artifact.get("layer"), (obj) =>
             if obj?.blockPos? and points["#{obj.blockPos.x}x#{obj.blockPos.z}"]?
                 @clearBlock pos: obj.blockPos

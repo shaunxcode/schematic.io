@@ -102,7 +102,7 @@ class View extends Backbone.View
     hideArtifact: (artifact) ->
         @clearMarks artifact.getPoints()
         Backbone.trigger "preview:clearCells", artifact 
-        
+
     showArtifact: (artifact) ->
         @drawCells artifact.getPoints()
 
@@ -154,7 +154,7 @@ class View extends Backbone.View
 
     clearCell: (pos) ->
         color = @model.get key pos
-        
+        #console.log pos, color
         Backbone.trigger "preview:clearBlock", {pos}
         if not color
             @_drawPos pos, "inherit"
