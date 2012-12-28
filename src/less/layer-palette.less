@@ -83,13 +83,17 @@
             display: inline-block;
         }
 
-        button.show {
+        button {
+            background-color: inherit;
             margin-top: 5px;
             display: inline-block;
             border: none;
+            width: 16px;
+            height: 16px;
+        }
+
+        button.show {
             float: left;
-            width: 14px;
-            height: 13px;
             background-image: url(../img/shown-icon.png);
         }
 
@@ -98,27 +102,20 @@
         }
 
         button.remove {
-            margin: top-5px;
-            display: inline-block;
-            border: none;
-            width: 12px;
-            height: 13px;
             background-image: url(../img/trash-icon.png);
         }   
 
         button.duplicate {
-            margin-top: 5px;
-            display: inline-block;
-            border: none;
-            width: 13px;
-            height: 13px;
+            background-image: url(../img/duplicate-icon.png);
         }
+
         .buttons { 
             float: right;
             margin-right: 15px;
             button { 
                 margin-right: 5px; 
-                float: left; }
+                float: left; 
+            }
         }
         overflow: hidden;
     }

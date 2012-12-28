@@ -21,7 +21,7 @@ class LayerItem extends Backbone.View
         @$el.prepend @$show = $("<button />").addClass "show"
         @$el.append(
             $("<div />").addClass("buttons").append(
-                @$duplicate = $("<button />").text("d").addClass "duplicate"
+                @$duplicate = $("<button />").addClass "duplicate"
                 @$remove = $("<button />").addClass "remove")
             @artifacts.render().$el)
 

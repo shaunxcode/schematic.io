@@ -6285,13 +6285,17 @@ a.badge:hover {
   display: inline-block
 }
 
-.layers > ul > li button.show {
+.layers > ul > li button {
+  background-color: inherit;
   margin-top: 5px;
   display: inline-block;
   border: none;
+  width: 16px;
+  height: 16px
+}
+
+.layers > ul > li button.show {
   float: left;
-  width: 14px;
-  height: 13px;
   background-image: url("/img/shown-icon.png")
 }
 
@@ -6300,20 +6304,11 @@ a.badge:hover {
 }
 
 .layers > ul > li button.remove {
-  margin: top-5px;
-  display: inline-block;
-  border: none;
-  width: 12px;
-  height: 13px;
   background-image: url("/img/trash-icon.png")
 }
 
 .layers > ul > li button.duplicate {
-  margin-top: 5px;
-  display: inline-block;
-  border: none;
-  width: 13px;
-  height: 13px
+  background-image: url("/img/duplicate-icon.png")
 }
 
 .layers > ul > li .buttons {
