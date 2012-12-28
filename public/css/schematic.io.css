@@ -6244,15 +6244,29 @@ a.badge:hover {
   overflow: hidden
 }
 
+.layers .Artifacts .artifact {
+  margin-right: 15px
+}
+
 .layers .Artifacts .artifact.active {
   background: #fffdba;
-  padding: 0px 6px;
   border: 1px dashed #cccba9;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  display: inline-block;
   color: #0785ff
+}
+
+.layers .Artifacts button.show {
+  margin-right: 5px;
+  display: inline-block
+}
+
+.layers .Artifacts button.remove {
+  float: right;
+  margin-right: 5px;
+  display: inline-block;
+  margin-top: 3px
 }
 
 .layers > ul > li {

@@ -114,20 +114,20 @@ rect = (p1, p2) ->
 
 
 #http://en.wikipedia.org/wiki/Midpoint_circle_algorithm
-addPoint = (points, x, z, startPoint, stopPoint) ->
-    if startPoint and stopPoint
-        if (z > startPoint.z and z > stopPoint.z) or (x > stopPoint.x)
+addPoint = (cx, cz, points, x, z, startAngle, stopAngle) ->
+    if startAngle and stopAngle
+        pangle = angleFromCenter cx, cz, x, z
+        if not (pangle > startAngle and pangle < stopAngle)
             return
-        
 
     points.push point x, z
 
-plot4points = (cx, cz, x, z, startPoint, stopPoint) ->
+plot4points = (cx, cz, x, z, startAngle, stopAngle) ->
     points = []
-    addPoint points, cx + x, cz + z, startPoint, stopPoint
-    if x isnt 0 then addPoint points, cx - x, cz + z, startPoint, stopPoint
-    if z isnt 0 then addPoint points, cx + x, cz - z, startPoint, stopPoint
-    if x isnt 0 and z isnt 0 then addPoint points, cx - x, cz - z, startPoint, stopPoint
+    addPoint cx, cz, points, cx + x, cz + z, startAngle, stopAngle
+    if x isnt 0 then addPoint cx, cz, points, cx - x, cz + z, startAngle, stopAngle
+    if z isnt 0 then addPoint cx, cz, points, cx + x, cz - z, startAngle, stopAngle
+    if x isnt 0 and z isnt 0 then addPoint cx, cz, points, cx - x, cz - z, startAngle, stopAngle
     points
     
 plot8points = (cx, cz, x, z, startPoint, stopPoint) ->
@@ -135,14 +135,23 @@ plot8points = (cx, cz, x, z, startPoint, stopPoint) ->
     if x isnt z then points = points.concat plot4points cx, cz, z, x, startPoint, stopPoint
     points
     
+angleFromCenter = (cx, cz, px, pz) ->
+    Math.atan2 pz - cz, px - cx
+
 circle = (cp, radius, startPoint, stopPoint) ->
     {x: cx, z: cz} = cp
     error = -radius
     x = radius
     z = 0
     points = []
+    if startPoint and stopPoint
+        startAngle = angleFromCenter cx, cz, startPoint.x, startPoint.z
+        stopAngle = angleFromCenter cx, cz, stopPoint.x, stopPoint.z
+    else
+        stopAngle = startAngle = undefined
+
     while x >= z
-        points = points.concat plot8points cx, cz, x, z, startPoint, stopPoint
+        points = points.concat plot8points cx, cz, x, z, startAngle, stopAngle
        
         error += z
         ++z

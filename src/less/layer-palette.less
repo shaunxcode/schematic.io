@@ -46,13 +46,26 @@
             overflow: hidden;
         }
 
+        .artifact {
+            margin-right: 15px;
+        }
+
         .artifact.active {
             background: @yellowHighlight;
-            padding: 0px 6px;
             border: 1px dashed @yellowHighlightBorder;
             .border-radius(3px);
-            display: inline-block;
             color: @blueText;
+        }
+
+        button.show {
+            margin-right: 5px;
+            display: inline-block;
+        }
+        button.remove {
+            float: right;
+            margin-right: 5px;
+            display: inline-block;
+            margin-top: 3px;
         }
     }
 

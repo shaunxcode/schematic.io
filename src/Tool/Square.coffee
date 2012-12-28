@@ -26,6 +26,9 @@ class Square extends require("./Tool")
 		@layer.drawCells @_marks
 
 
+	points: ->
+		rect @model.get("p1"), @model.get("p2")
+		
 	edit: ->
 		@_ogp1 = @model.get "p1"
 		@_ogp2 = @model.get "p2"

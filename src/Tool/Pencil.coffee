@@ -15,6 +15,9 @@ class Pencil extends require("./Tool")
 		@model.set points: @_marks
 		@trigger "done"
 
+	points: ->
+		@model.get "points"
+		
 	abort: ->
 		@done()
 

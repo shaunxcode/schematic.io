@@ -26,6 +26,9 @@ class Circle extends require("./Tool")
 		@layer.drawCells @_marks
 
 
+	points: ->
+		circle @model.get("p1"), Math.abs @model.get("p2").x - @model.get("p1").x
+
 	edit: ->
 		@_ogp1 = @model.get "p1"
 		@_ogp2 = @model.get "p2"

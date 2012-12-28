@@ -1,9 +1,9 @@
 tools = 
-    pencil: appRequire "Tool/Pencil"
-    line: appRequire "Tool/Line"
-    square: appRequire "Tool/Square"
-    circle: appRequire "Tool/Circle"
-    arc: appRequire "Tool/Arc"
+    Pencil: appRequire "Tool/Pencil"
+    Line: appRequire "Tool/Line"
+    Square: appRequire "Tool/Square"
+    Circle: appRequire "Tool/Circle"
+    Arc: appRequire "Tool/Arc"
     
 key = (pos) -> "#{pos.x}x#{pos.z}"
 
@@ -62,7 +62,7 @@ class View extends Backbone.View
 
         if tools[tool]
             @tool = new tools[tool] 
-                model: @model.artifacts.create {tool, color: @settings.get("color"), layer: @model.get("y")} 
+                model: @model.artifacts.create {tool, color: @settings.get("color"), layer: @model.get("y"), show: true} 
                 layer: @
             
             @listenTo @tool, "done", =>
@@ -95,7 +95,15 @@ class View extends Backbone.View
         @listenTo @settings, "change:height", @drawGrid
         @listenTo @settings, "change:size", @drawGrid
         
+        @listenTo Backbone, "artifact:#{@model.get "y"}:hide", @hideArtifact
+        @listenTo Backbone, "artifact:#{@model.get "y"}:show", @showArtifact
         @listenTo Backbone, "artifact:#{@model.get "y"}:edit", @editArtifact
+
+    hideArtifact: (artifact) ->
+        @clearMarks artifact.getPoints()
+
+    showArtifact: (artifact) ->
+        @drawCells artifact.getPoints()
 
     render: ->
         @_props =

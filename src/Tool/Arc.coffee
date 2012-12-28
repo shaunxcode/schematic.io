@@ -96,17 +96,6 @@ class Arc extends require("./Tool")
 			fill: "black"
 			stroke: "black"
 			draggable: true
-			dragBoundFunc: (pos) =>
-				if pos.x < p1x
-					pos.x = p1x
-
-				if pos.x > p2x 
-					pos.x = p2x
-
-				if pos.y > p2z
-					pos.y = p2z
-
-				pos 
 
 		prect = new Kinetic.Rect
 			x: 0 

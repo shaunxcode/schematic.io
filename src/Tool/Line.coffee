@@ -25,6 +25,9 @@ class Line extends require("./Tool")
 		@_marks = line @p1, @p2
 		@layer.drawCells @_marks
 
+	points: ->
+		line @model.get("p1"), @model.get("p2")
+		
 	edit: ->
 		@_ogp1 = @model.get "p1"
 		@_ogp2 = @model.get "p2"

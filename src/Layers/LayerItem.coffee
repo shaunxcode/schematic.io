@@ -33,7 +33,7 @@ class LayerItem extends Backbone.View
         this
     
     hideButtons: ->
-        @$("button").css visibility: "hidden"
+        @$("button.duplicate, button.remove").css visibility: "hidden"
 
     toggleExpansion: ->
         if @isExpanded
