@@ -10,11 +10,11 @@
     <script type="text/javascript">require("schematic.io").init()</script>
 </head>
 <body>
+    <div class="header">
+        <div class="top"><img src="/img/logo.png"></div>
+        <div class="bottom"></div>
+    </div>
     <div class="palette">
-        <div class="color">
-                <div class="selectedColor"></div>
-                <div class="inputMask"></div>
-        </div>
         <div class="tools">
             <div data-tool="Pencil"><img src="/img/pencil-tool.png"></div>
             <div data-tool="Line"><img src="/img/line-tool.png"></div>
@@ -28,6 +28,10 @@
             <div data-tool="Grab"><img src="/img/grab-tool.png"></div> 
         </div>
         <div style="clear"></div>
+        <div class="color">
+                <div class="selectedColor"></div>
+                <div class="inputMask"></div>
+        </div>
     </div>
 
     <div id="center">
@@ -42,6 +46,9 @@
     </div>
 
     <div class="layers">
+        <div class"details">
+            <input type="text" placeholder="schematic name" class="Schematic-name" />
+        </div>
         <div class="settings">
         w: <input type="text" class="width"> 
         h: <input tyep="text" class="height"> 
@@ -51,5 +58,7 @@
         <ul></ul>
     </div>
 
+    <div class="search"></div>
+    <div class="signupin"></div>
 </body>​
 </html>

@@ -9,17 +9,32 @@ window.Backbone.$ = $
 vendorRequire "backbone.localStorage"
 vendorRequire "jquery.splitter"
 
-MaterialsCollection = dataRequire "Material/Collection"
-MaterialModel = dataRequire "Material/Model"
-LayersCollection = dataRequire "Layers/Collection"
+SchematicCollection = dataRequire "Schematic/Collection"
+SchematicModel = dataRequire "Schematic/Model"
 SettingsModel = dataRequire "Settings/Model"
 
-LayersView = appRequire "Layers/View"
 PaletteView = appRequire "Palette/View"
-LayerStackView = appRequire "LayerStack/View"
-ConsoleView = appRequire "Console/View"
+EditorView = appReuire "Editor/View"
 PreviewView = appRequire "Preview/View"
-HUDView = appRequire "HUD/View"
+LayersView = appRequire "Layers/View"
+ConsoleView = appRequire "Console/View"
+
+class Router extends Backbone.Router
+	routes:
+		"": "home"
+		"about": "about" 
+		"search": "search"
+		"signupin": "signupin"
+		"schematic/*path": "schematic"
+
+	about: ->
+		
+	search: ->
+
+	signupin: ->
+
+	schematic: ->
+
 
 App =
 	init: ->
@@ -69,10 +84,6 @@ App =
 
 			layersCollection.add show: true, name: "layer 1", y: 0
 
-			@HUD = new HUDView
-				el: $(".HUD")
-				settings: settings
-			@HUD.render()
 
 			$layerStackHolder = $(".layerStackHolder")
 			Backbone.on AppResized: =>

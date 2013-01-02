@@ -17,11 +17,20 @@ body {
     
 }
 
+.header {
+    height: 77px;
+    .top {
+        padding-top: 15px;
+        padding-left: 10px;
+        padding-bottom: 7px;
+        background: #333;
+    }
+}
 
 
 #center { 
     position: fixed; 
-    top: 0; 
+    top: 77px; 
     bottom: 0; 
     left: 50px; 
     right: 211px; 
@@ -29,12 +38,9 @@ body {
 }
 
 
-
-
 .layerStackHolder {
     overflow: hidden;
     .HUD {
-        border-top: 1px solid @darkcolor;
         bottom: 0px;
         background: rgba(0,0,0,0.2);
         height: 3em;

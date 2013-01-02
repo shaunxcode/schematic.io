@@ -1,4 +1,4 @@
-ArtifactsCollection = dataRequire "Artifact/Collection"
+ArtifactsCollection = require "./Artifact/Collection"
 
 class Model extends Backbone.Model
 	initialize: ->

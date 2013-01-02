@@ -27,7 +27,8 @@
 	}],
 
 	"dependencies": {
-		"express": "*"
+		"express": "*",
+		"jsedn": "*"
 	},
 	"repositories": [{
 		"type": "git",
