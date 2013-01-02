@@ -5,6 +5,8 @@ server = app.listen 6699
 app.configure ->
 	app.use express.static "./public"
 
+	app.get "/*", (req, res) -> res.sendfile "./public/index.html"
+		 
 	#POST users 
 	##creates user
 	

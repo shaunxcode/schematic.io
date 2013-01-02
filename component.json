@@ -34,7 +34,6 @@
 		"lib/Search/View.js",
 		"lib/Console/View.js",
 		"lib/Editor/View.js",
-		"lib/Editor/HUD/View.js",
 		"lib/Layers/LayerItem.js",
 		"lib/Layers/View.js",
 		"lib/Layers/Artifacts/ArtifactItem.js",

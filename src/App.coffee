@@ -27,18 +27,46 @@ class Router extends Backbone.Router
 		"signupin": "signupin"
 		"schematic/*path": "schematic"
 
-	about: ->
+	initialize: ->
+		@viewEls = 
+			home: $("#home")
+			about: $("#about")
+			search: $("#search")
+			schematic: $("#schematic")
+			signupin: $("#signupin")
 		
+
+		$(document).on "click", "a[href^='/']", (event) =>
+			if !event.altKey and !event.ctrlKey and !event.metaKey and !event.shiftKey
+				event.preventDefault()
+				@navigate $(event.currentTarget).attr("href"), trigger: true, replace: true
+
+	show: (viewName) ->
+		el.hide() for name, el of @viewEls
+		@viewEls[viewName].show()
+		
+	home: ->
+		@show "home"
+
+	about: ->
+		@show "about"
+
 	search: ->
+		@show "search"
 
 	signupin: ->
+		@show "signupin"
 
 	schematic: ->
-
+		@show "schematic"
+		
 
 App =
 	init: ->
-		$ => 
+		$ =>
+			router = new Router
+			Backbone.history.start pushState: true
+
 			$(window).on "resize", ->
 				$vspliter.trigger "spliter.resize"
 				$hspliter.trigger "spliter.resize"
@@ -57,7 +85,7 @@ App =
 				cellSize: 15
 				color: {hex: "00ff00"}
 
-			layersCollection = new LayersCollection
+			###layersCollection = new LayersCollection
 
 			@palette = new PaletteView
 				el: $(".palette")
@@ -85,11 +113,14 @@ App =
 			layersCollection.add show: true, name: "layer 1", y: 0
 
 
+			
 			$layerStackHolder = $(".layerStackHolder")
 			Backbone.on AppResized: =>
 				@layerStack.$el.css height: $layerStackHolder.height() - @HUD.$el.height()
 
+		
 			Backbone.trigger "AppResized"
+			###
 
 window.App = App
 module.exports = App
