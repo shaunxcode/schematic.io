@@ -25,6 +25,10 @@ body {
         padding-bottom: 7px;
         background: #333;
     }
+
+    .bottom { 
+        text-align: center;
+    }
 }
 
 
@@ -35,56 +39,6 @@ body {
     left: 50px; 
     right: 211px; 
     height: 100%;
-}
-
-
-.layerStackHolder {
-    overflow: hidden;
-    .HUD {
-        bottom: 0px;
-        background: rgba(0,0,0,0.2);
-        height: 3em;
-
-        button {
-            margin: 5px; 
-            float: right;
-        }
-    }
-}
-.layerStack {
-    z-index: 90;
-    background: #f6f6f6;
-    position: relative;
-    overflow: auto;
-    height: 95%;
-    .grid {
-        background: rgba(255, 255, 255, 0);
-    }
-
-    .cells {
-        background: rgba(255, 255, 255, 0.5);
-    }
-
-    .tool {
-        position: absolute;
-        left: 0;
-        top: 0;
-        background: rgba(255, 255, 255, 0.5);   
-        z-index: 3000;
-    }
-    
-
-    canvas {
-        z-index: inherit;
-        position: absolute; 
-        left: 0;
-        top: 0;
-        cursor: crosshair;
-    }
-}
-
-.canvasHolder { 
-    z-index: 80;
 }
 
 .colorpicker {

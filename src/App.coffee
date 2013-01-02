@@ -14,7 +14,7 @@ SchematicModel = dataRequire "Schematic/Model"
 SettingsModel = dataRequire "Settings/Model"
 
 PaletteView = appRequire "Palette/View"
-EditorView = appReuire "Editor/View"
+EditorView = appRequire "Editor/View"
 PreviewView = appRequire "Preview/View"
 LayersView = appRequire "Layers/View"
 ConsoleView = appRequire "Console/View"

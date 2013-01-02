@@ -6373,6 +6373,10 @@ body {
   background: #333
 }
 
+.header .bottom {
+  text-align: center
+}
+
 #center {
   position: fixed;
   top: 77px;
@@ -6380,57 +6384,6 @@ body {
   left: 50px;
   right: 211px;
   height: 100%
-}
-
-.layerStackHolder {
-  overflow: hidden
-}
-
-.layerStackHolder .HUD {
-  bottom: 0px;
-  background: rgba(0, 0, 0, 0.2);
-  height: 3em
-}
-
-.layerStackHolder .HUD button {
-  margin: 5px;
-  float: right
-}
-
-.layerStack {
-  z-index: 90;
-  background: #f6f6f6;
-  position: relative;
-  overflow: auto;
-  height: 95%
-}
-
-.layerStack .grid {
-  background: rgba(255, 255, 255, 0)
-}
-
-.layerStack .cells {
-  background: rgba(255, 255, 255, 0.5)
-}
-
-.layerStack .tool {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: rgba(255, 255, 255, 0.5);
-  z-index: 3000
-}
-
-.layerStack canvas {
-  z-index: inherit;
-  position: absolute;
-  left: 0;
-  top: 0;
-  cursor: crosshair
-}
-
-.canvasHolder {
-  z-index: 80
 }
 
 .colorpicker input {
