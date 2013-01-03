@@ -41,7 +41,7 @@ class View extends Backbone.View
 				height: size
 				size: size
 				cellSize: 15
-				color: {hex: "00ff00"}
+				color: {hex: "5f5546"}
 
 			schematicCollection = new SchematicCollection 
 
