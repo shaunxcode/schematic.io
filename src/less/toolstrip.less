@@ -1,4 +1,10 @@
 .palette {
+    position: fixed;
+    left: 0;
+    top: 77px;
+    bottom: 0;
+    width: 40px;
+    padding: 0px 3px 0px 3px;
     .color {
         position: relative;
         width: 36px;
@@ -19,25 +25,23 @@
             height: 36px;
         }
     }
-    position: fixed;
-    left: 0;
-    top: 77px;
-    bottom: 0;
-    width: 50px;
     .tools {
         clear: both;
         div {
             border: 2px solid transparent; 
             margin: 2px;
-            padding: 1px;
-
+            padding: 1px 1px 1px 3px;
             overflow: hidden;
             cursor: pointer;
-            height: 32px;
+            height: 24px;
             overflow: hidden;
             img { 
-                margin-top: -32px;
+                margin-top: -24px;
             }
+        }
+        div.active {
+            background-color: @black;
+            .border-radius(4px);
         }
         div.active img {
             margin-top: 0px; 

@@ -1,6 +1,6 @@
 @import "../vendor/bootstrap/bootstrap.less";
 @import "less/variables.less";
-
+@import "less/header.less";
 @import "less/toolstrip.less";
 @import "less/layer-palette.less";
 @import "less/spliter.less";
@@ -17,19 +17,7 @@ body {
     
 }
 
-.header {
-    height: 77px;
-    .top {
-        padding-top: 15px;
-        padding-left: 10px;
-        padding-bottom: 7px;
-        background: #333;
-    }
 
-    .bottom { 
-        text-align: center;
-    }
-}
 
 
 #schematic {
@@ -50,11 +38,12 @@ body {
 
 #center { 
     position: fixed; 
-    top: 77px; 
+    top: 78px; 
     bottom: 0; 
-    left: 50px; 
+    left: 46px; 
     right: 211px; 
     height: 100%;
+    z-index: -1; // for the header drop shadow - may be screwy
 }
 
 .colorpicker {
