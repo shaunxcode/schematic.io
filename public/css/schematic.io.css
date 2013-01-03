@@ -6102,7 +6102,6 @@ a.badge:hover {
 }
 
 .header .bottom {
-  text-align: center;
   background-color: #e3e3e3;
   background-image: -moz-linear-gradient(top, #f0f0f0, #d1d1d1);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f0f0f0), to(#d1d1d1));
@@ -6115,7 +6114,8 @@ a.badge:hover {
   -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
   height: 32px;
-  border-bottom: 1px solid #999
+  border-bottom: 1px solid #999;
+  padding: 0px 0px 0px 10px
 }
 
 .palette {
