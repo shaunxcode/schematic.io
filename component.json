@@ -17,7 +17,7 @@
 		"vendor/colorpicker/utils.js",
 		"vendor/kinetic.js",
 		"lib/App.js",
-		"lib/Geometry.js",
+		"lib/Schematic/Geometry.js",
 		
 		"lib/data/Schematic/Model.js",
 		"lib/data/Schematic/Collection.js",
@@ -32,21 +32,23 @@
 		"lib/SignupIn/View.js",
 		"lib/Header/View.js",
 		"lib/Search/View.js",
-		"lib/Console/View.js",
-		"lib/Editor/View.js",
-		"lib/Layers/LayerItem.js",
-		"lib/Layers/View.js",
-		"lib/Layers/Artifacts/ArtifactItem.js",
-		"lib/Layers/Artifacts/View.js",
-		"lib/Palette/View.js",
-		"lib/Preview/View.js",
 		
-		"lib/Tool/Tool.js",
-		"lib/Tool/Line.js",
-		"lib/Tool/Pencil.js",
-		"lib/Tool/Square.js",
-		"lib/Tool/Circle.js",
-		"lib/Tool/Arc.js"
+		"lib/Schematic/View.js",
+		"lib/Schematic/Console/View.js",
+		"lib/Schematic/Editor/View.js",
+		"lib/Schematic/Layers/LayerItem.js",
+		"lib/Schematic/Layers/View.js",
+		"lib/Schematic/Layers/Artifacts/ArtifactItem.js",
+		"lib/Schematic/Layers/Artifacts/View.js",
+		"lib/Schematic/Palette/View.js",
+		"lib/Schematic/Preview/View.js",
+		
+		"lib/Schematic/Tool/Tool.js",
+		"lib/Schematic/Tool/Line.js",
+		"lib/Schematic/Tool/Pencil.js",
+		"lib/Schematic/Tool/Square.js",
+		"lib/Schematic/Tool/Circle.js",
+		"lib/Schematic/Tool/Arc.js"
 	],
 
 	"styles": [

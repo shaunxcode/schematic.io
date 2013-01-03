@@ -10,7 +10,8 @@ class View extends Backbone.View
     initialize: ->
         @settings = @options.settings
         @children = []
-        @listenTo @collection, "add", @addLayer
+
+        #@listenTo @collection, "add", @addLayer
         @listenTo Backbone, "artifact:doneEditing", => 
             @$(".artifact").removeClass("active")
 

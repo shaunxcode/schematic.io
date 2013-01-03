@@ -14,7 +14,6 @@ class View extends Backbone.View
 
     initialize: ->
         @settings = @options.settings
-        @materials = @options.materials
         @geometry = new THREE.CubeGeometry 1,1,1
         @blocks = {}
 
