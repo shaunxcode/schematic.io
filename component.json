@@ -16,6 +16,7 @@
 		"vendor/colorpicker/eye.js",
 		"vendor/colorpicker/utils.js",
 		"vendor/kinetic.js",
+		"vendor/bootstrap/bootstrap.js",
 		"lib/App.js",
 		"lib/Schematic/Geometry.js",
 		

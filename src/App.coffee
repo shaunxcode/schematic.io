@@ -4,6 +4,7 @@ window.appRequire = (f) -> require "./#{f}.js"
 window.$ = window.jQuery = require "jquery"
 window._ = require "underscore"
 window.Backbone = vendorRequire "backbone"
+vendorRequire "bootstrap/bootstrap"
 window.Backbone.$ = $
 SchematicView = require "./Schematic/View"
 
