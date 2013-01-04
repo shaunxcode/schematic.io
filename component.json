@@ -3,7 +3,8 @@
 	"dependencies": {
 		"big-sky/code-mirror": "*",
 		"component/jquery": "*",
-		"component/underscore": "*"
+		"component/underscore": "*",
+		"ramitos/sgen": "*"
 	},
 
 	"scripts": [

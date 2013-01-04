@@ -1,10 +1,7 @@
 vendorRequire "backbone.localStorage"
 vendorRequire "jquery.splitter"
 
-SchematicCollection = dataRequire "Schematic/Collection"
-SchematicModel = dataRequire "Schematic/Model"
 SettingsModel = dataRequire "Settings/Model"
-
 PaletteView = require "./Palette/View"
 EditorView = require "./Editor/View"
 PreviewView = require "./Preview/View"
@@ -34,8 +31,6 @@ class View extends Backbone.View
 			size: size
 			cellSize: 15
 			color: {hex: "5f5546"}
-
-		schematicCollection = new SchematicCollection 
 
 		@palette = new PaletteView
 			el: $(".palette")

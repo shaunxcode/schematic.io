@@ -271,6 +271,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 }
 
 
+
 .spliter_panel {
   position: relative
 }
@@ -6397,7 +6398,8 @@ a.badge:hover {
   width: 40px;
   padding: 0px 3px 0px 3px;
   *zoom: 1;
-  z-index: 200;
+  z-index: -1;
+  padding-top: 5px;
   background: #252b30;
   color: #fff
 }
@@ -6500,10 +6502,20 @@ a.badge:hover {
   bottom: 0;
   height: 100%;
   width: 210px;
-  z-index: 9999;
+  z-index: -1;
   background: #fff;
   border-left: 1px solid #d8d8d8;
   overflow: auto
+}
+
+.layers .details {
+  margin-top: 10px;
+  margin: 5px
+}
+
+.layers select.Schematics {
+  margin-top: 5px;
+  width: 200px
 }
 
 .layers .settings {

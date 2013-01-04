@@ -35,12 +35,23 @@ class View extends Backbone.View
         
     updateSize: ->
         @settings.set "size", @$size.val()
-        
+
+    addSchematicOption: (schematic) ->
+        @$schematics.append $("<option />").text schematic.get("name") + " " + schematic.get("urlId")
+
+    addAllSchematicOptions: ->
+        console.log App.schematics 
+        @addSchematicOption schematic for schematic in App.schematics.models
+
     render: ->
         @$ul = @$ "ul"
         @$width = @$(".width").val @settings.get "width"
         @$height = @$(".height").val @settings.get "height"
         @$size = @$(".size").val @settings.get "size"
+        @$schematics = $(".Schematics")
+        @listenTo App.schematics, "add", @addSchematicOption
+        @addAllSchematicOptions()
+
         this
 
 module.exports = View
