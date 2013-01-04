@@ -1,12 +1,14 @@
 {
 	"name": "schematic.io",
 	"dependencies": {
+		"big-sky/code-mirror": "*",
 		"component/jquery": "*",
 		"component/underscore": "*"
 	},
 
 	"scripts": [
 		"index.js",
+		"vendor/code-mirror-clojure.js",
 		"vendor/backbone.js",
 		"vendor/backbone.localStorage.js",
 		"vendor/jquery.splitter.js",

@@ -54,6 +54,7 @@ App =
 		$ =>
 			router = new Router
 			Backbone.history.start pushState: true
+			Backbone.trigger "AppResized"
 
 window.App = App
 module.exports = App
