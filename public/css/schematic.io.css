@@ -6370,7 +6370,24 @@ a.badge:hover {
   padding-top: 15px;
   padding-left: 10px;
   padding-bottom: 7px;
-  background: #333
+  background: #291507;
+  *zoom: 1
+}
+
+.header .top:before,
+.header .top:after {
+  display: table;
+  content: "";
+  line-height: 0
+}
+
+.header .top:after {
+  clear: both
+}
+
+.header .top .login {
+  float: right;
+  color: #ffffff
 }
 
 .header .bottom {
@@ -6385,9 +6402,9 @@ a.badge:hover {
   -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
-  height: 32px;
+  height: 29px;
   border-bottom: 1px solid #999;
-  padding: 0px 0px 0px 10px
+  padding: 3px 0px 0px 10px
 }
 
 .palette {
