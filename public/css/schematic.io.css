@@ -6367,7 +6367,7 @@ a.badge:hover {
 }
 
 .header .top {
-  padding-top: 15px;
+  padding-top: 7px;
   padding-left: 10px;
   padding-bottom: 7px;
   background: #291507;
@@ -6385,9 +6385,34 @@ a.badge:hover {
   clear: both
 }
 
+.header .top .logo {
+  background-image: url("/schematic.io/img/logo.png");
+  text-indent: -999px;
+  width: 161px;
+  height: 21px;
+  display: block;
+  float: left;
+  *zoom: 1
+}
+
+.header .top .logo:before,
+.header .top .logo:after {
+  display: table;
+  content: "";
+  line-height: 0
+}
+
+.header .top .logo:after {
+  clear: both
+}
+
 .header .top .login {
   float: right;
   color: #ffffff
+}
+
+.header .top .login form {
+  margin: 0px 20px 0px 0px
 }
 
 .header .bottom {
@@ -6405,6 +6430,33 @@ a.badge:hover {
   height: 29px;
   border-bottom: 1px solid #999;
   padding: 3px 0px 0px 10px
+}
+
+.header .bottom .btn {
+  background-color: #d3d3d3;
+  background-image: -moz-linear-gradient(top, #dedede, #c2c2c2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dedede), to(#c2c2c2));
+  background-image: -webkit-linear-gradient(top, #dedede, #c2c2c2);
+  background-image: -o-linear-gradient(top, #dedede, #c2c2c2);
+  background-image: linear-gradient(to bottom, #dedede, #c2c2c2);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdedede', endColorstr='#ffc2c2c2', GradientType=0);
+  background-color: #bbbbbb
+}
+
+.header .bottom .btn:hover {
+  -webkit-transition: background-position 0.05s linear;
+  -moz-transition: background-position 0.05s linear;
+  -o-transition: background-position 0.05s linear;
+  transition: background-position 0.05s linear
+}
+
+.header .bottom .btn-group.open .btn.dropdown-toggle {
+  background-color: #b9b9b9
+}
+
+.header .bottom .btn-small .caret {
+  margin-top: 7px
 }
 
 .palette {

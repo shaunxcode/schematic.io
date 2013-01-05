@@ -1,1 +1,7 @@
-
+// easy background image mixin
+.bgi(@src, @xpos: 0, @ypos: 0, @repeat: no-repeat) {
+  background-image: url(@src);
+  background-position: @xpos @ypos;
+  background-attachment: scroll;
+  background-repeat: @repeat;
+}

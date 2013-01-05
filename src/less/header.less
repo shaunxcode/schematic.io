@@ -1,14 +1,26 @@
 .header {
     height: 77px;
     .top {
-        padding-top: 15px;
+        padding-top: 7px;
         padding-left: 10px;
         padding-bottom: 7px;
         background: @baseBrown;
         .clearfix;
+        .logo {
+            //.bgi('img/logo.png', 0, 0, repeat);
+            background-image: url("/img/logo.png");
+            text-indent: -999px;
+            .size(21px, 161px);
+            display: block;
+            float: left;
+            .clearfix;
+        }
         .login {
             float:right;
             color: @white;
+            form {
+                margin: 0px 20px 0px 0px;
+            }
         }
     }
 
@@ -18,5 +30,22 @@
         height: 29px;
         border-bottom: 1px solid #999;
         padding: 3px 0px 0px 10px;
+        .btn {
+            #gradient > .vertical(#dedede, #c2c2c2);
+            background-color: rgb(187, 187, 187);
+        }
+        .btn:hover {
+            .transition(background-position .05s linear);
+        }
+        .btn-group.open {
+            .btn.dropdown-toggle {
+                background-color: rgb(185,185,185);
+            }
+        }
+        .btn-small {
+            .caret {
+                margin-top: 7px;
+            }
+        }
     }
 }
