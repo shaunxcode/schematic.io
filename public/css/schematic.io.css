@@ -6362,6 +6362,12 @@ a.badge:hover {
   position: fixed
 }
 
+::selection,
+-moz::selection {
+  background: #000000;
+  color: #ffffff
+}
+
 .header {
   height: 77px
 }
@@ -6386,7 +6392,10 @@ a.badge:hover {
 }
 
 .header .top .logo {
-  background-image: url("/schematic.io/img/logo.png");
+  background-image: url("/css/img/logo.png");
+  background-position: 0 0;
+  background-attachment: scroll;
+  background-repeat: repeat;
   text-indent: -999px;
   width: 161px;
   height: 21px;

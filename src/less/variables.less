@@ -4,3 +4,22 @@
 @yellowHighlightBorder:       rgb(204, 203, 169);
 @lightGray:                   rgb(178, 178, 178);
 @baseBrown:                   rgb(41, 21, 7);
+
+
+@ultraLight:  100;  // yaff only
+@light:       300;
+@normal:      400;
+@semibold:    600;
+@bold:        700;
+
+
+
+// the highlight color for the page
+.highlight(@backgroundColor, @textColor) {
+  ::selection, -moz::selection {
+    background: @backgroundColor;
+    color: @textColor;
+  }
+}
+
+.highlight(@black, @white);

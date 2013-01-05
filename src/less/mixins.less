@@ -5,3 +5,52 @@
   background-attachment: scroll;
   background-repeat: @repeat;
 }
+
+
+// 1 pixel black and white text shadows
+.textShadowBlack(@shadow: 0 1px 0px rgba(0,0,0,.8)) {
+  text-shadow: @shadow;
+}
+.textShadowWhite(@shadow: 0 1px 0px rgba(255,255,255,.8)) {
+  text-shadow: @shadow;
+}
+
+
+// Font mixins
+.prox(@prox: 'proxima-nova') {
+  font-family: @prox;
+}
+
+// Weights
+.ultraLight() {
+  font-weight: @ultraLight;
+}
+.light() {
+  font-weight: @light;
+}
+.normal() {
+  font-weight: @normal;
+}
+.semibold() {
+  font-weight: @semibold;
+}
+.bold() {
+  font-weight: @bold;
+}
+
+//Gray colors
+.light-gray() {
+  color: @light-gray;
+} 
+.medLight-gray() {
+  color: @mediumLight-gray;
+}
+.med-gray() {
+  color: @medium-gray;
+}
+.medDark-gray() {
+  color: @mediumDark-gray;
+}
+.dark-gray() {
+  color: @dark-gray;
+}//
