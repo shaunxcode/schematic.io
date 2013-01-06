@@ -6,6 +6,7 @@ window._ = require "underscore"
 window.Backbone = vendorRequire "backbone"
 vendorRequire "bootstrap/bootstrap"
 vendorRequire "backbone.localStorage"
+require "ouija"
 window.Backbone.$ = $
 SchematicView = require "./Schematic/View"
 SchematicCollection = dataRequire "Schematic/Collection"
