@@ -1,140 +1,140 @@
 .layers {
-    .details {
-        margin-top:10px;
-        margin: 5px;
-    }
-    select.Schematics {
-        margin-top:5px;
-        width: 200px;
-        
-    }
+  .details {
+    margin-top:10px;
+    margin: 5px;
+  }
+  select.Schematics {
+    margin-top:5px;
+    width: 200px;
+    
+  }
 
-    .settings { display: none; }
-    position: fixed;
-    right: 0;
-    top: 77px;
-    bottom: 0;
-    height: 100%;
-    width: 210px;
-    z-index: -1;
-    background: #fff;
-    border-left: 1px solid #d8d8d8;
-    overflow: auto;
-    input.width, input.height, input.size {
-        border: 1px solid #333; 
-        padding: 2px;
-        width: 30px;
-    }
+  .settings { display: none; }
+  position: fixed;
+  right: 0;
+  top: 77px;
+  bottom: 0;
+  height: 100%;
+  width: 210px;
+  z-index: -1;
+  background: #fff;
+  border-left: 1px solid #d8d8d8;
+  overflow: auto;
+  input.width, input.height, input.size {
+    border: 1px solid #333; 
+    padding: 2px;
+    width: 30px;
+  }
 
-    ul {
-        list-style-type: none;
-    }
+  ul {
+    list-style-type: none;
+  }
 
-    > ul { 
-        margin: 0;
-        margin-top: 0px; 
-        border-top: 1px solid #d8d8d8;
-    }
-    li.active {
-        background: @white;
-        color: @blueText;
-        border-bottom: 2px solid @blueText;
-        padding-bottom: 4px;
+  > ul { 
+    margin: 0;
+    margin-top: 0px; 
+    border-top: 1px solid #d8d8d8;
+  }
+  li.active {
+    background: @white;
+    color: @blueText;
+    border-bottom: 2px solid @blueText;
+    padding-bottom: 4px;
+  }
+  
+  .Artifacts {
+    font-size: 90%;
+    overflow: hidden;
+    color: @lightGray;
+    .arrow {
+      margin-right: 5px; 
+      font-size: 90%; 
+      width: 13px; 
+      cursor: pointer;
     }
     
-    .Artifacts {
-        font-size: 90%;
-        overflow: hidden;
-        color: @lightGray;
-        .arrow {
-            margin-right: 5px; 
-            font-size: 90%; 
-            width: 13px; 
-            cursor: pointer;
-        }
-        
-        li {
-            overflow: hidden;
-        }
-
-        .artifact {
-            margin-right: 15px;
-        }
-
-        .artifact.active {
-            background: @yellowHighlight;
-            border: 1px dashed @yellowHighlightBorder;
-            .border-radius(3px);
-            color: @blueText;
-        }
-
-        button.show {
-            margin-right: 5px;
-            display: inline-block;
-        }
-        button.remove {
-            float: right;
-            margin-right: 5px;
-            display: inline-block;
-            margin-top: 3px;
-        }
+    li {
+      overflow: hidden;
     }
 
-    > ul > li { 
-        color: @lightGray;
-        padding: 5px 0px 5px 5px;
-        cursor: pointer;
-        border-bottom: 1px solid @lightGray;
-        width: 100%;
-        
-        .expansionToggle {
-            margin-right: 5px;
-            font-size: 90%;
-            width: 13px;
-            display: inline-block;
-        }
-
-        button {
-            background-color: inherit;
-            margin-top: 5px;
-            display: inline-block;
-            border: none;
-            width: 16px;
-            height: 16px;
-        }
-
-        button.show {
-            float: left;
-            background-image: url(../img/shown-icon.png);
-        }
-
-        button.show.hidden {
-            background-image: url(../img/hidden-icon.png);
-        }
-
-        button.remove {
-            background-image: url(../img/trash-icon.png);
-        }   
-
-        button.duplicate {
-            background-image: url(../img/duplicate-icon.png);
-        }
-
-        .buttons { 
-            float: right;
-            margin-right: 15px;
-            button { 
-                margin-right: 5px; 
-                float: left; 
-            }
-        }
-        overflow: hidden;
+    .artifact {
+      margin-right: 15px;
     }
-    button.newLayer { 
-        margin-top: 5px; 
-        margin-bottom: 5px; 
-        display: block; 
-        margin-left: auto; 
-        margin-right: auto;
+
+    .artifact.active {
+      background: @yellowHighlight;
+      border: 1px dashed @yellowHighlightBorder;
+      .border-radius(3px);
+      color: @blueText;
     }
+
+    button.show {
+      margin-right: 5px;
+      display: inline-block;
+    }
+    button.remove {
+      float: right;
+      margin-right: 5px;
+      display: inline-block;
+      margin-top: 3px;
+    }
+  }
+
+  > ul > li { 
+    color: @lightGray;
+    padding: 5px 0px 5px 5px;
+    cursor: pointer;
+    border-bottom: 1px solid @lightGray;
+    width: 100%;
+    
+    .expansionToggle {
+      margin-right: 5px;
+      font-size: 90%;
+      width: 13px;
+      display: inline-block;
+    }
+
+    button {
+      background-color: inherit;
+      margin-top: 5px;
+      display: inline-block;
+      border: none;
+      width: 16px;
+      height: 16px;
+    }
+
+    button.show {
+      float: left;
+      background-image: url(../img/shown-icon.png);
+    }
+
+    button.show.hidden {
+      background-image: url(../img/hidden-icon.png);
+    }
+
+    button.remove {
+      background-image: url(../img/trash-icon.png);
+    }   
+
+    button.duplicate {
+      background-image: url(../img/duplicate-icon.png);
+    }
+
+    .buttons { 
+      float: right;
+      margin-right: 15px;
+      button { 
+        margin-right: 5px; 
+        float: left; 
+      }
+    }
+    overflow: hidden;
+  }
+  button.newLayer { 
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+  }
 }

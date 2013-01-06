@@ -1,28 +1,35 @@
 .ui-bar { 
-    #gradient > .vertical(lighten(@black, 94%), lighten(@black, 82%));
-    .box-shadow(0px 1px 3px rgba(0,0,0,0.5));
-    height: 29px;
-    border-bottom: 1px solid #999;
-    padding: 3px 0px 0px 10px;
-    .btn {
-        #gradient > .vertical(#dedede, #c2c2c2);
-        background-color: rgb(187, 187, 187);
-        font-size: 13px;
-        font-weight: @semibold;
+  ul.ribbon {
+    .unstyled;
+    > li {
+      margin-right: 5px;
     }
-    .btn:hover {
-        .transition(background-position .05s linear);
+  }
+
+  #gradient > .vertical(lighten(@black, 94%), lighten(@black, 82%));
+  .box-shadow(0px 1px 3px rgba(0,0,0,0.5));
+  height: 29px;
+  border-bottom: 1px solid #999;
+  padding: 3px 0px 0px 10px;
+  .btn {
+    #gradient > .vertical(#dedede, #c2c2c2);
+    background-color: rgb(187, 187, 187);
+    font-size: 13px;
+    font-weight: @semibold;
+  }
+  .btn:hover {
+    .transition(background-position .05s linear);
+  }
+  .btn-group.open {
+    .btn.dropdown-toggle {
+      background-color: rgb(185,185,185);
+      font-size: 13px;
+      font-weight: @semibold;
     }
-    .btn-group.open {
-        .btn.dropdown-toggle {
-            background-color: rgb(185,185,185);
-            font-size: 13px;
-            font-weight: @semibold;
-        }
+  }
+  .btn-small {
+    .caret {
+      margin-top: 7px;
     }
-    .btn-small {
-        .caret {
-            margin-top: 7px;
-        }
-    }
+  }
 }

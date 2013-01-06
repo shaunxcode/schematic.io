@@ -6,6 +6,18 @@
   background-repeat: @repeat;
 }
 
+// blanks out a UL
+.unstyled() {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  .clearfix;
+  li {
+    display: block;
+    float:left;
+  }
+}
+
 
 // 1 pixel black and white text shadows
 .textShadowBlack(@shadow: 0 1px 0px rgba(0,0,0,.8)) {
@@ -14,7 +26,6 @@
 .textShadowWhite(@shadow: 0 1px 0px rgba(255,255,255,.8)) {
   text-shadow: @shadow;
 }
-
 
 // Font mixins
 .prox(@prox: 'proxima-nova') {

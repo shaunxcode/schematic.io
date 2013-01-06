@@ -1,132 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
-    <title>schematic.io</title>
-    <link rel="stylesheet" type="text/css" href="/css/schematic.io.css">
-    <script type="text/javascript" src="/js/schematic.io.js"></script>
-    <script type="text/javascript">require("schematic.io").init()</script>
-    <!-- typekit fonts -->
-    <script type="text/javascript" src="//use.typekit.net/lud2jvo.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <!-- -->
-    
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+  <title>schematic.io</title>
+  <link rel="stylesheet" type="text/css" href="/css/schematic.io.css">
+  <script type="text/javascript" src="/js/schematic.io.js"></script>
+  <script type="text/javascript">require("schematic.io").init()</script>
+  <!-- typekit fonts -->
+  <script type="text/javascript" src="//use.typekit.net/lud2jvo.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <!-- -->
+  
 </head>
 <body>
-    <div class="header">
-        <div class="top">
-            <a class="logo" href="/"></a>
-            <nav>
-                <ul>
-                    <li><a href="/" title="" class="first">Home</a></li>
-                    <li><a href="/" title="">Profile</a></li>
-                    <li><a href="/" title="">Schematic Search</a></li>
-                    <li><a href="/about" title="">About Us</a></li>
-                    <li><a href="/schematic/new" title="" class="start-building last">Start Building!</a></li>
-                </ul>
+  <div class="header">
+    <div class="top">
+      <a class="logo" href="/"></a>
+      <nav>
+        <ul>
+          <li><a href="/" title="" class="first">Home</a></li>
+          <li><a href="/" title="">Profile</a></li>
+          <li><a href="/" title="">Schematic Search</a></li>
+          <li><a href="/about" title="">About Us</a></li>
+          <li><a href="/schematic/new" title="" class="start-building last">Start Building!</a></li>
+        </ul>
+      </nav>
+      <div class="login">
+        <form class="form-inline">
+          <input type="text" class="input-small" placeholder="Email">
+          <input type="password" class="input-small" placeholder="Password" id="appendedInputButton">
+          <button type="submit" class="btn btn-mini ">Sign in</button>
+        </form>
+      </div>
+    </div>
+    <div class="ui-bar">
+      <ul class="ribbon">
+        <li>
+          <div class="btn-group">
+            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+            Dropdown UI Element
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+            <li><a tabindex="-1" href="#">2D and 3D Panes</a></li>
+            <li><a tabindex="-1" href="#">2D Pane Only</a></li>
+            <li><a tabindex="-1" href="#">3D Pane Only</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a class="btn btn-small">Button</a>
+        </li>
+        <li>
+          <script type="text/javascript">
+            $(function(){$(".sampletoggle").ouija()});
+          </script>
+          <select class="ouija sampletoggle">
+            <option>2D</option>
+            <option>3D</option>
+            <option selected>Both</option>
+          </select>
+        </li>
 
+      </ul>
 
-            </nav>
-            <div class="login">
-                <form class="form-inline">
-                  <input type="text" class="input-small" placeholder="Email">
-                  <input type="password" class="input-small" placeholder="Password" id="appendedInputButton">
-                  <button type="submit" class="btn btn-mini ">Sign in</button>
-                </form>
-            </div>
-        
-        </div>
-        <div class="ui-bar">
-            
+      
+       
+       
+          
+    </div>
+  </div>
 
+  <div id="home">
+    
+    
+      welcome to schematic.io. <a href="/schematic/new">Start designing</a>.
+    <br>
+    <a href="/about">about us</a>
+    <br>
+    <a href="/search">search schematics</a>
+    <br>
+    <a href="/signupin">sign up or register</a>
+  </div>
+  <div id="about">about us goes here</div>
+  <div id="search">search</div>
+  <div id="signupin">sign up or register</div>
 
-            <div class="btn-group">
-              <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-                Dropdown UI Element
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a tabindex="-1" href="#">2D and 3D Panes</a></li>
-                <li><a tabindex="-1" href="#">2D Pane Only</a></li>
-                <li><a tabindex="-1" href="#">3D Pane Only</a></li>
-              </ul>
-            </div>
-            <a class="btn btn-small">Button</a>
-            <a class="btn btn-small">Button</a>
-            <a class="btn btn-small">Button</a>
-             <script type="text/javascript">
-                $(function(){$(".sampletoggle").ouija()});
-            </script>
-            <select class="ouija sampletoggle">
-              <option>2D</option>
-              <option>3D</option>
-              <option selected>Both</option>
-            </select>
-                    
-        </div>
+  <div id="schematic">
+    <div class="palette">
+      <div class="tools">
+        <div data-tool="Pencil"><img src="/img/pencil-tool.png"></div>
+        <div data-tool="Line"><img src="/img/line-tool.png"></div>
+        <div data-tool="Square"><img src="/img/square-tool.png"></div>
+        <div data-tool="Circle"><img src="/img/circle-tool.png"></div>
+        <div data-tool="Polygon"><img src="/img/polygon-tool.png"></div>
+        <div data-tool="Marquee"><img src="/img/marquee-tool.png"></div>
+        <div data-tool="Eraser"><img src="/img/eraser-tool.png"></div>
+        <div data-tool="Bucket"><img src="/img/bucket-tool.png"></div> 
+        <div data-tool="Pointer"><img src="/img/pointer-tool.png"></div> 
+        <div data-tool="Grab"><img src="/img/grab-tool.png"></div> 
+      </div>
+      <div style="clear"></div>
+      <div class="color">
+          <div class="selectedColor"></div>
+          <div class="inputMask"></div>
+      </div>
     </div>
 
-    <div id="home">
-        
-        
-            welcome to schematic.io. <a href="/schematic/new">Start designing</a>.
-        <br>
-        <a href="/about">about us</a>
-        <br>
-        <a href="/search">search schematics</a>
-        <br>
-        <a href="/signupin">sign up or register</a>
+    <div id="center">
+      <div id="panels">
+        <div class="editor"></div>
+        <div class="preview"></div>
+      </div>
+      <div class="console"></div>
     </div>
-    <div id="about">about us goes here</div>
-    <div id="search">search</div>
-    <div id="signupin">sign up or register</div>
 
-    <div id="schematic">
-        <div class="palette">
-            <div class="tools">
-                <div data-tool="Pencil"><img src="/img/pencil-tool.png"></div>
-                <div data-tool="Line"><img src="/img/line-tool.png"></div>
-                <div data-tool="Square"><img src="/img/square-tool.png"></div>
-                <div data-tool="Circle"><img src="/img/circle-tool.png"></div>
-                <div data-tool="Polygon"><img src="/img/polygon-tool.png"></div>
-                <div data-tool="Marquee"><img src="/img/marquee-tool.png"></div>
-                <div data-tool="Eraser"><img src="/img/eraser-tool.png"></div>
-                <div data-tool="Bucket"><img src="/img/bucket-tool.png"></div> 
-                <div data-tool="Pointer"><img src="/img/pointer-tool.png"></div> 
-                <div data-tool="Grab"><img src="/img/grab-tool.png"></div> 
-            </div>
-            <div style="clear"></div>
-            <div class="color">
-                    <div class="selectedColor"></div>
-                    <div class="inputMask"></div>
-            </div>
-        </div>
-
-        <div id="center">
-            <div id="panels">
-                <div class="editor"></div>
-                <div class="preview"></div>
-            </div>
-            <div class="console"></div>
-        </div>
-
-        <div class="layers">
-            <div class="details">
-                <button class="btn">New</button>
-                <button class="btn">Save</button>
-                <select class="Schematics"></select>
-            </div>
-            <div class="settings">
-            w: <input type="text" class="width"> 
-            h: <input tyep="text" class="height"> 
-            s: <input type="text" class="size"> 
-            </div>
-            <button class="newLayer">+</button>
-            <ul></ul>
-        </div>
+    <div class="layers">
+      <div class="details">
+        <button class="btn">New</button>
+        <button class="btn">Save</button>
+        <select class="Schematics"></select>
+      </div>
+      <div class="settings">
+      w: <input type="text" class="width"> 
+      h: <input tyep="text" class="height"> 
+      s: <input type="text" class="size"> 
+      </div>
+      <button class="newLayer">+</button>
+      <ul></ul>
     </div>
+  </div>
 
 </body>​
 </html>
