@@ -4,7 +4,8 @@
 		"big-sky/code-mirror": "*",
 		"component/jquery": "*",
 		"component/underscore": "*",
-		"ramitos/sgen": "*"
+		"ramitos/sgen": "*",
+		"shaunxcode/ouija": "*"
 	},
 
 	"scripts": [
