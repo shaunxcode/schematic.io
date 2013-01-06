@@ -1,0 +1,39 @@
+nav {
+  font-family: "alternate-gothic-no-3-d";
+  ul {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    float: left;
+    .clearfix;
+    li {
+      float: left;
+      padding: 0px;
+      border-left: 1px solid rgb(87, 51, 25);
+      border-right: 1px solid darken(@baseBrown, 20%);
+      a {
+        color: @white;
+        padding: 9px 15px;
+        display: block;
+        font-size: 18px;
+        .textShadowBlack;
+      }
+      a:hover {
+        #gradient > .vertical(lighten(@baseBrown, 5%), lighten(@baseBrown, 10%));
+        text-decoration: none;
+        color: @white;
+      }
+      .first {
+        border-left: none
+      }
+      .last {
+      }
+      a.start-building {
+        #gradient > .vertical(#0dba00, #1f8500);
+      }
+      a.start-building:hover {
+        #gradient > .vertical(darken(#0dba00, 5%), darken(#1f8500, 5%));
+      }
+    }
+  }
+}

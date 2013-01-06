@@ -1,55 +1,12 @@
 @import "../vendor/bootstrap/bootstrap.less";
 @import "less/variables.less";
 @import "less/mixins.less";
+@import "less/main.less";
 @import "less/header.less";
+@import "less/main-nav.less";
+@import "less/ui-bar.less";
 @import "less/toolstrip.less";
 @import "less/layer-palette.less";
 @import "less/spliter.less";
 @import "less/console.less";
 
-body { 
-    margin: 0;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background: #f6f6f6;
-    
-}
-
-
-
-
-#schematic {
-    display: none;
-}
-
-#search {
-    display: none;
-}
-
-#about {
-    display: none;
-}
-
-#signupin {
-    display: none;
-}
-
-#center { 
-    position: fixed; 
-    top: 78px; 
-    bottom: 0; 
-    left: 46px; 
-    right: 211px; 
-    height: 100%;
-    z-index: -1; // for the header drop shadow - may be screwy
-}
-
-.colorpicker {
-  input {
-    line-height: 10px;
-  }
-}

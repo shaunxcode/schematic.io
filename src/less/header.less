@@ -1,9 +1,9 @@
 .header {
     height: 77px;
     .top {
-        padding-top: 7px;
-        padding-left: 10px;
-        padding-bottom: 7px;
+        //padding-top: 7px;
+        //padding-left: 10px;
+        //padding-bottom: 7px;
         background: @baseBrown;
         .clearfix;
         .logo {
@@ -12,38 +12,27 @@
             .size(21px, 161px);
             display: block;
             float: left;
+            margin-top: 9px;
+            margin-left: 6px;
+            margin-right: 20px;
             .clearfix;
         }
         .login {
             float:right;
             color: @white;
+            margin-top: 7px;
             form {
-                margin: 0px 20px 0px 0px;
-            }
-        }
-    }
-
-    .bottom { 
-        #gradient > .vertical(lighten(@black, 94%), lighten(@black, 82%));
-        .box-shadow(0px 1px 3px rgba(0,0,0,0.5));
-        height: 29px;
-        border-bottom: 1px solid #999;
-        padding: 3px 0px 0px 10px;
-        .btn {
-            #gradient > .vertical(#dedede, #c2c2c2);
-            background-color: rgb(187, 187, 187);
-        }
-        .btn:hover {
-            .transition(background-position .05s linear);
-        }
-        .btn-group.open {
-            .btn.dropdown-toggle {
-                background-color: rgb(185,185,185);
-            }
-        }
-        .btn-small {
-            .caret {
-                margin-top: 7px;
+              font-size: 11px;
+              color: lighten(@black, 50%);
+              margin: 0px 20px 0px 0px;
+              input {
+                height: 11px;
+                font-size: 11px;
+              }
+              .submit {
+                background-color: @baseBrown;
+                height: 12px;
+              }
             }
         }
     }

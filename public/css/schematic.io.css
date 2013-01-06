@@ -6368,14 +6368,53 @@ a.badge:hover {
   color: #ffffff
 }
 
+body {
+  margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #f6f6f6;
+  font-family: 'proxima-nova'
+}
+
+#schematic {
+  display: none
+}
+
+#search {
+  display: none
+}
+
+#about {
+  display: none
+}
+
+#signupin {
+  display: none
+}
+
+#center {
+  position: fixed;
+  top: 78px;
+  bottom: 0;
+  left: 46px;
+  right: 211px;
+  height: 100%;
+  z-index: -1
+}
+
+.colorpicker input {
+  line-height: 10px
+}
+
 .header {
   height: 77px
 }
 
 .header .top {
-  padding-top: 7px;
-  padding-left: 10px;
-  padding-bottom: 7px;
   background: #291507;
   *zoom: 1
 }
@@ -6401,6 +6440,9 @@ a.badge:hover {
   height: 21px;
   display: block;
   float: left;
+  margin-top: 9px;
+  margin-left: 6px;
+  margin-right: 20px;
   *zoom: 1
 }
 
@@ -6417,14 +6459,104 @@ a.badge:hover {
 
 .header .top .login {
   float: right;
-  color: #ffffff
+  color: #ffffff;
+  margin-top: 7px
 }
 
 .header .top .login form {
+  font-size: 11px;
+  color: #808080;
   margin: 0px 20px 0px 0px
 }
 
-.header .bottom {
+.header .top .login form input {
+  height: 11px;
+  font-size: 11px
+}
+
+.header .top .login form .submit {
+  background-color: #291507;
+  height: 12px
+}
+
+nav {
+  font-family: "alternate-gothic-no-3-d"
+}
+
+nav ul {
+  list-style: none;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  float: left;
+  *zoom: 1
+}
+
+nav ul:before,
+nav ul:after {
+  display: table;
+  content: "";
+  line-height: 0
+}
+
+nav ul:after {
+  clear: both
+}
+
+nav ul li {
+  float: left;
+  padding: 0px;
+  border-left: 1px solid #573319;
+  border-right: 1px solid #000000
+}
+
+nav ul li a {
+  color: #ffffff;
+  padding: 9px 15px;
+  display: block;
+  font-size: 18px;
+  text-shadow: 0 1px 0px rgba(0, 0, 0, 0.8)
+}
+
+nav ul li a:hover {
+  background-color: #47250c;
+  background-image: -moz-linear-gradient(top, #3f200b, #552b0e);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3f200b), to(#552b0e));
+  background-image: -webkit-linear-gradient(top, #3f200b, #552b0e);
+  background-image: -o-linear-gradient(top, #3f200b, #552b0e);
+  background-image: linear-gradient(to bottom, #3f200b, #552b0e);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3f200b', endColorstr='#ff552b0e', GradientType=0);
+  text-decoration: none;
+  color: #ffffff
+}
+
+nav ul li .first {
+  border-left: none
+}
+
+nav ul li a.start-building {
+  background-color: #14a500;
+  background-image: -moz-linear-gradient(top, #0dba00, #1f8500);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0dba00), to(#1f8500));
+  background-image: -webkit-linear-gradient(top, #0dba00, #1f8500);
+  background-image: -o-linear-gradient(top, #0dba00, #1f8500);
+  background-image: linear-gradient(to bottom, #0dba00, #1f8500);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0dba00', endColorstr='#ff1f8500', GradientType=0)
+}
+
+nav ul li a.start-building:hover {
+  background-color: #118b00;
+  background-image: -moz-linear-gradient(top, #0ba100, #196c00);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0ba100), to(#196c00));
+  background-image: -webkit-linear-gradient(top, #0ba100, #196c00);
+  background-image: -o-linear-gradient(top, #0ba100, #196c00);
+  background-image: linear-gradient(to bottom, #0ba100, #196c00);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0ba100', endColorstr='#ff196c00', GradientType=0)
+}
+
+.ui-bar {
   background-color: #e3e3e3;
   background-image: -moz-linear-gradient(top, #f0f0f0, #d1d1d1);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f0f0f0), to(#d1d1d1));
@@ -6441,7 +6573,7 @@ a.badge:hover {
   padding: 3px 0px 0px 10px
 }
 
-.header .bottom .btn {
+.ui-bar .btn {
   background-color: #d3d3d3;
   background-image: -moz-linear-gradient(top, #dedede, #c2c2c2);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dedede), to(#c2c2c2));
@@ -6450,21 +6582,25 @@ a.badge:hover {
   background-image: linear-gradient(to bottom, #dedede, #c2c2c2);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffdedede', endColorstr='#ffc2c2c2', GradientType=0);
-  background-color: #bbbbbb
+  background-color: #bbbbbb;
+  font-size: 13px;
+  font-weight: 600
 }
 
-.header .bottom .btn:hover {
+.ui-bar .btn:hover {
   -webkit-transition: background-position 0.05s linear;
   -moz-transition: background-position 0.05s linear;
   -o-transition: background-position 0.05s linear;
   transition: background-position 0.05s linear
 }
 
-.header .bottom .btn-group.open .btn.dropdown-toggle {
-  background-color: #b9b9b9
+.ui-bar .btn-group.open .btn.dropdown-toggle {
+  background-color: #b9b9b9;
+  font-size: 13px;
+  font-weight: 600
 }
 
-.header .bottom .btn-small .caret {
+.ui-bar .btn-small .caret {
   margin-top: 7px
 }
 
@@ -6735,58 +6871,19 @@ a.badge:hover {
   box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.1)
 }
 
+.spliter_panel .vspliter {
+  width: 6px
+}
+
+.spliter_panel .hspliter {
+  height: 6px
+}
+
 .spliter_panel .right_panel,
 .spliter_panel .left_panel {
-  -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.25);
-  background-color: #fcfcfc;
-  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(#ffffff), to(#fcfcfc));
-  background-image: -webkit-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-image: -moz-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-image: -o-radial-gradient(circle, #ffffff, #fcfcfc);
-  background-repeat: no-repeat
-}
-
-body {
-  margin: 0;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: #f6f6f6
-}
-
-#schematic {
-  display: none
-}
-
-#search {
-  display: none
-}
-
-#about {
-  display: none
-}
-
-#signupin {
-  display: none
-}
-
-#center {
-  position: fixed;
-  top: 78px;
-  bottom: 0;
-  left: 46px;
-  right: 211px;
-  height: 100%;
-  z-index: -1
-}
-
-.colorpicker input {
-  line-height: 10px
+  -webkit-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.025);
+  -moz-box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.025);
+  box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.025)
 }
 .colorpicker {
   width: 356px;
