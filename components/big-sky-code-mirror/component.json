@@ -1,0 +1,17 @@
+{
+  "name": "code-mirror",
+  "repo": "big-sky/code-mirror",
+  "description": "code mirror component",
+  "version": "0.0.1",
+  "keywords": [
+    "code-mirror",
+    "editor"
+  ],
+  "scripts": [
+    "lib/codemirror.js",
+    "index.js"
+  ],
+  "styles": [
+    "lib/codemirror.css"
+  ]
+}

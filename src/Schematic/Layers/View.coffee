@@ -6,7 +6,8 @@ class View extends Backbone.View
         "keyup .width": "updateWidth"
         "keyup .height": "updateHeight"
         "keyup .size": "updateSize"
-        
+        "change .Schematics": "changeSchematic"
+
     initialize: ->
         @settings = @options.settings
         @children = []
@@ -37,11 +38,15 @@ class View extends Backbone.View
         @settings.set "size", @$size.val()
 
     addSchematicOption: (schematic) ->
-        @$schematics.append $("<option />").text schematic.get("name") + " " + schematic.get("urlId")
+        @$schematics.append $("<option />")
+            .prop(value: schematic.get("urlId"))
+            .text(schematic.get("name") + " " + schematic.get("urlId"))
 
     addAllSchematicOptions: ->
-        console.log App.schematics 
         @addSchematicOption schematic for schematic in App.schematics.models
+
+    changeSchematic: ->
+        @settings.setSchematicById @$schematics.val()
 
     render: ->
         @$ul = @$ "ul"
@@ -52,6 +57,9 @@ class View extends Backbone.View
         @listenTo App.schematics, "add", @addSchematicOption
         @addAllSchematicOptions()
 
+        @listenTo @settings, "change:schematic", (c, schematic) ->
+            @$schematics.val schematic.get "urlId"
+            
         this
 
 module.exports = View

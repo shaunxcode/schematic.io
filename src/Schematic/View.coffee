@@ -1,7 +1,6 @@
 vendorRequire "backbone.localStorage"
 vendorRequire "jquery.splitter"
 
-SettingsModel = dataRequire "Settings/Model"
 PaletteView = require "./Palette/View"
 EditorView = require "./Editor/View"
 PreviewView = require "./Preview/View"
@@ -12,7 +11,6 @@ class View extends Backbone.View
 
 	initialize: ->
 		@settings = @options.settings
-
 		@render()
 
 	hide: ->
@@ -23,37 +21,28 @@ class View extends Backbone.View
 		$(window).trigger "resize"
 
 	render: ->
-		size = 16
-
-		settings = new SettingsModel
-			width: size
-			height: size
-			size: size
-			cellSize: 15
-			color: {hex: "5f5546"}
-
 		@palette = new PaletteView
 			el: $(".palette")
-			settings: settings
+			settings: @settings
 		@palette.render()
 
 		@editor = new EditorView
 			el: $(".editor")
-			settings: settings
+			settings: @settings
 
 		@preview = new PreviewView
 			el: $(".preview")
-			settings: settings
+			settings: @settings
 		@preview.render()
 		
 		@layers = new LayersView
 			el: $(".layers")
-			settings: settings
+			settings: @settings
 		@layers.render()
 
 		@console = new ConsoleView 
 			el: $(".console")
-			settings: settings
+			settings: @settings
 		@console.render()
 
 		@$el.show()
@@ -68,5 +57,8 @@ class View extends Backbone.View
 
 		@$el.hide()
 
+		@listenTo @settings, "change:schematic", -> 
+			console.log "CHANGE SCHEMATIC", @settings.get "schematic"
+			
 
 module.exports = View

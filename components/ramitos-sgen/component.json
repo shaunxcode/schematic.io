@@ -1,0 +1,13 @@
+{
+  "name": "sgen",
+  "version": "0.1.0",
+  "repo": "ramitos/sgen",
+  "description": "string generator",
+  "twitter": "@ramitos",
+  "license": "MIT",
+  "main": "src/sgen.js",
+  "scripts": [
+    "src/sgen.js",
+    "src/map.js"
+  ]
+}

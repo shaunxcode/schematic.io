@@ -11,6 +11,7 @@ window.Backbone.$ = $
 SchematicView = require "./Schematic/View"
 SchematicCollection = dataRequire "Schematic/Collection"
 SchematicModel = dataRequire "Schematic/Model"
+SettingsModel = dataRequire "Settings/Model"
 
 class Router extends Backbone.Router
 	routes:
@@ -26,7 +27,10 @@ class Router extends Backbone.Router
 			home: $("#home")
 			about: $("#about")
 			search: $("#search")
-			schematic: (new SchematicView el: $("#schematic"), collection: App.schematics)
+			schematic: (new SchematicView 
+				el: $("#schematic")
+				collection: App.schematics
+				settings: App.settings)
 			signupin: $("#signupin")
 		
 		$(document).on "click", "a[href^='/']", (event) =>
@@ -52,18 +56,30 @@ class Router extends Backbone.Router
 
 	newSchematic: ->
 		s = App.schematics.create name: "new schematic"
-		@navigate "/schematic/#{s.get "urlId"}", trigger: true, replace: true
+		@navigate "/schematic/#{s.get "urlId"}", trigger: true
 
-	schematic: (path) ->
-		console.log "load", path
-		@show "schematic"
-
-			
+	schematic: (SID) ->
+		try
+			App.settings.setSchematicById SID
+			@show "schematic"
+		catch e
+			alert "not found"
 
 App =
 	init: ->
 		$ =>
+			size = 16
+
+			@settings = new SettingsModel
+				schematic: false
+				width: size
+				height: size
+				size: size
+				cellSize: 15
+				color: {hex: "5f5546"}
+
 			@schematics = new SchematicCollection
+			@settings.schematics = @schematics
 			@schematics.fetch()
 			
 			router = new Router
