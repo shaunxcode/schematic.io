@@ -27,7 +27,7 @@ class View extends Backbone.View
         z: (Math.floor event.offsetY / @cellSize) - @height
 
 	draw: (event) ->
-		console.log @eventPos event
+		#console.log @eventPos event
 
 	render: ->
 		#@$el.append $("<div />").addClass("layerSlider").css(zIndex: 200000, marginTop: 20).slider()
