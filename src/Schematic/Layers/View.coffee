@@ -9,7 +9,6 @@ class View extends Backbone.View
         "change .Schematics": "changeSchematic"
 
     initialize: ->
-        @settings = @options.settings
         @children = []
 
         #@listenTo @collection, "add", @addLayer

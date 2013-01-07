@@ -13,7 +13,6 @@ class View extends Backbone.View
         @controls.disable()
 
     initialize: ->
-        @settings = @options.settings
         @geometry = new THREE.CubeGeometry 1,1,1
         @blocks = {}
 

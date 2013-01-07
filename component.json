@@ -9,6 +9,7 @@
 	},
 
 	"scripts": [
+		"lib/variables.js",
 		"index.js",
 		"vendor/code-mirror-clojure.js",
 		"vendor/backbone.js",

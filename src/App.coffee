@@ -30,7 +30,7 @@ class Router extends Backbone.Router
 			schematic: (new SchematicView 
 				el: $("#schematic")
 				collection: App.schematics
-				settings: App.settings)
+				settings: App.settings).render()
 			signupin: $("#signupin")
 		
 		$(document).on "click", "a[href^='/']", (event) =>

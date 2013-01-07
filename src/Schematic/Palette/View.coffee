@@ -5,9 +5,6 @@ vendorRequire "colorpicker/utils"
 class View extends Backbone.View
     events:
         "click .tools div": "selectTool"
-        
-    initialize: ->
-        @settings = @options.settings
     
     selectTool: (e) ->
         tool = $(e.currentTarget)

@@ -1,3 +1,13 @@
+// the highlight color for the page
+.highlight(@backgroundColor, @textColor) {
+  ::selection, -moz::selection {
+    background: @backgroundColor;
+    color: @textColor;
+  }
+}
+
+.highlight(@black, @white);
+
 // easy background image mixin
 .bgi(@src, @xpos: 0, @ypos: 0, @repeat: no-repeat) {
   background-image: url(@src);

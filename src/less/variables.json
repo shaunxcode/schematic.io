@@ -1,0 +1,15 @@
+{
+	"darkcolor":                   "rgb(37, 43, 48)",
+	"blueText":                    "rgb(7, 133, 255)",
+	"yellowHighlight":             "rgb(255, 253, 186)",
+	"yellowHighlightBorder":       "rgb(204, 203, 169)",
+	"lightGray":                   "rgb(178, 178, 178)",
+	"baseBrown":                   "rgb(41, 21, 7)",
+
+
+	"ultraLight":  100,
+	"light":       300,
+	"normal":      400,
+	"semibold":    600,
+	"bold":        700
+}

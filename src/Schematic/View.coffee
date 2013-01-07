@@ -9,10 +9,6 @@ ConsoleView = require "./Console/View"
 
 class View extends Backbone.View
 
-	initialize: ->
-		@settings = @options.settings
-		@render()
-
 	hide: ->
 		@$el.hide()
 
@@ -29,6 +25,7 @@ class View extends Backbone.View
 		@editor = new EditorView
 			el: $(".editor")
 			settings: @settings
+		@editor.render()
 
 		@preview = new PreviewView
 			el: $(".preview")
