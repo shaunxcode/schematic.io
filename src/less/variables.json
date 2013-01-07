@@ -5,7 +5,8 @@
 	"yellowHighlightBorder":       "rgb(204, 203, 169)",
 	"lightGray":                   "rgb(178, 178, 178)",
 	"baseBrown":                   "rgb(41, 21, 7)",
-
+	"grid2dColor":                 "#bebebe",
+	"grid3dColor":                 "#bbbbbb",
 
 	"ultraLight":  100,
 	"light":       300,

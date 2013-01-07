@@ -1,5 +1,5 @@
 Kinetic = vendorRequire "kinetic"
-
+lessVars = appRequire "variables"
 class View extends Backbone.View
 	events: 
 		"mousemove canvas": "draw"
@@ -58,17 +58,18 @@ class View extends Backbone.View
 			#start from back and work way forward 
 			layer.clear()
 
+		console.log lessVars 
 		#draw grid lines on last layer after everything else is drawn
 		for x in [0..@displayWidth] by @cellSize
 			@grid.add new Kinetic.Line
 				points: [x - 0.5, 0, x - 0.5, @displayWidth]
 				strokeWidth: 1
-				stroke: "#ededed"
+				stroke: lessVars.grid2dColor
 			for z in [0..@displayHeight] by @cellSize
 				@grid.add new Kinetic.Line
 					points: [0, z - 0.5, @displayHeight, z - 0.5]
 					strokeWidth: 1
-					stroke: "#ededed"
+					stroke: lessVars.grid2dColor
 		
 		@stage.draw()
 

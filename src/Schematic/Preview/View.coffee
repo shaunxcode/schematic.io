@@ -1,5 +1,6 @@
 THREE = vendorRequire "Three"
 vendorRequire "OrbitControls"
+lessVars = appRequire "variables"
 
 class View extends Backbone.View
     events: 
@@ -72,13 +73,14 @@ class View extends Backbone.View
         camera = new THREE.PerspectiveCamera 60, 500 / 500 , 1, 1000
         geometry = new THREE.Geometry
 
+        #draw grid
         for i in [-size..size] by 1
             geometry.vertices.push new THREE.Vector3 -size, 0, i
             geometry.vertices.push new THREE.Vector3 size, 0, i 
             geometry.vertices.push new THREE.Vector3 i, 0, -size 
             geometry.vertices.push new THREE.Vector3 i, 0,  size 
 
-        material = new THREE.LineBasicMaterial color: 0x000000, opacity: 0.5
+        material = new THREE.LineBasicMaterial color: parseInt("0x#{lessVars.grid3dColor[1..-1]}"), opacity: 0.5
         line = new THREE.Line geometry, material 
         line.type = THREE.LinePieces
         scene.add line 
