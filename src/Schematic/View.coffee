@@ -43,12 +43,12 @@ class View extends Backbone.View
 		@console.render()
 
 		@$el.show()
-		$vspliter = $("#center").split orientation:"horizontal", position: "80%", limit: 0
-		$hspliter = $("#panels").split orientation:"vertical", position: "50%", limit: 0
+		@$vspliter = $("#center").split orientation:"horizontal", position: "80%", limit: 0
+		@$hspliter = $("#panels").split orientation:"vertical", position: "50%", limit: 0
 
-		$(window).on "resize", ->
-			$vspliter.trigger "spliter.resize"
-			$hspliter.trigger "spliter.resize"
+		$(window).on "resize", =>
+			@$vspliter.trigger "spliter.resize"
+			@sizePanels()
 
 		$(window).on "spliter.resize", -> Backbone.trigger "AppResized"
 
@@ -57,33 +57,32 @@ class View extends Backbone.View
 		@listenTo @settings, "change:schematic", -> 
 			console.log "CHANGE SCHEMATIC", @settings.get "schematic"
 		
-		$leftPane = $(".left_panel", $hspliter)
-		$rightPane = $(".right_panel", $hspliter)
-		$vsplitter = $(".vspliter", $hspliter)
+		@$leftPane = $(".left_panel", @$hspliter)
+		@$rightPane = $(".right_panel", @$hspliter)
+		@$vsplitter = $(".vspliter", @$hspliter)
 
-		$schematicPanelsToggle = $("#schematicPanelsToggle").ouija().change =>
-			console.log "WOHT"
-			switch $schematicPanelsToggle.val() 
-				when "2D"
-					$rightPane.css width: 0
-					$leftPane.css width: $hspliter.width() - $vsplitter.width()
-					$vsplitter.css left: $hspliter.width() - $vsplitter.width()
-
-				when "3D"
-					$leftPane.css width: 0
-					$rightPane.css width: $hspliter.width() - $vsplitter.width()
-					$vsplitter.css left: 0
-
-				when "Both"
-					w = ($hspliter.width() - $vsplitter.width()) / 2
-					$leftPane.css width: w
-					$rightPane.css width: w
-					$vsplitter.css left: w
-			
-			Backbone.trigger "AppResized"
-
+		@$schematicPanelsToggle = $("#schematicPanelsToggle").ouija().change => @sizePanels()
 
 		this
+	
+	sizePanels: ->
+		switch @$schematicPanelsToggle.val() 
+			when "2D"
+				@$rightPane.css width: 0
+				@$leftPane.css width: @$hspliter.width() - @$vsplitter.width()
+				@$vsplitter.css left: @$hspliter.width() - @$vsplitter.width()
+
+			when "3D"
+				@$leftPane.css width: 0
+				@$rightPane.css width: @$hspliter.width() - @$vsplitter.width()
+				@$vsplitter.css left: 0
+
+			when "Both"
+				w = (@$hspliter.width() - @$vsplitter.width()) / 2
+				@$leftPane.css width: w
+				@$rightPane.css width: w
+				@$vsplitter.css left: w
 		
+		Backbone.trigger "AppResized"
 
 module.exports = View
