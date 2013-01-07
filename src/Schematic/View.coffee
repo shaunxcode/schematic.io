@@ -61,7 +61,7 @@ class View extends Backbone.View
 		$rightPane = $(".right_panel", $hspliter)
 		$vsplitter = $(".vspliter", $hspliter)
 
-		$schematicPanelsToggle = $("#schematicPanelsToggle").change =>
+		$schematicPanelsToggle = $("#schematicPanelsToggle").ouija().change =>
 			console.log "WOHT"
 			switch $schematicPanelsToggle.val() 
 				when "2D"
