@@ -1,11 +1,28 @@
 .ui-bar { 
+  .clearfix;
   ul.ribbon {
     .unstyled;
     > li {
       margin-right: 5px;
     }
   }
-
+  ul.ribbon.left {
+    float:left;
+    //min-width: 800px;
+  }
+  ul.ribbon.right {
+    float: right;
+    //min-width: 300px;
+  }
+  .divider {
+    width: 2px;
+    height: 26px;
+    margin-right: 5px;
+    //background-color: lighten(@black, 70%);
+    #gradient > .vertical(#bbb, #aaa);
+    .border-radius(10px);
+    float: left;
+  }
   #gradient > .vertical(lighten(@black, 94%), lighten(@black, 82%));
   .box-shadow(0px 1px 3px rgba(0,0,0,0.5));
   height: 29px;
